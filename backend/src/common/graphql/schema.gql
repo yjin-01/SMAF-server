@@ -1,0 +1,58 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  userId: String!
+  userName: String!
+  email: String!
+  phone: String!
+  userImageURL: String!
+  projectTicket: Boolean!
+  admin: Boolean!
+}
+
+type ProjectAddress {
+  projectAddressId: String!
+  address: String!
+  detailAddress: String!
+}
+
+type Project {
+  projectId: String!
+  projectName: String!
+  projectIntro: String!
+  projectDetailIntro: String!
+  projectImageURL: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  status: Boolean!
+  address: ProjectAddress!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ProcessCategory {
+  processCategoryId: String!
+  processName: String!
+  project: Project!
+}
+
+type QuestionBoard {
+  questionBoardId: String!
+  questionCategory: String!
+  title: String!
+  contents: String!
+  user: User!
+}
+
+type Query {
+  fetchUsers: String!
+}
+
+type Mutation {
+  createUser: String!
+}
