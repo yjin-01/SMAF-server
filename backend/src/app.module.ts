@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { UserModule } from './apis/users/user.module';
 
 @Module({
   imports: [
+    UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'team-database',
