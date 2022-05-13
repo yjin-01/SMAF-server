@@ -12,6 +12,14 @@ type User {
   admin: Boolean!
 }
 
+type QuestionBoard {
+  questionBoardId: String!
+  questionCategory: String!
+  title: String!
+  contents: String!
+  user: User!
+}
+
 type ProjectAddress {
   projectAddressId: String!
   address: String!
@@ -41,14 +49,6 @@ type ProcessCategory {
   project: Project!
 }
 
-type QuestionBoard {
-  questionBoardId: String!
-  questionCategory: String!
-  title: String!
-  contents: String!
-  user: User!
-}
-
 type Query {
   fetchUsers: [User!]!
   fetchUser(userId: String!): [User!]!
@@ -68,4 +68,21 @@ input createUserInput {
   password: String!
   phone: String!
   userImageURL: String!
+
+  fetchBoard(questionboardId: String!): QuestionBoard!
+  fetchBoards: [QuestionBoard!]!
+  fetchUsers: String!
+}
+
+type Mutation {
+  createBoard(questionBoardInput: QuestionBoardInput!): QuestionBoard!
+  deleteBoard(boardId: String!): Boolean!
+  createUser: String!
+}
+
+input QuestionBoardInput {
+  questionCategory: String!
+  title: String!
+  contents: String!
+  user: String!
 }

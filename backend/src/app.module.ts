@@ -6,11 +6,15 @@ import { UserModule } from './apis/users/user.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { QuestionBodardModule } from './apis/questionBoards/questionboards.module';
 
 @Module({
   imports: [
     UserModule,
     AuthModule,
+    QuestionBodardModule, //
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'team-database',
@@ -33,7 +37,7 @@ import * as redisStore from 'cache-manager-redis-store';
       isGlobal: true,
     }),
   ],
-  // controllers: [AppController],
-  // providers: [AppService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
