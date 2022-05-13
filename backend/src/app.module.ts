@@ -3,10 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UserModule } from './apis/users/user.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { QuestionBodardModule } from './apis/questionBoards/questionboards.module';
 
 @Module({
   imports: [
-    UserModule,
+    QuestionBodardModule, //
+    UserModule, //
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'team-database',
@@ -23,7 +27,7 @@ import { UserModule } from './apis/users/user.module';
       context: ({ req, res }) => ({ req, res }),
     }),
   ],
-  // controllers: [AppController],
-  // providers: [AppService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
