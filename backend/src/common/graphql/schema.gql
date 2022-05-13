@@ -8,7 +8,7 @@ type User {
   email: String!
   phone: String!
   userImageURL: String!
-  projectTicket: Boolean!
+  projectTicket: Int!
   admin: Boolean!
 }
 
@@ -50,6 +50,25 @@ type ProcessCategory {
 }
 
 type Query {
+  fetchUsers: [User!]!
+  fetchUser(userId: String!): [User!]!
+  fetchUserEmail(email: String!): User!
+}
+
+type Mutation {
+  createUser(createUserInput: createUserInput!): User!
+  login(email: String!, password: String!): String!
+  logout: String!
+  restoreAccessToken: String!
+}
+
+input createUserInput {
+  userName: String!
+  email: String!
+  password: String!
+  phone: String!
+  userImageURL: String!
+
   fetchBoard(questionboardId: String!): QuestionBoard!
   fetchBoards: [QuestionBoard!]!
   fetchUsers: String!
