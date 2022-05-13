@@ -1,12 +1,10 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { Address } from 'cluster';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -37,11 +35,11 @@ export class User {
   @Field(() => String)
   userImageURL: string;
 
-  @Column()
-  @Field(() => Boolean)
-  projectTicket: boolean;
+  @Column({ default: 2 })
+  @Field(() => Int)
+  projectTicket: number;
 
-  @Column()
+  @Column({ default: false })
   @Field(() => Boolean)
   admin: boolean;
 

@@ -37,7 +37,7 @@
     "bcrypt": "^5.0.1",
     "cache-manager": "^3.6.1",
     "cache-manager-redis-store": "^2.0.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.1",
     "graphql": "^16.3.0",
     "graphql-upload": "^13.0.0",
     "jsonwebtoken": "^8.5.1",

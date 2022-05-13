@@ -20,3 +20,8 @@ services:
       MYSQL_DATABASE: 'teamdatabase'
     ports:
       - 3306:3306
+
+  team-redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
