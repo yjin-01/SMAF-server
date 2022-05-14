@@ -16,20 +16,21 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), //jwt 추출(bearertoken만 추출)
-      secretOrKey: process.env.ACCESSKEY,
+      secretOrKey: 'SMAFAccessKey',
       passReqToCallback: true,
     });
   }
 
   async validate(req, payload) {
     console.log('1235324');
+    console.log(payload.sub);
     let accessToken = req.headers.authorization;
     accessToken = accessToken.replace('Bearer ', '');
 
     const isAccessToken = await this.cacheManager.get(
       `accessToken:${accessToken}`,
     );
-    console.log(isAccessToken);
+    console.log('!!!!!!!!!!!', isAccessToken);
 
     if (isAccessToken) throw new BadRequestException('로그인 해주세요!!');
 

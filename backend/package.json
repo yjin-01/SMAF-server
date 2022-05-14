@@ -34,6 +34,7 @@
     "@nestjs/typeorm": "^8.0.3",
     "PubSub": "^4.0.0",
     "apollo-server-express": "^3.6.7",
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cache-manager": "^3.6.1",
     "cache-manager-redis-store": "^2.0.0",

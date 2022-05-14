@@ -2,10 +2,11 @@ import {
   BadRequestException,
   CACHE_MANAGER,
   Inject,
+  InternalServerErrorException,
   UnprocessableEntityException,
   UseGuards,
 } from '@nestjs/common';
-import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Context, Int, Mutation, Resolver } from '@nestjs/graphql';
 import { UserService } from '../users/user.service';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from './auth.service';
@@ -45,6 +46,7 @@ export class AuthResolver {
 
     if (!isAuth) throw new UnprocessableEntityException('비밀번호 불일치!!');
 
+    console.log(user);
     // refreshToken 생성 후 프론트엔드(쿠키)에 보내주기
     this.authService.setRefreshToken({ res: context.res, user });
 
@@ -56,30 +58,31 @@ export class AuthResolver {
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => String)
   async logout(
-    @CurrentUser() currentUser: ICurrentUser, //
+    // @CurrentUser() currentUser: ICurrentUser, //
     @Context() context: any,
   ) {
+    console.log('!2312331223121');
     let accessToken = context.req.headers.authorization;
     let refreshToken = context.req.headers.cookie;
     let access;
     let refresh;
 
-    accessToken = accessToken.replace('Bearer', '');
+    console.log(accessToken);
+
+    accessToken = accessToken.replace('Bearer ', '');
     refreshToken = refreshToken.replace('refreshToken=', '');
+
+    //console.log(refreshToken);
 
     //accessToken 확인
     try {
-      access = jwt.verify(
-        accessToken,
-        process.env.ACCESSKEY,
-        (err, decoded) => {
-          if (err) {
-            throw new BadRequestException('access 인증 오류');
-          } else {
-            return decoded;
-          }
-        },
-      );
+      access = jwt.verify(accessToken, 'SMAFAccessKey', (err, decoded) => {
+        if (err) {
+          throw new BadRequestException('access 인증 오류');
+        } else {
+          return decoded;
+        }
+      });
     } catch (error) {
       console.log(error);
     }
@@ -109,19 +112,26 @@ export class AuthResolver {
 
     console.log(ttlforAccess);
     console.log(ttlforRefresh);
+    try {
+      await this.cacheManeger.set(`accessToken:${accessToken}`, accessToken, {
+        ttl: Math.floor(ttlforAccess),
+      });
 
-    await this.cacheManeger.set(`accessToken:${accessToken}`, accessToken, {
-      ttl: Math.floor(ttlforAccess),
-    });
-
-    await this.cacheManeger.set(`refreshToken:${refreshToken}`, refreshToken, {
-      ttl: Math.floor(ttlforRefresh),
-    });
+      await this.cacheManeger.set(
+        `refreshToken:${refreshToken}`,
+        refreshToken,
+        {
+          ttl: Math.floor(ttlforRefresh),
+        },
+      );
+    } catch (error) {
+      throw new InternalServerErrorException('redis 에러');
+    }
 
     return '로그아웃 완료!';
   }
 
-  // accese
+  // accessToken재발급
   @UseGuards(GqlAuthRefreshGuard)
   @Mutation(() => String)
   restoreAccessToken(
@@ -129,5 +139,51 @@ export class AuthResolver {
   ) {
     console.log('⭐️', currentUser);
     return this.authService.getAccessToken({ user: currentUser });
+  }
+
+  // 인증번호 생성 후 전송
+  @Mutation(() => String)
+  async sendTokenPhone(
+    @Args('phone') phone: string, //
+  ) {
+    try {
+      if (this.authService.checkValidationPhone(phone)) {
+        const token = this.authService.getToken();
+        await this.authService.sendTokenToSMS(phone, token);
+
+        await this.cacheManeger.set(phone, token, { ttl: 180 });
+      }
+    } catch {
+      throw new InternalServerErrorException('인증번호 발송에 실패하였습니다.');
+    }
+
+    return '인증 번호 전송 완료';
+  }
+
+  // 인증번호 확인
+  @Mutation(() => String)
+  async checkedToekn(
+    @Args('phone') phone: string, //
+    @Args('inputToken') inputToken: string,
+  ) {
+    const redisToken = await this.cacheManeger.get(phone);
+    if (!redisToken)
+      throw new BadRequestException(
+        '입력하신 번호로 발급된 토큰이 존재하지 않습니다.',
+      );
+    if (redisToken === inputToken) {
+      return '휴대폰 인증이 완료!👍🏻';
+    }
+    return '인증번호가 불일치!!😅';
+  }
+
+  // 초대이메일전송(❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️보류필요함)
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => String)
+  sendInvitaionEmail(
+    @Args({ name: 'email', type: () => [String] }) email: string[], //
+  ) {
+    this.authService.sendToInvitaionEmail(email);
+    return '전송완료';
   }
 }
