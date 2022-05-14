@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { User } from 'src/apis/users/entities/users.entity';
 import {
   Column,
@@ -7,6 +7,16 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+//220514 환불기능은 없으나 추후 변동사항 있을 수도 있어, CANCEL 추가
+export enum PAYMENT_TRANSACTION_STATUS_ENUM {
+  PAYMENT = 'PAYMENT',
+  CANCEL = 'CANCEL',
+}
+
+registerEnumType(PAYMENT_TRANSACTION_STATUS_ENUM, {
+  name: 'PAYMENT_TRANSACTION_STATUS_ENUM',
+});
 
 @Entity()
 @ObjectType()
@@ -17,7 +27,11 @@ export class Payment {
 
   @Column()
   @Field(() => Int)
-  price: number;
+  amount: number;
+
+  @Column({ type: 'enum', enum: PAYMENT_TRANSACTION_STATUS_ENUM })
+  @Field(() => PAYMENT_TRANSACTION_STATUS_ENUM)
+  status: string;
 
   @CreateDateColumn()
   createAt: Date;
