@@ -4,6 +4,7 @@ import { User } from 'src/apis/users/entities/users.entity';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -26,6 +27,9 @@ export class QuestionComment {
 
   @UpdateDateColumn()
   updateAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @ManyToOne(() => QuestionBoard)
   @Field(() => QuestionBoard)

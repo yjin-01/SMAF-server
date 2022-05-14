@@ -1,12 +1,12 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { QuestionBoardInput } from './dto/questionBoard.input';
 import { QuestionBoard } from './entities/questBoard.entity';
-import { QuestionBodardService } from './questionboards.service';
+import { QuestionBoardService } from './questionboards.service';
 
 @Resolver()
-export class QuestionBodardResolver {
+export class QuestionBoardResolver {
   constructor(
-    private readonly questionBoardService: QuestionBodardService, //
+    private readonly questionBoardService: QuestionBoardService, //
   ) {}
 
   //QuestionBoard 생성

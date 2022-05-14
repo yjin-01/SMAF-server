@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuestionBoard } from './entities/questBoard.entity';
-import { QuestionBodardResolver } from './questionboards.resolver';
-import { QuestionBodardService } from './questionboards.service';
+import { QuestionBoardResolver } from './questionboards.resolver';
+import { QuestionBoardService } from './questionboards.service';
 
 @Module({
   imports: [
@@ -11,8 +11,8 @@ import { QuestionBodardService } from './questionboards.service';
     ]),
   ],
   providers: [
-    QuestionBodardResolver, //
-    QuestionBodardService, //
+    QuestionBoardResolver, //
+    QuestionBoardService, //
   ],
 })
-export class QuestionBodardModule {}
+export class QuestionBoardModule {}
