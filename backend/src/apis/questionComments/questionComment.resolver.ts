@@ -1,4 +1,6 @@
+import { BadRequestException } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UpdateQuestionCommentInput } from './dto/updateQuestionComment.input';
 import { QuestionComment } from './entities/questionComment.entity';
 import { QuestionCommentService } from './questionComment.service';
 
@@ -7,13 +9,18 @@ export class QuestionCommentResolver {
   constructor(
     private readonly questionCommentService: QuestionCommentService,
   ) {}
-  //QuestionCommnet 생성
+  //QuestionComment 생성
   @Mutation(() => QuestionComment)
   createQuestionComment(
     @Args('contents') contents: string,
     @Args('questionboardId') questionBoardId: string,
     @Args('userId') userId: string,
   ) {
+    console.log({
+      contents,
+      questionBoardId,
+      userId,
+    });
     return this.questionCommentService.create({
       contents,
       questionBoardId,
@@ -32,6 +39,24 @@ export class QuestionCommentResolver {
     return this.questionCommentService.findAll();
   }
 
+  //QuestionComment 업데이트
+  @Mutation(() => QuestionComment)
+  async updateQuestionComment(
+    @Args('questionCommentId') questionCommentId: string,
+    @Args('updatequestionCommentInput')
+    updateQuestionCommentInput: UpdateQuestionCommentInput,
+  ) {
+    const IsquestionComment = await this.questionCommentService.findOne({
+      questionCommentId,
+    });
+    if (!IsquestionComment)
+      return new BadRequestException('찾으시는 답변게시물이 없습니다.');
+
+    return this.questionCommentService.update({
+      IsquestionComment,
+      updateQuestionCommentInput,
+    });
+  }
   //QuestionComment 삭제
   @Mutation(() => Boolean)
   deleteQuestionComment(@Args('questionCommentId') questionCommentId: string) {

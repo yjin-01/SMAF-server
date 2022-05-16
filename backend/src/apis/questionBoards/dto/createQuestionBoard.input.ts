@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class QuestionBoardInput {
+export class CreateQuestionBoardInput {
   @Field(() => String)
   questionCategory: string;
 
