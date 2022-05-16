@@ -13,7 +13,6 @@ import { QuestionBoardModule } from './apis/questionBoards/questionboards.module
 import { QuestionCommentModule } from './apis/questionComments/questionComment.module';
 import { ProcessCategoryModule } from './apis/processCategory/processCategory.module';
 
-
 @Module({
   imports: [
     AuthModule,
@@ -24,7 +23,7 @@ import { ProcessCategoryModule } from './apis/processCategory/processCategory.mo
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'team-database',
+      host: '10.99.144.4',
       username: 'root',
       password: 'root',
       database: 'teamdatabase',
