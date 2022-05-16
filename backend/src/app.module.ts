@@ -8,7 +8,6 @@ import { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 import { ProjectModule } from './apis/projects/project.module';
 import { QuestionBoard } from './apis/questionBoards/entities/questionBoard.entity';
 import { QuestionComment } from './apis/questionComments/entities/questionComment.entity';
@@ -34,6 +33,10 @@ import { QuestionComment } from './apis/questionComments/entities/questionCommen
       driver: ApolloDriver,
       autoSchemaFile: 'src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
+      cors: {
+        origin: '*',
+        credentials: true,
+      },
     }),
 
     CacheModule.register<RedisClientOptions>({
