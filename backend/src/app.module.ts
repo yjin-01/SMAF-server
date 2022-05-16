@@ -9,21 +9,22 @@ import * as redisStore from 'cache-manager-redis-store';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProjectModule } from './apis/projects/project.module';
-import { QuestionBoard } from './apis/questionBoards/entities/questionBoard.entity';
-import { QuestionComment } from './apis/questionComments/entities/questionComment.entity';
+import { QuestionBoardModule } from './apis/questionBoards/questionboards.module';
+import { QuestionCommentModule } from './apis/questionComments/questionComment.module';
 import { ProcessCategoryModule } from './apis/processCategory/processCategory.module';
+
 
 @Module({
   imports: [
     AuthModule,
     ProcessCategoryModule,
     ProjectModule,
-    QuestionBoard,
-    QuestionComment,
+    QuestionBoardModule,
+    QuestionCommentModule,
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '10.99.144.4',
+      host: 'team-database',
       username: 'root',
       password: 'root',
       database: 'teamdatabase',
