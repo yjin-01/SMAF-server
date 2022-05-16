@@ -16,7 +16,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), //jwt 추출(bearertoken만 추출)
-      secretOrKey: 'SMAFAccessKey',
+      secretOrKey: process.env.ACCESSKEY,
       passReqToCallback: true,
     });
   }
@@ -28,7 +28,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
     const isAccessToken = await this.cacheManager.get(
       `accessToken:${accessToken}`,
     );
-
+    // console.log('!!', req);
     if (isAccessToken) throw new BadRequestException('로그인 해주세요!!');
 
     return {

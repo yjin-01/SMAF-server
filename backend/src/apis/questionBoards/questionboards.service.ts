@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { QuestionBoard } from './entities/questBoard.entity';
+import { QuestionBoard } from './entities/questionBoard.entity';
 
 @Injectable()
 export class QuestionBoardService {
@@ -11,19 +11,20 @@ export class QuestionBoardService {
   ) {}
 
   //QuestionBoard 생성
-  async create({ questionBoardInput }) {
-    const { userId, ...questionboardinput } = questionBoardInput;
+  async create({ createQuestionBoardInput }) {
+    const { user, ...createquestionboard } = createQuestionBoardInput;
     const result = await this.questionBoardRepository.save({
-      ...questionboardinput,
-      user: userId,
+      ...createquestionboard,
+      user: { userId: user },
     });
+
     return result;
   }
 
   //QuestionBoard 한 개만 조회
   async findOne({ questionBoardId }) {
     return await this.questionBoardRepository.findOne({
-      questionBoardId: questionBoardId,
+      where: { questionBoardId: questionBoardId },
     });
   }
 
@@ -32,6 +33,15 @@ export class QuestionBoardService {
     return await this.questionBoardRepository.find();
   }
 
+  //QuestionBoard update
+  async update({ IsquestionBoard, updateQuestionBoardInput }) {
+    const newquestionBoard = {
+      ...IsquestionBoard,
+      ...updateQuestionBoardInput,
+    };
+
+    return this.questionBoardRepository.save(newquestionBoard);
+  }
   //QuestionBoard 삭제 : Softdelete
   async delete({ boardId }) {
     const result = await this.questionBoardRepository.softDelete({

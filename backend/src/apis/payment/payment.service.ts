@@ -15,10 +15,10 @@ export class PaymentService {
   create({
     impUid,
     amount,
-    context,
+    currentuser,
     status = PAYMENT_TRANSACTION_STATUS_ENUM.PAYMENT,
   }) {
-    console.log(impUid, amount, context, status);
+    console.log(impUid, amount, currentuser, status);
     // return this.paymentRepository.save({
     //   amount: amount,
     //   user: UserId,

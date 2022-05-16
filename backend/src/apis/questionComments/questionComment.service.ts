@@ -17,7 +17,6 @@ export class QuestionCommentService {
       questionBoard: questionBoardId,
       user: userId,
     });
-
     return result;
   }
 
@@ -31,6 +30,17 @@ export class QuestionCommentService {
     return await this.questionCommentRepository.findOne({
       questionCommentId: questionCommentId,
     });
+  }
+
+  //QuestionComment 업데이트
+
+  async update({ IsquestionComment, updateQuestionCommentInput }) {
+    const newquestionComment = {
+      ...IsquestionComment,
+      ...updateQuestionCommentInput,
+    };
+
+    return await this.questionCommentRepository.save(newquestionComment);
   }
 
   //QuestionComment 삭제

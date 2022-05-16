@@ -10,6 +10,7 @@ export interface ICurrentUser {
 export const CurrentUser = createParamDecorator(
   (data: any, context: ExecutionContext): ICurrentUser => {
     const ctx = GqlExecutionContext.create(context);
+    // console.log(ctx.getContext().req.user);
     return ctx.getContext().req.user;
   },
 );
