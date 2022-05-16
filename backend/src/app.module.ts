@@ -10,15 +10,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { ProjectModule } from './apis/projects/project.module';
+import { QuestionBoard } from './apis/questionBoards/entities/questionBoard.entity';
+import { QuestionComment } from './apis/questionComments/entities/questionComment.entity';
 
 @Module({
   imports: [
-    UserModule,
     AuthModule,
     ProjectModule,
+    QuestionBoard,
+    QuestionComment,
+    UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'team-database',
+      host: '10.99.144.4',
       username: 'root',
       password: 'root',
       database: 'teamdatabase',
