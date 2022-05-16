@@ -42,12 +42,12 @@
               console.log(rsp);
 
               const data = await axios.post(
-                "http://localhost:2000/graphql",
+                "http://localhost:3000/graphql",
                 {
                   query: `
                       mutation {
-                        createPointTransaction(impUid: "${rsp.imp_uid}", amount: ${rsp.paid_amount}) {
-                          id
+                        createPayment(impUid: "${rsp.imp_uid}", amount: ${rsp.paid_amount}) {
+                          paymentId
                         }
                       }
                     `,
@@ -55,7 +55,7 @@
                 {
                   headers: {
                     authorization:
-                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJzdWIiOiI1ZmY4YmEzNC02MzIyLTQ5ZjQtYTAzNy00NDgzM2M5YjU0YWUiLCJpYXQiOjE2NTA0NDQ0MjEsImV4cCI6MTY1MDQ0ODAyMX0.9M-AItfayaUdVVRqZ8cNPvf30-VgIQKVluJG4BoT4_w",
+                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJzdWIiOiJmOTA5NGQ2My1jZjEyLTRiMWMtYjYyMy02MjVhNmE2MjQ0NjUiLCJpYXQiOjE2NTI1MTI0MjYsImV4cCI6MTY1MjUxNjAyNn0.-8kZoweGKV0yB6M1w6mStgU6ROKUJ8oUKomeMLdskLs",
                   },
                 }
               );

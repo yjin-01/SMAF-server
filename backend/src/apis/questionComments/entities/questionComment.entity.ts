@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { QuestionBoard } from 'src/apis/questionBoards/entities/questBoard.entity';
+import { QuestionBoard } from 'src/apis/questionBoards/entities/questionBoard.entity';
 import { User } from 'src/apis/users/entities/users.entity';
 import {
   Column,
