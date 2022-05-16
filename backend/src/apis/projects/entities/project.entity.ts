@@ -42,17 +42,20 @@ export class Project {
   @Field(() => Date)
   endDate: Date;
 
-  @Column()
+  @Column({ default: true })
   @Field(() => Boolean)
   status: boolean;
 
   @CreateDateColumn()
+  @Field(() => Date)
   createAt: Date;
 
   @UpdateDateColumn()
+  @Field(() => Date)
   updateAt: Date;
 
   @DeleteDateColumn()
+  @Field(() => Date)
   deletedAt: Date;
 
   // 1:1 관계(프로젝트 장소)

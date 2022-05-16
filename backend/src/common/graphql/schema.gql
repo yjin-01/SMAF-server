@@ -39,6 +39,7 @@ enum PAYMENT_TRANSACTION_STATUS_ENUM {
   CANCEL
 }
 
+
 type ProjectAddress {
   projectAddressId: String!
   address: String!
@@ -54,6 +55,10 @@ type Project {
   startDate: DateTime!
   endDate: DateTime!
   status: Boolean!
+  createAt: DateTime!
+  updateAt: DateTime!
+  deletedAt: DateTime!
+
   address: ProjectAddress!
 }
 
@@ -61,6 +66,16 @@ type Project {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+
+type QuestionBoard {
+  questionBoardId: String!
+  questionCategory: String!
+  title: String!
+  contents: String!
+  user: User!
+}
+
 
 type ProcessCategory {
   processCategoryId: String!
@@ -83,6 +98,15 @@ type Mutation {
   createQuestionComment(contents: String!, questionboardId: String!, userId: String!): QuestionComment!
   updateQuestionComment(questionCommentId: String!, updatequestionCommentInput: UpdateQuestionCommentInput!): QuestionComment!
   deleteQuestionComment(questionCommentId: String!): Boolean!
+
+  fetchUsers: [User!]!
+  fetchUser(userId: String!): [User!]!
+  fetchUserEmail(email: String!): User!
+  fetchProjectsAll: [Project!]!
+}
+
+type Mutation {
+
   createUser(createUserInput: createUserInput!): User!
   updatePassword(email: String!, password: String!): String!
   deleteUser(email: String!): Boolean!
@@ -92,15 +116,19 @@ type Mutation {
   sendTokenPhone(phone: String!): String!
   checkedToekn(phone: String!, inputToken: String!): String!
   sendInvitaionEmail(email: [String!]!): String!
+
   createQuestionBoard(createquestionBoardInput: CreateQuestionBoardInput!): QuestionBoard!
   updateQuestionBoard(questionBoardID: String!, updatequestionBoardInput: UpdateQuestionBoardInput!): QuestionBoard!
   deleteQuestionBoard(boardId: String!): Boolean!
 }
-
 input UpdateQuestionCommentInput {
   contents: String
   questionBoard: String
   user: String
+
+  createProject(createProjectInput: createProjectInput!): Project!
+  updateProject(projectId: String!, updateProjectInput: UpdateProjectInput!): Project!
+  deleteProject(projectId: String!): Boolean!
 }
 
 input createUserInput {
@@ -123,4 +151,29 @@ input UpdateQuestionBoardInput {
   title: String
   contents: String
   user: String
+
+input createProjectInput {
+  projectName: String!
+  projectIntro: String!
+  projectDetailIntro: String!
+  projectImageURL: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  projectAddress: ProjectAddressInput!
+}
+
+input ProjectAddressInput {
+  address: String!
+  detailAddress: String!
+}
+
+input UpdateProjectInput {
+  projectName: String
+  projectIntro: String
+  projectDetailIntro: String
+  projectImageURL: String
+  startDate: DateTime
+  endDate: DateTime
+  projectAddress: ProjectAddressInput
+
 }

@@ -1,13 +1,10 @@
-import { Injectable, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { Mutation, Resolver, Query, Args } from '@nestjs/graphql';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { createUserInput } from './dto/createUser.input';
 import { User } from './entities/users.entity';
 import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql-auth.guard';
-import { CurrentUser } from 'src/common/auth/gql-user.parm';
 
 @Resolver()
 export class UserResolver {

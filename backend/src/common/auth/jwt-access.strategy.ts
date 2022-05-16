@@ -29,7 +29,6 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
       `accessToken:${accessToken}`,
     );
     // console.log('!!', req);
-
     if (isAccessToken) throw new BadRequestException('로그인 해주세요!!');
 
     return {
