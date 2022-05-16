@@ -1,6 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Project } from 'src/apis/projects/entities/project.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -16,4 +22,8 @@ export class ProcessCategory {
   @ManyToOne(() => Project)
   @Field(() => Project)
   project: Project;
+
+  @CreateDateColumn()
+  @Field(() => Date)
+  createAt: Date;
 }
