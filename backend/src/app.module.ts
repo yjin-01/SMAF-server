@@ -21,7 +21,7 @@ import { QuestionComment } from './apis/questionComments/entities/questionCommen
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'team-database',
+      host: '10.99.144.4',
       username: 'root',
       password: 'root',
       database: 'teamdatabase',
