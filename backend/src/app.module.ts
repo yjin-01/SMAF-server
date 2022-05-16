@@ -11,10 +11,13 @@ import { AppService } from './app.service';
 import { ProjectModule } from './apis/projects/project.module';
 import { QuestionBoardModule } from './apis/questionBoards/questionboards.module';
 import { QuestionCommentModule } from './apis/questionComments/questionComment.module';
+import { ProcessCategoryModule } from './apis/processCategory/processCategory.module';
+
 
 @Module({
   imports: [
     AuthModule,
+    ProcessCategoryModule,
     ProjectModule,
     QuestionBoardModule,
     QuestionCommentModule,
@@ -34,7 +37,7 @@ import { QuestionCommentModule } from './apis/questionComments/questionComment.m
       autoSchemaFile: 'src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: '*',
+        origin: 'http://localhost:3000',
         credentials: true,
       },
     }),
