@@ -9,12 +9,16 @@ import * as redisStore from 'cache-manager-redis-store';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProjectModule } from './apis/projects/project.module';
+import { QuestionBoard } from './apis/questionBoards/entities/questionBoard.entity';
+import { QuestionComment } from './apis/questionComments/entities/questionComment.entity';
 
 @Module({
   imports: [
-    UserModule,
     AuthModule,
     ProjectModule,
+    QuestionBoard,
+    QuestionComment,
+    UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'team-database',
