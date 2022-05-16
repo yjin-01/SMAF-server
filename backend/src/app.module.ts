@@ -8,17 +8,14 @@ import { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { QuestionCommentModule } from './apis/questionComments/questionComment.module';
-import { PaymentModule } from './apis/payment/payment.module';
-import { QuestionBoardModule } from './apis/questionBoards/questionboards.module';
+
+import { ProjectModule } from './apis/projects/project.module';
 
 @Module({
   imports: [
-    PaymentModule, //
-    QuestionCommentModule,
     UserModule,
     AuthModule,
-    QuestionBoardModule, //
+    ProjectModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'team-database',
