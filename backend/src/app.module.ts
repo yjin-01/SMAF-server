@@ -8,7 +8,6 @@ import { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 import { ProjectModule } from './apis/projects/project.module';
 
 @Module({
@@ -30,6 +29,10 @@ import { ProjectModule } from './apis/projects/project.module';
       driver: ApolloDriver,
       autoSchemaFile: 'src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
+      cors: {
+        origin: '*',
+        credentials: true,
+      },
     }),
 
     CacheModule.register<RedisClientOptions>({
