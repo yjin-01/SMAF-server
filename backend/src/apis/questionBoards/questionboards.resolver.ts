@@ -26,7 +26,7 @@ export class QuestionBoardResolver {
     return this.questionBoardService.findOne({ questionBoardId });
   }
 
-  //QuestionBoards 전체조회 // 추후 페이징 할 수도
+  //QuestionBoards 전체조회 // 추후 페이징 추가 예정
   @Query(() => [QuestionBoard])
   fetchQuestionBoards() {
     return this.questionBoardService.findAll();

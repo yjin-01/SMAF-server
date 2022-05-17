@@ -1,5 +1,7 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GqlAuthAccessGuard } from 'src/common/auth/gql-auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/common/auth/gql-user.parm';
 import { UpdateQuestionCommentInput } from './dto/updateQuestionComment.input';
 import { QuestionComment } from './entities/questionComment.entity';
 import { QuestionCommentService } from './questionComment.service';
@@ -10,17 +12,15 @@ export class QuestionCommentResolver {
     private readonly questionCommentService: QuestionCommentService,
   ) {}
   //QuestionComment 생성
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => QuestionComment)
   createQuestionComment(
     @Args('contents') contents: string,
     @Args('questionboardId') questionBoardId: string,
     @Args('userId') userId: string,
+    @CurrentUser('currentUser') currentUser: ICurrentUser,
   ) {
-    console.log({
-      contents,
-      questionBoardId,
-      userId,
-    });
+    this.questionCommentService.checkadmin({ userId: currentUser.id });
     return this.questionCommentService.create({
       contents,
       questionBoardId,
@@ -40,12 +40,20 @@ export class QuestionCommentResolver {
   }
 
   //QuestionComment 업데이트
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => QuestionComment)
   async updateQuestionComment(
     @Args('questionCommentId') questionCommentId: string,
     @Args('updatequestionCommentInput')
     updateQuestionCommentInput: UpdateQuestionCommentInput,
+    @CurrentUser('currentUser') currentUser: ICurrentUser,
   ) {
+    //관리자인지 확인
+    this.questionCommentService.checkadmin({
+      userId: currentUser.id,
+    });
+
+    //수정할 답변이 있는지 조회
     const IsquestionComment = await this.questionCommentService.findOne({
       questionCommentId,
     });
