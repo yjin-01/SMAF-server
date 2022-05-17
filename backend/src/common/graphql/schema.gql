@@ -69,6 +69,7 @@ type Query {
   fetchQuestionComment(questionCommentId: String!): QuestionComment!
   fetchQuestionComments: [QuestionComment!]!
   fetchUsers: [User!]!
+  fetchLoginUser: User!
   fetchUser(userId: String!): [User!]!
   fetchUserEmail(email: String!): User!
 }

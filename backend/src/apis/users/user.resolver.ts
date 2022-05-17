@@ -5,6 +5,7 @@ import { User } from './entities/users.entity';
 import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql-auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/common/auth/gql-user.parm';
 
 @Resolver()
 export class UserResolver {
@@ -15,6 +16,16 @@ export class UserResolver {
   @Query(() => [User])
   fetchUsers() {
     return this.userService.findAll();
+  }
+
+  // 전체 회원 목록 조회
+  @UseGuards(GqlAuthAccessGuard)
+  @Query(() => User)
+  fetchLoginUser(
+    @CurrentUser() currentUser: ICurrentUser, //
+  ) {
+    console.log(currentUser.email);
+    return this.userService.findEmailAll({ email: currentUser.email });
   }
 
   // 회원아이디로 회원 찾기
