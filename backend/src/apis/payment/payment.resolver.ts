@@ -19,17 +19,21 @@ export class PaymentResolver {
   async createPayment(
     @Args('impUid') impUid: string,
     @Args('amount') amount: number,
-    @CurrentUser() currentuser: ICurrentUser,
+    @CurrentUser() currentUser: ICurrentUser,
   ) {
-    //1. 아임포트에 결제 기록이 있는 먼저 조회 조회 하기 위해서는 토큰이 필요하다.
+    //1. 서버에 있는지 먼저 조회
+    this.paymentService.checkDuplicate({ impUid });
+    //2. 아임포트에 결제 기록이 있는 먼저 조회 조회 하기 위해서는 토큰이 필요하다.
     // 토큰을 생성하기 위해서는 imp_key, imp_secret이 필요.
     const accessToken = await this.iamportService.getToken();
     console.log(accessToken);
-    //checkpaid
-    return this.paymentService.create({
-      impUid,
-      amount,
-      currentuser,
-    });
+    //3. 받은 토큰으로 iamport 결제 정보와 DB 결제 정보 대조
+    this.iamportService.checkPaid({ impUid, amount, accessToken });
+
+    // return this.paymentService.create({
+    //   impUid,
+    //   amount,
+    //   currentUser,
+    // });
   }
 }

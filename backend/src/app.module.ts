@@ -12,10 +12,12 @@ import { ProjectModule } from './apis/projects/project.module';
 import { QuestionBoardModule } from './apis/questionBoards/questionboards.module';
 import { QuestionCommentModule } from './apis/questionComments/questionComment.module';
 import { ProcessCategoryModule } from './apis/processCategory/processCategory.module';
+import { PaymentModule } from './apis/payment/payment.module';
 
 @Module({
   imports: [
     AuthModule,
+    PaymentModule,
     ProcessCategoryModule,
     ProjectModule,
     QuestionBoardModule,
@@ -23,7 +25,7 @@ import { ProcessCategoryModule } from './apis/processCategory/processCategory.mo
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '10.99.144.4',
+      host: 'team-database',
       username: 'root',
       password: 'root',
       database: 'teamdatabase',

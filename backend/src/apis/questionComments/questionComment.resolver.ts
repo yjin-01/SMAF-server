@@ -36,7 +36,7 @@ export class QuestionCommentResolver {
   //QuestionComment 전체 조회(QuestionBoardId로 검색)
   @Query(() => [QuestionComment])
   fetchQuestionComments(@Args('questionBoardId') questionBoardId: string) {
-    return this.questionCommentService.findAll();
+    return this.questionCommentService.findcomments({ questionBoardId });
   }
 
   //QuestionComment 업데이트
@@ -66,8 +66,16 @@ export class QuestionCommentResolver {
     });
   }
   //QuestionComment 삭제
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
-  deleteQuestionComment(@Args('questionCommentId') questionCommentId: string) {
+  deleteQuestionComment(
+    @Args('questionCommentId') questionCommentId: string,
+    @CurrentUser('currentUser') currentUser: ICurrentUser,
+  ) {
+    //관리자인지 확인
+    this.questionCommentService.checkadmin({
+      userId: currentUser.id,
+    });
     return this.questionCommentService.delete({ questionCommentId });
   }
 }
