@@ -36,7 +36,7 @@ import { ProcessCategoryModule } from './apis/processCategory/processCategory.mo
       autoSchemaFile: 'src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: 'http://localhost:3000',
+        origin: '*',
         credentials: true,
       },
     }),
