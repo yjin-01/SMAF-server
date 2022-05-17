@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -13,12 +13,14 @@ export class PaymentService {
     private readonly paymentRepository: Repository<Payment>,
   ) {}
   //결제 정보 중복 확인
-  checkDuplicate({ impUid }) {
-    const result = this.paymentRepository.findOne({
+  async checkDuplicate({ impUid }) {
+    const result = await this.paymentRepository.findOne({
       where: {
         paymentId: impUid,
       },
     });
+    if (!result)
+      return new BadRequestException('요청하신 정보에 DB에 없습니다.');
   }
 
   //결제정보 생성
