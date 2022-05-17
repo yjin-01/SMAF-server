@@ -58,7 +58,7 @@ export class AuthResolver {
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => String)
   async logout(
-    // @CurrentUser() currentUser: ICurrentUser, //
+    //
     @Context() context: any,
   ) {
     console.log('!2312331223121');
