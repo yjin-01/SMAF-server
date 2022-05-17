@@ -23,7 +23,7 @@ import { ProcessCategoryModule } from './apis/processCategory/processCategory.mo
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '10.99.144.4',
+      host: 'team-database',
       username: 'root',
       password: 'root',
       database: 'teamdatabase',

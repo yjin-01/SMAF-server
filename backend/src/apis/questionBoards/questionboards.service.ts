@@ -40,7 +40,7 @@ export class QuestionBoardService {
       ...updateQuestionBoardInput,
     };
 
-    return this.questionBoardRepository.save(newquestionBoard);
+    return await this.questionBoardRepository.save(newquestionBoard);
   }
   //QuestionBoard 삭제 : Softdelete
   async delete({ boardId }) {

@@ -1,0 +1,147 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  userId: String!
+  userName: String!
+  email: String!
+  phone: String!
+  userImageURL: String!
+  projectTicket: Int!
+  admin: Boolean!
+}
+
+type ProjectAddress {
+  projectAddressId: String!
+  address: String!
+  detailAddress: String!
+}
+
+type Project {
+  projectId: String!
+  projectName: String!
+  projectIntro: String!
+  projectDetailIntro: String!
+  projectImageURL: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  status: Boolean!
+  createAt: DateTime!
+  updateAt: DateTime!
+  deletedAt: DateTime!
+  address: ProjectAddress!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type QuestionBoard {
+  questionBoardId: String!
+  questionCategory: String!
+  title: String!
+  contents: String!
+  user: User!
+}
+
+type QuestionComment {
+  questionCommentId: String!
+  contents: String!
+  questionBoard: QuestionBoard!
+  user: User!
+}
+
+type ProcessCategory {
+  processCategoryId: String!
+  processName: String!
+  project: Project!
+  createAt: DateTime!
+}
+
+type Query {
+  fetchProcessCategories(projectId: String!): [ProcessCategory!]!
+  fetchProjectsAll: [Project!]!
+  fetchQuestionBoard(questionboardId: String!): QuestionBoard!
+  fetchQuestionBoards: [QuestionBoard!]!
+  fetchQuestionComment(questionCommentId: String!): QuestionComment!
+  fetchQuestionComments: [QuestionComment!]!
+  fetchUsers: [User!]!
+  fetchUser(userId: String!): [User!]!
+  fetchUserEmail(email: String!): User!
+}
+
+type Mutation {
+  login(email: String!, password: String!): String!
+  logout: String!
+  restoreAccessToken: String!
+  sendTokenPhone(phone: String!): String!
+  checkedToekn(phone: String!, inputToken: String!): String!
+  sendInvitaionEmail(email: [String!]!): String!
+  createProject(createProjectInput: createProjectInput!): Project!
+  updateProject(projectId: String!, updateProjectInput: UpdateProjectInput!): Project!
+  deleteProject(projectId: String!): Boolean!
+  createQuestionBoard(createquestionBoardInput: CreateQuestionBoardInput!): QuestionBoard!
+  updateQuestionBoard(questionBoardID: String!, updatequestionBoardInput: UpdateQuestionBoardInput!): QuestionBoard!
+  deleteQuestionBoard(boardId: String!): Boolean!
+  createQuestionComment(contents: String!, questionboardId: String!, userId: String!): QuestionComment!
+  updateQuestionComment(questionCommentId: String!, updatequestionCommentInput: UpdateQuestionCommentInput!): QuestionComment!
+  deleteQuestionComment(questionCommentId: String!): Boolean!
+  createUser(createUserInput: createUserInput!): User!
+  updatePassword(email: String!, password: String!): String!
+  deleteUser(email: String!): Boolean!
+}
+
+input createProjectInput {
+  projectName: String!
+  projectIntro: String!
+  projectDetailIntro: String!
+  projectImageURL: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  projectAddress: ProjectAddressInput!
+}
+
+input ProjectAddressInput {
+  address: String!
+  detailAddress: String!
+}
+
+input UpdateProjectInput {
+  projectName: String
+  projectIntro: String
+  projectDetailIntro: String
+  projectImageURL: String
+  startDate: DateTime
+  endDate: DateTime
+  projectAddress: ProjectAddressInput
+}
+
+input CreateQuestionBoardInput {
+  questionCategory: String!
+  title: String!
+  contents: String!
+  user: String!
+}
+
+input UpdateQuestionBoardInput {
+  questionCategory: String
+  title: String
+  contents: String
+  user: String
+}
+
+input UpdateQuestionCommentInput {
+  contents: String
+  questionBoard: String
+  user: String
+}
+
+input createUserInput {
+  userName: String!
+  email: String!
+  password: String!
+  phone: String!
+  userImageURL: String!
+}
