@@ -33,9 +33,9 @@ export class QuestionCommentResolver {
   fetchQuestionComment(@Args('questionCommentId') questionCommentId: string) {
     return this.questionCommentService.findOne({ questionCommentId });
   }
-  //QuestionComment 전체 조회
+  //QuestionComment 전체 조회(QuestionBoardId로 검색)
   @Query(() => [QuestionComment])
-  fetchQuestionComments() {
+  fetchQuestionComments(@Args('questionBoardId') questionBoardId: string) {
     return this.questionCommentService.findAll();
   }
 
