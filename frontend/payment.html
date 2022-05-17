@@ -36,7 +36,6 @@
               "http://127.0.0.1:5500/main-project/frontend/payment.html", // 모바일 결제후 리다이렉트될 주소!!
           },
           async (rsp) => {
-            // callback
             if (rsp.success) {
               // 결제 성공시
               console.log(rsp);
@@ -55,7 +54,7 @@
                 {
                   headers: {
                     authorization:
-                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJzdWIiOiJmOTA5NGQ2My1jZjEyLTRiMWMtYjYyMy02MjVhNmE2MjQ0NjUiLCJpYXQiOjE2NTI1MTI0MjYsImV4cCI6MTY1MjUxNjAyNn0.-8kZoweGKV0yB6M1w6mStgU6ROKUJ8oUKomeMLdskLs",
+                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJAYi5jb20iLCJzdWIiOiI4YWYwZDBiZC0zYTFmLTQwMzgtYWMxYS1lMWVkNGE5YzljNTkiLCJpYXQiOjE2NTI3ODI1MDksImV4cCI6MTY1MzM4NzMwOX0.nHz1UDDbfVv3d_8m7QXnr0hS8pTBo4MATART8K42LMo",
                   },
                 }
               );
