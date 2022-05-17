@@ -62,6 +62,7 @@ type ProcessCategory {
 
 type Query {
   fetchProcessCategories(projectId: String!): [ProcessCategory!]!
+  fetchprocessCategory(processCategoryId: String!): [ProcessCategory!]!
   fetchProjectsAll: [Project!]!
   fetchQuestionBoard(questionboardId: String!): QuestionBoard!
   fetchQuestionBoards: [QuestionBoard!]!
@@ -79,6 +80,9 @@ type Mutation {
   sendTokenPhone(phone: String!): String!
   checkedToekn(phone: String!, inputToken: String!): String!
   sendInvitaionEmail(email: [String!]!): String!
+  createProcessCategory(processName: String!, projectId: String!): ProcessCategory!
+  updateProcessCategory(processName: String!, projectId: String!): ProcessCategory!
+  deleteProcessCategory(processCategoryId: String!): Boolean!
   createProject(createProjectInput: createProjectInput!): Project!
   updateProject(projectId: String!, updateProjectInput: UpdateProjectInput!): Project!
   deleteProject(projectId: String!): Boolean!
