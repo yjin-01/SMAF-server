@@ -26,6 +26,10 @@ export class Payment {
   paymentId: string;
 
   @Column()
+  @Field(() => String)
+  impUid: string;
+
+  @Column()
   @Field(() => Int)
   amount: number;
 
