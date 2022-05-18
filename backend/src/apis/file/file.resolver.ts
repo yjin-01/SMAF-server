@@ -13,8 +13,14 @@ export class FileResolver {
   async userImageUpload(
     @Args({ name: 'file', type: () => GraphQLUpload }) file: FileUpload, //
   ) {
-    console.log(file);
+    return await this.fileService.userImage({ file });
+  }
 
-    return await this.fileService.ImageUpload({ file });
+  // 프로젝트이미지 업로드
+  @Mutation(() => String)
+  async projectImageUpload(
+    @Args({ name: 'file', type: () => GraphQLUpload }) file: FileUpload, //
+  ) {
+    return await this.fileService.projectImage({ file });
   }
 }
