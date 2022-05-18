@@ -44,7 +44,7 @@ export class QuestionBoardResolver {
     });
 
     if (!IsquestionBoard) {
-      return new BadRequestException('해당게시물이 존재하지 않습니다.');
+      throw new BadRequestException('해당게시물이 존재하지 않습니다.');
     }
 
     return this.questionBoardService.update({
