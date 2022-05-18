@@ -27,9 +27,9 @@ import { PaymentModule } from './apis/payment/payment.module';
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'team-database',
+      host: process.env.SQLHOST,
       username: 'root',
-      password: 'root',
+      password: process.env.SQLHOSTPASSWORD,
       database: 'teamdatabase',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
