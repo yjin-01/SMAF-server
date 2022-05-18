@@ -27,7 +27,7 @@ import { PaymentModule } from './apis/payment/payment.module';
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '10.99.144.4',
+      host: 'team-database',
       username: 'root',
       password: 'root',
       database: 'teamdatabase',
@@ -40,7 +40,7 @@ import { PaymentModule } from './apis/payment/payment.module';
       autoSchemaFile: 'src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: 'http://localhost:3000',
+        origin: process.env.CORSADDRESS,
         credentials: true,
       },
     }),

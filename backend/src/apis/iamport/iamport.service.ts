@@ -44,12 +44,8 @@ export class IamportService {
     } catch (err) {
       // console.log(err);
       if (err?.response?.data) {
-        console.log('에러1');
-        console.log(err.response);
         throw new BadRequestException('존재하지 않는 결제정보입니다😅');
       } else {
-        console.log('에러2');
-        console.log(err.response);
         throw err;
       }
     }

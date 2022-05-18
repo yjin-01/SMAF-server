@@ -23,16 +23,16 @@ export class PaymentService {
   }
 
   //결제정보 생성
-  create({
+  async create({
     impUid,
     amount,
-    currentUser,
+    UserId,
     status = PAYMENT_TRANSACTION_STATUS_ENUM.PAYMENT,
   }) {
-    console.log(impUid, amount, currentUser, status);
-    // return this.paymentRepository.save({
-    //   amount: amount,
-    //   user: UserId,
-    // });
+    console.log(impUid, amount, UserId, status);
+    return await this.paymentRepository.save({
+      amount: amount,
+      user: UserId,
+    });
   }
 }
