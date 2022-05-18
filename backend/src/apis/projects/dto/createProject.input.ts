@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql';
 import { ProjectAddressInput } from 'src/apis/projectAddress/dto/create.projectAddress';
 
 @InputType()
-export class createProjectInput {
+export class CreateProjectInput {
   @Field(() => String)
   projectName: string;
 

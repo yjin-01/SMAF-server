@@ -27,7 +27,11 @@ export class Schedule {
   @Field(() => Date)
   scheduleDate: Date;
 
-  @ManyToOne(() => ProcessCategory)
+  @Column({ default: true })
+  @Field(() => Boolean)
+  status: boolean;
+
+  @ManyToOne(() => ProcessCategory, { onDelete: 'CASCADE' })
   @Field(() => ProcessCategory)
   processCategory: ProcessCategory;
 
@@ -38,4 +42,16 @@ export class Schedule {
   @ManyToOne(() => Project)
   @Field(() => Project)
   project: Project;
+
+  @CreateDateColumn()
+  @Field(() => Date)
+  createAt: Date;
+
+  @UpdateDateColumn()
+  @Field(() => Date)
+  updateAt: Date;
+
+  @DeleteDateColumn()
+  @Field(() => Date)
+  deletedAt: Date;
 }

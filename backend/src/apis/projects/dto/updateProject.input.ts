@@ -1,8 +1,8 @@
 import { Field, InputType, PartialType } from '@nestjs/graphql';
-import { createProjectInput } from './createProject.input';
+import { CreateProjectInput } from './createProject.input';
 
 @InputType()
-export class UpdateProjectInput extends PartialType(createProjectInput) {
+export class UpdateProjectInput extends PartialType(CreateProjectInput) {
   @Field(() => Boolean, { nullable: true })
   status: boolean;
 

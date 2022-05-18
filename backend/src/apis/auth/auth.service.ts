@@ -31,7 +31,7 @@ export class AuthService {
   // accessToken토큰을 생성해서 리턴!!
   getAccessToken({ user }) {
     const accessToken = this.jwtService.sign(
-      { email: user.email, sub: user.userId }, //
+      { email: user.email, sub: user.userId, name: user.userName }, //
       { secret: process.env.ACCESSKEY, expiresIn: '1w' }, // 백서버에서 사용할 키와 만료 시간...?
     );
 

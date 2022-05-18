@@ -14,6 +14,7 @@ import { QuestionCommentModule } from './apis/questionComments/questionComment.m
 import { ProcessCategoryModule } from './apis/processCategory/processCategory.module';
 import { FileModule } from './apis/file/file.module';
 import { PaymentModule } from './apis/payment/payment.module';
+import { ScheduleModule } from './apis/schedule/schedule.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { PaymentModule } from './apis/payment/payment.module';
     ProjectModule,
     QuestionBoardModule,
     QuestionCommentModule,
+    ScheduleModule,
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
