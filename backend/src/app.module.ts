@@ -12,10 +12,12 @@ import { ProjectModule } from './apis/projects/project.module';
 import { QuestionBoardModule } from './apis/questionBoards/questionboards.module';
 import { QuestionCommentModule } from './apis/questionComments/questionComment.module';
 import { ProcessCategoryModule } from './apis/processCategory/processCategory.module';
+import { FileModule } from './apis/file/file.module';
 
 @Module({
   imports: [
     AuthModule,
+    FileModule,
     ProcessCategoryModule,
     ProjectModule,
     QuestionBoardModule,
@@ -23,7 +25,7 @@ import { ProcessCategoryModule } from './apis/processCategory/processCategory.mo
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '10.99.144.4',
+      host: 'team-database',
       username: 'root',
       password: 'root',
       database: 'teamdatabase',
@@ -36,7 +38,7 @@ import { ProcessCategoryModule } from './apis/processCategory/processCategory.mo
       autoSchemaFile: 'src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: '*',
+        origin: 'http://localhost:3000',
         credentials: true,
       },
     }),
