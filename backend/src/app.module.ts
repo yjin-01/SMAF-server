@@ -25,7 +25,7 @@ import { PaymentModule } from './apis/payment/payment.module';
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '10.99.144.4',
+      host: 'team-database',
       username: 'root',
       password: 'root',
       database: 'teamdatabase',

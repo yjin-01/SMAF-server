@@ -58,7 +58,7 @@ export class QuestionCommentResolver {
       questionCommentId,
     });
     if (!IsquestionComment)
-      return new BadRequestException('찾으시는 답변게시물이 없습니다.');
+      throw new BadRequestException('찾으시는 답변게시물이 없습니다.');
 
     return this.questionCommentService.update({
       IsquestionComment,

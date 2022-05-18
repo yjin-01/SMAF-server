@@ -1,7 +1,5 @@
 import {
   BadRequestException,
-  ConsoleLogger,
-  HttpException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -35,15 +33,25 @@ export class IamportService {
         method: 'get', // GET method
         headers: { Authorization: accessToken }, // 인증 토큰 Authorization header에 추가
       });
+      console.log('debugging');
+
       const paymentData = getPaymentData.data.response; // 조회한 결제 정보
-      if (!paymentData) new BadRequestException('요청한 정보가 없습니다.');
       console.log(paymentData);
       if (paymentData.status !== 'paid')
-        new BadRequestException('결제내역에 없습니다.');
+        throw new BadRequestException('결제한 이력이 없습니다.');
       if (paymentData.amount !== amount)
-        new BadRequestException('결제금액이 상이합니다.');
+        throw new BadRequestException('결제한 금액이 상이합니다.');
     } catch (err) {
-      new InternalServerErrorException('서버에러');
+      // console.log(err);
+      if (err?.response?.data) {
+        console.log('에러1');
+        console.log(err.response);
+        throw new BadRequestException('존재하지 않는 결제정보입니다😅');
+      } else {
+        console.log('에러2');
+        console.log(err.response);
+        throw err;
+      }
     }
   }
 }

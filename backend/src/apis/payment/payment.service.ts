@@ -16,11 +16,10 @@ export class PaymentService {
   async checkDuplicate({ impUid }) {
     const result = await this.paymentRepository.findOne({
       where: {
-        paymentId: impUid,
+        impUid: impUid,
       },
     });
-    if (!result)
-      return new BadRequestException('요청하신 정보에 DB에 없습니다.');
+    if (result) throw new BadRequestException('이미 결제가 정보가 있습니다.');
   }
 
   //결제정보 생성
