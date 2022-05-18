@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { FileUpload } from 'graphql-upload';
 import { Storage } from '@google-cloud/storage';
-import { stringify } from 'querystring';
 
 interface IUpload {
   file: FileUpload;
@@ -9,7 +8,7 @@ interface IUpload {
 
 @Injectable()
 export class FileService {
-  async ImageUpload({ file }: IUpload) {
+  async userImage({ file }: IUpload) {
     const bucket = process.env.STORAGE_BUCKET;
     const storage = new Storage({
       keyFilename: process.env.STORAGE_KEY_FILENAME,
@@ -19,14 +18,34 @@ export class FileService {
     const userImageURL: string = await new Promise((resolve, reject) => {
       file
         .createReadStream()
-        .pipe(storage.file(file.filename).createWriteStream())
-        .on('finish', () => resolve(`${bucket}/${file.filename}`))
+        .pipe(storage.file(`userImage/${file.filename}`).createWriteStream())
+        .on('finish', () => resolve(`${file.filename}`))
         .on('error', (error) => reject(error));
     });
-    console.log(encodeURIComponent(userImageURL));
     const encodeURL = encodeURIComponent(userImageURL);
 
-    const ImageURL = `https://storage.cloud.google.com/${encodeURL}`;
+    const ImageURL = `https://storage.cloud.google.com/${bucket}/userImage/${encodeURL}`;
+
+    return ImageURL;
+  }
+
+  async projectImage({ file }: IUpload) {
+    const bucket = process.env.STORAGE_BUCKET;
+    const storage = new Storage({
+      keyFilename: process.env.STORAGE_KEY_FILENAME,
+      projectId: process.env.STORAGE_PROJECT_ID,
+    }).bucket(bucket);
+
+    const userImageURL: string = await new Promise((resolve, reject) => {
+      file
+        .createReadStream()
+        .pipe(storage.file(`projectImage/${file.filename}`).createWriteStream())
+        .on('finish', () => resolve(`${file.filename}`))
+        .on('error', (error) => reject(error));
+    });
+    const encodeURL = encodeURIComponent(userImageURL);
+
+    const ImageURL = `https://storage.cloud.google.com/${bucket}/projectImage/${encodeURL}`;
 
     return ImageURL;
   }
