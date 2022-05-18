@@ -25,12 +25,15 @@ export class QuestionBoardService {
   async findOne({ questionBoardId }) {
     return await this.questionBoardRepository.findOne({
       where: { questionBoardId: questionBoardId },
+      relations: ['user'],
     });
   }
 
   //QuestionBoard 전체 조회
   async findAll() {
-    return await this.questionBoardRepository.find();
+    return await this.questionBoardRepository.find({
+      relations: ['user'],
+    });
   }
 
   //QuestionBoard update
