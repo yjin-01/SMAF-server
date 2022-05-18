@@ -33,16 +33,13 @@ export class IamportService {
         method: 'get', // GET method
         headers: { Authorization: accessToken }, // 인증 토큰 Authorization header에 추가
       });
-      console.log('debugging');
 
       const paymentData = getPaymentData.data.response; // 조회한 결제 정보
-      console.log(paymentData);
       if (paymentData.status !== 'paid')
         throw new BadRequestException('결제한 이력이 없습니다.');
       if (paymentData.amount !== amount)
         throw new BadRequestException('결제한 금액이 상이합니다.');
     } catch (err) {
-      // console.log(err);
       if (err?.response?.data) {
         throw new BadRequestException('존재하지 않는 결제정보입니다😅');
       } else {

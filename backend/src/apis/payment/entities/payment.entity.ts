@@ -34,7 +34,7 @@ export class Payment {
   amount: number;
 
   @Column({ type: 'enum', enum: PAYMENT_TRANSACTION_STATUS_ENUM })
-  @Field(() => PAYMENT_TRANSACTION_STATUS_ENUM, { nullable: true })
+  @Field(() => PAYMENT_TRANSACTION_STATUS_ENUM)
   status: string;
 
   @CreateDateColumn()
