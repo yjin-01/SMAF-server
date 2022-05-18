@@ -46,6 +46,10 @@ export class Project {
   @Field(() => Boolean)
   status: boolean;
 
+  @Column()
+  @Field(() => String)
+  projectColor: string;
+
   @CreateDateColumn()
   @Field(() => Date)
   createAt: Date;
