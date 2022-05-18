@@ -14,7 +14,6 @@ export class UserService {
     const users = await this.userRepository
       .createQueryBuilder('user')
       .getMany();
-    console.log(users);
     return users;
   }
 
@@ -22,21 +21,17 @@ export class UserService {
     const user = await this.userRepository
       .createQueryBuilder('user')
       .where('user.userId = :userId', { userId: userId })
-      .getMany();
-    console.log(user);
+      .getOne();
     return user;
   }
 
   async findEmailAll({ email }) {
-    const user = await this.userRepository.findOne({ email });
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email: email })
+      .getOne();
     if (!user) throw new BadRequestException('일치하는 이메일이 없습니다😢');
     return user;
-    // const users = await this.userRepository
-    //   .createQueryBuilder('user')
-    //   .where('user.email = :email', { email: email })
-    //   .getMany();
-    // console.log(users);
-    // return users;
   }
 
   async create({ createUserInput }) {

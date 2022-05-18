@@ -25,7 +25,7 @@ export class AuthResolver {
     private readonly authService: AuthService,
 
     @Inject(CACHE_MANAGER)
-    private readonly cacheManeger: Cache,
+    private readonly cacheManager: Cache,
   ) {}
 
   @Mutation(() => String)
@@ -46,7 +46,6 @@ export class AuthResolver {
 
     if (!isAuth) throw new UnprocessableEntityException('비밀번호 불일치!!');
 
-    console.log(user);
     // refreshToken 생성 후 프론트엔드(쿠키)에 보내주기
     this.authService.setRefreshToken({ res: context.res, user });
 
@@ -61,18 +60,13 @@ export class AuthResolver {
     //
     @Context() context: any,
   ) {
-    console.log('!2312331223121');
     let accessToken = context.req.headers.authorization;
     let refreshToken = context.req.headers.cookie;
     let access;
     let refresh;
 
-    console.log(accessToken);
-
     accessToken = accessToken.replace('Bearer ', '');
     refreshToken = refreshToken.replace('refreshToken=', '');
-
-    //console.log(refreshToken);
 
     //accessToken 확인
     try {
@@ -110,14 +104,12 @@ export class AuthResolver {
     const ttlforAccess = Number(access.exp) - time;
     const ttlforRefresh = Number(refresh.exp) - time;
 
-    console.log(ttlforAccess);
-    console.log(ttlforRefresh);
     try {
-      await this.cacheManeger.set(`accessToken:${accessToken}`, accessToken, {
+      await this.cacheManager.set(`accessToken:${accessToken}`, accessToken, {
         ttl: Math.floor(ttlforAccess),
       });
 
-      await this.cacheManeger.set(
+      await this.cacheManager.set(
         `refreshToken:${refreshToken}`,
         refreshToken,
         {
@@ -151,7 +143,7 @@ export class AuthResolver {
         const token = this.authService.getToken();
         await this.authService.sendTokenToSMS(phone, token);
 
-        await this.cacheManeger.set(phone, token, { ttl: 180 });
+        await this.cacheManager.set(phone, token, { ttl: 180 });
       }
     } catch {
       throw new InternalServerErrorException('인증번호 발송에 실패하였습니다.');
@@ -166,7 +158,7 @@ export class AuthResolver {
     @Args('phone') phone: string, //
     @Args('inputToken') inputToken: string,
   ) {
-    const redisToken = await this.cacheManeger.get(phone);
+    const redisToken = await this.cacheManager.get(phone);
     if (!redisToken)
       throw new BadRequestException(
         '입력하신 번호로 발급된 토큰이 존재하지 않습니다.',
@@ -177,7 +169,7 @@ export class AuthResolver {
     return '인증번호가 불일치!!😅';
   }
 
-  // 초대이메일전송(❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️보류필요함)
+  // 초대이메일전송(❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️보강 필요)
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => String)
   sendInvitaionEmail(

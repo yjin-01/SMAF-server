@@ -30,7 +30,7 @@ export class UserResolver {
 
   // 회원아이디로 회원 찾기
   @UseGuards(GqlAuthAccessGuard)
-  @Query(() => [User])
+  @Query(() => User)
   fetchUser(
     @Args('userId') userId: string, //
   ) {
