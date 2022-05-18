@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql-auth.guard';
-import { createProjectInput } from './dto/createProject.input';
+import { CreateProjectInput } from './dto/createProject.input';
 import { UpdateProjectInput } from './dto/updateProject.input';
 import { Project } from './entities/project.entity';
 import { ProjectService } from './project.service';
@@ -34,7 +34,7 @@ export class ProjectResolver {
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Project)
   createProject(
-    @Args('createProjectInput') createProjectInput: createProjectInput,
+    @Args('createProjectInput') createProjectInput: CreateProjectInput,
   ) {
     return this.projectService.create({ createProjectInput });
   }

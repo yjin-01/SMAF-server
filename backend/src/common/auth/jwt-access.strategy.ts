@@ -33,6 +33,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
 
     return {
       // return 값은 context안의 request안 user로 들어감
+      name: payload.name,
       id: payload.sub,
       email: payload.email,
     };
