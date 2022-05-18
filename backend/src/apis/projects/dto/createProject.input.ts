@@ -15,6 +15,9 @@ export class createProjectInput {
   @Field(() => String)
   projectImageURL: string;
 
+  @Field(() => String)
+  projectColor: string;
+
   @Field(() => Date)
   startDate: Date;
 

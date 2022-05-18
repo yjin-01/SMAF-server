@@ -40,7 +40,7 @@ import { PaymentModule } from './apis/payment/payment.module';
       autoSchemaFile: 'src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: 'http://localhost:3000',
+        origin: process.env.CORSADDRESS,
         credentials: true,
       },
     }),
