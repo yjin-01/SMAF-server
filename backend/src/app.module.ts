@@ -13,11 +13,13 @@ import { QuestionBoardModule } from './apis/questionBoards/questionboards.module
 import { QuestionCommentModule } from './apis/questionComments/questionComment.module';
 import { ProcessCategoryModule } from './apis/processCategory/processCategory.module';
 import { FileModule } from './apis/file/file.module';
+import { PaymentModule } from './apis/payment/payment.module';
 
 @Module({
   imports: [
     AuthModule,
     FileModule,
+    PaymentModule,
     ProcessCategoryModule,
     ProjectModule,
     QuestionBoardModule,
