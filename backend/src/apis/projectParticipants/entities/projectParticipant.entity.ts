@@ -8,7 +8,6 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -19,12 +18,16 @@ export class ProjectParticipant {
   projectParticipantId: string;
 
   @Column()
-  @Field(() => Boolean)
-  position: boolean;
+  @Field(() => String)
+  position: string;
 
-  @Column()
+  @Column({ default: true })
   @Field(() => Boolean)
-  status: boolean;
+  isActivated: boolean;
+
+  @CreateDateColumn()
+  @Field(() => Date)
+  createdAt: Date;
 
   @DeleteDateColumn()
   deletedAt: Date;
