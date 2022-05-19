@@ -87,7 +87,18 @@ type Schedule {
   deletedAt: DateTime!
 }
 
+type ProjectParticipant {
+  projectParticipantId: String!
+  position: String!
+  isActivated: Boolean!
+  createdAt: DateTime!
+  user: User!
+  project: Project!
+}
+
 type Query {
+  fetchProjectParticipants(projectId: String!): [ProjectParticipant!]!
+  fetchUserParticipants: [ProjectParticipant!]!
   fetchProcessCategories(projectId: String!): [ProcessCategory!]!
   fetchprocessCategory(processCategoryId: String!): [ProcessCategory!]!
   fetchProjectsAll: [Project!]!
@@ -115,6 +126,9 @@ type Mutation {
   userImageUpload(file: Upload!): String!
   projectImageUpload(file: Upload!): String!
   createPayment(impUid: String!, amount: Float!): Payment!
+  createParticipant(email: String!, projecId: String!): ProjectParticipant!
+  updateParticipant(isActivated: Boolean!, projectParticipantId: String!): ProjectParticipant!
+  deleteParticipant(projectParticipantId: String!): Boolean!
   createProcessCategory(processName: String!, projectId: String!): ProcessCategory!
   updateProcessCategory(processName: String!, projectId: String!): ProcessCategory!
   deleteProcessCategory(processCategoryId: String!): Boolean!

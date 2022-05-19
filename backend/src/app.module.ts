@@ -15,12 +15,14 @@ import { ProcessCategoryModule } from './apis/processCategory/processCategory.mo
 import { FileModule } from './apis/file/file.module';
 import { PaymentModule } from './apis/payment/payment.module';
 import { ScheduleModule } from './apis/schedule/schedule.module';
+import { ProjectParticipantModule } from './apis/projectParticipants/projectParticipant.module';
 
 @Module({
   imports: [
     AuthModule,
     FileModule,
     PaymentModule,
+    ProjectParticipantModule,
     ProcessCategoryModule,
     ProjectModule,
     QuestionBoardModule,
