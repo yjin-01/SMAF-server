@@ -28,8 +28,8 @@ export class FileResolver {
   @Mutation(() => String)
   projectFileUpload(
     @Args({ name: 'file', type: () => GraphQLUpload }) file: FileUpload, //
+    // @Args('projectId') projectId: string,
   ) {
-    console.log({ file });
     return this.fileService.projectFile({ file });
   }
 }
