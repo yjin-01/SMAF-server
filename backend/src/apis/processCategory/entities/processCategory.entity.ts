@@ -19,7 +19,7 @@ export class ProcessCategory {
   @Field(() => String)
   processName: string;
 
-  @ManyToOne(() => Project)
+  @ManyToOne(() => Project, { onDelete: 'CASCADE' })
   @Field(() => Project)
   project: Project;
 

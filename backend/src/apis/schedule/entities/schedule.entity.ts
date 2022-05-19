@@ -31,7 +31,7 @@ export class Schedule {
   @Field(() => Boolean)
   status: boolean;
 
-  @ManyToOne(() => ProcessCategory, { onDelete: 'CASCADE' })
+  @ManyToOne(() => ProcessCategory)
   @Field(() => ProcessCategory)
   processCategory: ProcessCategory;
 
@@ -39,7 +39,7 @@ export class Schedule {
   @Field(() => User)
   user: User;
 
-  @ManyToOne(() => Project)
+  @ManyToOne(() => Project, { onDelete: 'CASCADE' })
   @Field(() => Project)
   project: Project;
 
