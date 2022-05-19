@@ -56,11 +56,11 @@ export class PaymentService {
         { userId: currentUser.id },
         { lock: { mode: 'pessimistic_write' } },
       );
-      const upateUser = this.userRepository.create({
+      const updateUser = this.userRepository.create({
         ...user,
         projectTicket: user.projectTicket + 1,
       });
-      await queryRunner.manager.save(upateUser);
+      await queryRunner.manager.save(updateUser);
 
       await queryRunner.commitTransaction();
       return result;
@@ -70,4 +70,21 @@ export class PaymentService {
       await queryRunner.release();
     }
   }
+
+  //결제 정보 조회 - create 에서 pessimistic_write lock이기 때문에 일반 조회
+  async findAll({ CurrentUser }) {
+    const result = await this.paymentRepository.find({
+      where: { user: CurrentUser.id },
+      relations: ['user'],
+    });
+    return result;
+  }
+
+  // 결제 1건만 찾기
+  //   findOne({ paymentId }) {
+  //     const result = this.paymentRepository
+  //       .createQueryBuilder('payment')
+  //       .leftJoinAndSelect('payment.user', 'userId')
+  //       .where();
+  //   }
 }

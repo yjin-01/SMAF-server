@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { QuestionBoard } from '../questionBoards/entities/questionBoard.entity';
 import { User } from '../users/entities/users.entity';
 import { QuestionComment } from './entities/questionComment.entity';
 
@@ -11,14 +12,24 @@ export class QuestionCommentService {
     private readonly questionCommentRepository: Repository<QuestionComment>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(QuestionBoard)
+    private readonly questionBoard: Repository<QuestionBoard>,
   ) {}
 
   //QuestionComment 생성
-  async create({ contents, questionBoardId, userId }) {
+  async create({ contents, questionBoardId, currentUser }) {
+    const user = await this.userRepository.findOne({
+      where: {
+        userId: currentUser.id,
+      },
+    });
+    const board = await this.questionBoard.findOne({
+      where: { questionBoardId: questionBoardId },
+    });
     const result = await this.questionCommentRepository.save({
       contents: contents,
-      questionBoard: questionBoardId,
-      user: { userId: userId },
+      questionBoard: board,
+      user: user,
     });
     return result;
   }

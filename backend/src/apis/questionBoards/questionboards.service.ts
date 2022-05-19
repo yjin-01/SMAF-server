@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { User } from '../users/entities/users.entity';
 import { QuestionBoard } from './entities/questionBoard.entity';
 
 @Injectable()
@@ -8,14 +9,26 @@ export class QuestionBoardService {
   constructor(
     @InjectRepository(QuestionBoard)
     private readonly questionBoardRepository: Repository<QuestionBoard>,
+
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   //QuestionBoard 생성
-  async create({ createQuestionBoardInput }) {
-    const { user, ...createquestionboard } = createQuestionBoardInput;
+  async create({ createQuestionBoardInput, currentUser }) {
+    const user = await this.userRepository.findOne({
+      where: {
+        userId: currentUser.id,
+      },
+    });
+    // const questionBoard = this.questionBoardRepository.create({
+    //   ...createQuestionBoardInput,
+    //   user: user.userId,
+    // });
+    // console.log(questionBoard);
     const result = await this.questionBoardRepository.save({
-      ...createquestionboard,
-      user: { userId: user },
+      ...createQuestionBoardInput,
+      user: user,
     });
 
     return result;
