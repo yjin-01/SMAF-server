@@ -23,4 +23,13 @@ export class FileResolver {
   ) {
     return await this.fileService.projectImage({ file });
   }
+
+  //프로젝트 파일 업로드
+  @Mutation(() => String)
+  projectFileUpload(
+    @Args({ name: 'file', type: () => GraphQLUpload }) file: FileUpload, //
+  ) {
+    console.log({ file });
+    return this.fileService.projectFile({ file });
+  }
 }

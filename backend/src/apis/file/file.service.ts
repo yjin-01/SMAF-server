@@ -49,4 +49,22 @@ export class FileService {
 
     return ImageURL;
   }
+
+  async projectFile({ file }: IUpload) {
+    const bucket = process.env.STORAGE_BUCKET;
+    const storage = new Storage({
+      keyFilename: process.env.STORAGE_KEY_FILENAME,
+      projectId: process.env.STORAGE_PROJECT_ID,
+    }).bucket(bucket);
+
+    const userFileURL: string = await new Promise((resolve, reject) => {
+      file
+        .createReadStream()
+        .pipe(storage.file(`projectFile/${file.filename}`).createWriteStream())
+        .on('finish', () => resolve(`${file.filename}`))
+        .on('error', (error) => reject(error));
+    });
+    console.log(userFileURL);
+    return userFileURL;
+  }
 }
