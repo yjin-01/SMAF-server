@@ -10,7 +10,4 @@ export class CreateQuestionBoardInput {
 
   @Field(() => String)
   contents: string;
-
-  @Field(() => String)
-  user: string;
 }

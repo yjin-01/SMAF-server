@@ -23,6 +23,7 @@ export class QuestionComment {
   contents: string;
 
   @CreateDateColumn()
+  @Field(() => Date)
   createAt: Date;
 
   @UpdateDateColumn()

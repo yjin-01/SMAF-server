@@ -17,14 +17,13 @@ export class QuestionCommentResolver {
   createQuestionComment(
     @Args('contents') contents: string,
     @Args('questionboardId') questionBoardId: string,
-    @Args('userId') userId: string,
     @CurrentUser('currentUser') currentUser: ICurrentUser,
   ) {
     this.questionCommentService.checkadmin({ userId: currentUser.id });
     return this.questionCommentService.create({
       contents,
       questionBoardId,
-      userId,
+      currentUser,
     });
   }
 

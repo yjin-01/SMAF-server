@@ -31,6 +31,7 @@ export class QuestionBoard {
   contents: string;
 
   @CreateDateColumn()
+  @Field(() => Date)
   createAt: Date;
 
   @UpdateDateColumn()
@@ -40,6 +41,6 @@ export class QuestionBoard {
   deletedAt: Date;
 
   @ManyToOne(() => User)
-  // @Field(() => User)
+  @Field(() => User)
   user: User;
 }

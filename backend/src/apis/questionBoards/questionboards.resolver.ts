@@ -1,5 +1,7 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GqlAuthAccessGuard } from 'src/common/auth/gql-auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/common/auth/gql-user.parm';
 import { CreateQuestionBoardInput } from './dto/createQuestionBoard.input';
 import { UpdateQuestionBoardInput } from './dto/updateQuestionBoard.input';
 import { QuestionBoard } from './entities/questionBoard.entity';
@@ -12,12 +14,18 @@ export class QuestionBoardResolver {
   ) {}
 
   //QuestionBoard 생성
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => QuestionBoard)
   createQuestionBoard(
     @Args('createquestionBoardInput')
     createQuestionBoardInput: CreateQuestionBoardInput, //
+    @CurrentUser('currentUser') currentUser: ICurrentUser,
   ) {
-    return this.questionBoardService.create({ createQuestionBoardInput });
+    console.log(currentUser);
+    return this.questionBoardService.create({
+      createQuestionBoardInput,
+      currentUser,
+    });
   }
 
   //QuestionBoard 조회
