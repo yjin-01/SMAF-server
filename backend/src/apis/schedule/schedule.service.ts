@@ -79,6 +79,7 @@ export class ScheduleService {
     const { processCategoryId, projectId, ...rest } = createScheduleInput;
 
     const user = await this.UserRepository.findOne({ where: { userId } });
+    console.log('⭐️⭐️⭐️⭐️', user);
     const processCategory = await this.processCategoryRepository.findOne({
       where: { processCategoryId },
     });

@@ -16,12 +16,14 @@ export class ProjectParticipantService {
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
   ) {}
+
   // projectId로 조회
-  async findProject({ projectId }) {
+  async findParticipatingUser({ projectId }) {
     const participants = await this.projectParticipantRepository
       .createQueryBuilder('projectParticipant')
       .where('projectParticipant.project = :project', { project: projectId })
-      .orderBy('projectParticipant.createdAt', 'ASC')
+      .orderBy('projectParticipant.isActivated', 'DESC')
+      .addOrderBy('projectParticipant.createdAt', 'ASC')
       .leftJoinAndSelect('projectParticipant.project', 'project')
       .leftJoinAndSelect('projectParticipant.user', 'user')
       .getMany();
@@ -29,14 +31,44 @@ export class ProjectParticipantService {
     return participants;
   }
 
-  // userId로 조회
-  async findUser({ userId }) {
+  // userId로 조회(전체 목록)
+  async findParticipatingProject({ userId }) {
     const projects = await this.projectParticipantRepository
       .createQueryBuilder('projectParticipant')
       .where('projectParticipant.user = :user', { user: userId })
-      .orderBy('projectParticipant.createdAt', 'ASC')
+      .orderBy('projectParticipant.createdAt', 'DESC')
       .leftJoinAndSelect('projectParticipant.project', 'project')
       .leftJoinAndSelect('projectParticipant.user', 'user')
+      .getMany();
+
+    console.log(projects);
+    return projects;
+  }
+
+  // userId로 조회(참여중인 목록)
+  async findActivatedProject({ userId }) {
+    const projects = await this.projectParticipantRepository
+      .createQueryBuilder('projectParticipant')
+      .leftJoinAndSelect('projectParticipant.project', 'project')
+      .leftJoinAndSelect('projectParticipant.user', 'user')
+      .where('projectParticipant.user = :user', { user: userId })
+      .andWhere('project.status = :status', { status: true })
+      .orderBy('projectParticipant.createdAt', 'DESC')
+      .getMany();
+
+    console.log(projects);
+    return projects;
+  }
+
+  // userId로 조회(끝난 목록)
+  async findInactivatedProject({ userId }) {
+    const projects = await this.projectParticipantRepository
+      .createQueryBuilder('projectParticipant')
+      .leftJoinAndSelect('projectParticipant.project', 'project')
+      .leftJoinAndSelect('projectParticipant.user', 'user')
+      .where('projectParticipant.user = :user', { user: userId })
+      .andWhere('project.status = :status', { status: false })
+      .orderBy('projectParticipant.createdAt', 'DESC')
       .getMany();
 
     console.log(projects);

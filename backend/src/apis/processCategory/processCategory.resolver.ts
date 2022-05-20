@@ -42,9 +42,12 @@ export class ProcessCategoryResolver {
   @Mutation(() => ProcessCategory)
   async updateProcessCategory(
     @Args('processName') processName: string, //
-    @Args('projectId') projectId: string,
+    @Args('processCategoryId') processCategoryId: string,
   ) {
-    return await this.processCategoryService.update({ processName, projectId });
+    return await this.processCategoryService.update({
+      processName,
+      processCategoryId,
+    });
   }
 
   // 카테고리 삭제

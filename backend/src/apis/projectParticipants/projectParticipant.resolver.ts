@@ -12,22 +12,49 @@ export class ProjectParticipantResolver {
     private readonly projectParticipantService: ProjectParticipantService,
   ) {}
 
-  // 프로젝트별 검색
+  // 프로젝트별 조회
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [ProjectParticipant])
-  async fetchProjectParticipants(
+  async fetchParticipatingUser(
     @Args('projectId') projectId: string, //
   ) {
-    return await this.projectParticipantService.findProject({ projectId });
+    return await this.projectParticipantService.findParticipatingUser({
+      projectId,
+    });
   }
 
-  // 회원별 검색
+  // 회원별 조회(전체 출력)
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [ProjectParticipant])
-  async fetchUserParticipants(
+  async fetchParticipatingProject(
     @CurrentUser() currentUser: ICurrentUser, //
   ) {
-    return await this.projectParticipantService.findUser({
+    return await this.projectParticipantService.findParticipatingProject({
+      userId: currentUser.id,
+    });
+  }
+
+  //회원의 진행중인 프로젝트 조회
+  @UseGuards(GqlAuthAccessGuard)
+  @Query(() => [ProjectParticipant])
+  async fetchActivatedProject(
+    @CurrentUser() currentUser: ICurrentUser, //
+  ) {
+    const result = await this.projectParticipantService.findActivatedProject({
+      userId: currentUser.id,
+    });
+    console.log('🔴🔴🔴🔴', result);
+    return result;
+  }
+
+  // 회원의 끝난 프로젝트 조회
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Query(() => [ProjectParticipant])
+  async fetchInactivatedProject(
+    @CurrentUser() currentUser: ICurrentUser, //
+  ) {
+    return await this.projectParticipantService.findInactivatedProject({
       userId: currentUser.id,
     });
   }

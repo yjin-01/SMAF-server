@@ -14,7 +14,7 @@ export class AuthService {
   setRefreshToken({ user, res }) {
     const refreshToken = this.jwtService.sign(
       { email: user.email, sub: user.userId }, //
-      { secret: process.env.REFRESHKEY, expiresIn: '3h' },
+      { secret: process.env.REFRESHKEY, expiresIn: '1w' },
     );
 
     // 개발환경
@@ -32,7 +32,7 @@ export class AuthService {
   getAccessToken({ user }) {
     const accessToken = this.jwtService.sign(
       { email: user.email, sub: user.userId, name: user.userName }, //
-      { secret: process.env.ACCESSKEY, expiresIn: '1w' }, // 백서버에서 사용할 키와 만료 시간...?
+      { secret: process.env.ACCESSKEY, expiresIn: '24h' }, // 백서버에서 사용할 키와 만료 시간...?
     );
 
     console.log(user);
