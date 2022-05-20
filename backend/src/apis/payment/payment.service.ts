@@ -81,10 +81,13 @@ export class PaymentService {
   }
 
   // 결제 1건만 찾기
-  //   findOne({ paymentId }) {
-  //     const result = this.paymentRepository
-  //       .createQueryBuilder('payment')
-  //       .leftJoinAndSelect('payment.user', 'userId')
-  //       .where();
-  //   }
+  async findOne({ paymentId }) {
+    const result = await this.paymentRepository
+      .createQueryBuilder('payment')
+      .leftJoinAndSelect('payment.user', 'userId')
+      .where('payment.paymentId = :paymentId', { paymentId: paymentId })
+      .getOne();
+
+    return result;
+  }
 }

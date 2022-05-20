@@ -42,15 +42,14 @@ export class PaymentResolver {
   fetchPayments(
     @CurrentUser('currentUser') CurrentUser: ICurrentUser, //
   ) {
-    console.log(CurrentUser);
     return this.paymentService.findAll({ CurrentUser });
   }
 
   // 결제정보 한 개만 불러오기
-  // @Query(() => Payment)
-  // fetchPayment(
-  //   @Args('paymentId') paymentId: string, //
-  // ) {
-  //   return this.paymentService.findOne({ paymentId });
-  // }
+  @Query(() => Payment)
+  fetchPayment(
+    @Args('paymentId') paymentId: string, //
+  ) {
+    return this.paymentService.findOne({ paymentId });
+  }
 }
