@@ -4,7 +4,7 @@ import { Storage } from '@google-cloud/storage';
 import { v4 as uuidv4 } from 'uuid';
 
 interface IUpload {
-  file: FileUpload;
+  file: FileUpload[];
 }
 
 @Injectable()
@@ -15,19 +15,26 @@ export class FileService {
       keyFilename: process.env.STORAGE_KEY_FILENAME,
       projectId: process.env.STORAGE_PROJECT_ID,
     }).bucket(bucket);
-    const fname = `userImage/${uuidv4()}`;
-    const userImageURL: string = await new Promise((resolve, reject) => {
-      file
-        .createReadStream()
-        .pipe(storage.file(`${fname}/${file.filename}`).createWriteStream())
-        .on('finish', () => resolve(`${file.filename}`))
-        .on('error', (error) => reject(error));
-    });
-    const encodeURL = encodeURIComponent(userImageURL);
+    const files = await Promise.all(file);
 
-    const ImageURL = `https://storage.cloud.google.com/${bucket}/${fname}/${encodeURL}`;
-
-    return ImageURL;
+    const result = await Promise.all(
+      files.map((el) => {
+        return new Promise((resolve, reject) => {
+          const fname = `userImage/${uuidv4()}`;
+          const EncodeUserFile = encodeURIComponent(el.filename);
+          el.createReadStream()
+            .pipe(storage.file(`${fname}/${el.filename}`).createWriteStream())
+            .on('finish', () =>
+              resolve(
+                `https://storage.cloud.google.com/${bucket}/${fname}/${EncodeUserFile}`,
+              ),
+            )
+            .on('error', (error) => reject(error));
+        });
+      }),
+    );
+    console.log(result);
+    return result;
   }
 
   async projectImage({ file }: IUpload) {
@@ -36,19 +43,26 @@ export class FileService {
       keyFilename: process.env.STORAGE_KEY_FILENAME,
       projectId: process.env.STORAGE_PROJECT_ID,
     }).bucket(bucket);
-    const fname = `projectImage/${uuidv4()}`;
-    const userImageURL: string = await new Promise((resolve, reject) => {
-      file
-        .createReadStream()
-        .pipe(storage.file(`${fname}/${file.filename}`).createWriteStream())
-        .on('finish', () => resolve(`${file.filename}`))
-        .on('error', (error) => reject(error));
-    });
-    const encodeURL = encodeURIComponent(userImageURL);
+    const files = await Promise.all(file);
 
-    const ImageURL = `https://storage.cloud.google.com/${bucket}/${fname}/${encodeURL}`;
+    const result = await Promise.all(
+      files.map((el) => {
+        return new Promise((resolve, reject) => {
+          const fname = `projectImage/${uuidv4()}`;
+          const EncodeUserFile = encodeURIComponent(el.filename);
+          el.createReadStream()
+            .pipe(storage.file(`${fname}/${el.filename}`).createWriteStream())
+            .on('finish', () =>
+              resolve(
+                `https://storage.cloud.google.com/${bucket}/${fname}/${EncodeUserFile}`,
+              ),
+            )
+            .on('error', (error) => reject(error));
+        });
+      }),
+    );
 
-    return ImageURL;
+    return result;
   }
 
   async projectFile({ file }: IUpload) {
@@ -57,16 +71,24 @@ export class FileService {
       keyFilename: process.env.STORAGE_KEY_FILENAME,
       projectId: process.env.STORAGE_PROJECT_ID,
     }).bucket(bucket);
-    const fname = `projectFile/${uuidv4()}`;
-    const userFile: string = await new Promise((resolve, reject) => {
-      file
-        .createReadStream()
-        .pipe(storage.file(`${fname}/${file.filename}`).createWriteStream())
-        .on('finish', () => resolve(`${file.filename}`))
-        .on('error', (error) => reject(error));
-    });
-    const EncodeUserFile = encodeURIComponent(userFile);
-    const FileURL = `https://storage.cloud.google.com/${bucket}/${fname}/${EncodeUserFile}`;
-    return FileURL;
+    const files = await Promise.all(file);
+
+    const result = await Promise.all(
+      files.map((el) => {
+        return new Promise((resolve, reject) => {
+          const fname = `projectFile/${uuidv4()}`;
+          const EncodeUserFile = encodeURIComponent(el.filename);
+          el.createReadStream()
+            .pipe(storage.file(`${fname}/${el.filename}`).createWriteStream())
+            .on('finish', () =>
+              resolve(
+                `https://storage.cloud.google.com/${bucket}/${fname}/${EncodeUserFile}`,
+              ),
+            )
+            .on('error', (error) => reject(error));
+        });
+      }),
+    );
+    return result;
   }
 }
