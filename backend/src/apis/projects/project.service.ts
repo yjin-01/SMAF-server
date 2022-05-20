@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProjectAddress } from '../projectAddress/entities/projectAddress.entity';
+import { UserService } from '../users/user.service';
 import { Project } from './entities/project.entity';
 
 @Injectable()
@@ -15,6 +16,8 @@ export class ProjectService {
     private readonly projectRepository: Repository<Project>,
     @InjectRepository(ProjectAddress)
     private readonly projectAddressRepository: Repository<ProjectAddress>,
+
+    private readonly userService: UserService,
   ) {}
   //전체 목록 조회
   async findAll() {
@@ -66,9 +69,26 @@ export class ProjectService {
       throw new BadRequestException('완료된 프로젝트가 없습니다.😢');
   }
 
+  // 프로젝트ID로 조회
+  async findOne({ projectId }) {
+    const project = await this.projectRepository
+      .createQueryBuilder('project')
+      .where('project.projectId = :projectId', { projectId })
+      .leftJoinAndSelect('project.address', 'projectAddress')
+      .getOne();
+
+    if (!project)
+      throw new BadRequestException('해당하는 프로젝트가 없습니다.😢');
+
+    return project;
+  }
+
   // 생성
-  async create({ createProjectInput }) {
+  async create({ createProjectInput, email }) {
     try {
+      // 티켓 차감(Transaction 사용 예정)
+      const user = await this.userService.updateTicket({ email });
+
       const { projectAddress, ...rest } = createProjectInput;
       const address = await this.projectAddressRepository.save({
         ...projectAddress,
@@ -86,9 +106,11 @@ export class ProjectService {
 
   // 수정
   async update({ projectId, updateProjectInput }) {
-    const project = await this.projectRepository.findOne({
-      where: { projectId: projectId },
-    });
+    const project = await this.projectRepository
+      .createQueryBuilder('project')
+      .where('project.projectId = :projectId', { projectId })
+      .leftJoinAndSelect('project.address', 'projectAddress')
+      .getOne();
 
     const newProject = {
       ...project,

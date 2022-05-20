@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Project } from '../projects/entities/project.entity';
 import { ProcessCategory } from './entities/processCategory.entity';
 
 @Injectable()
@@ -8,6 +9,8 @@ export class ProcessCategoryService {
   constructor(
     @InjectRepository(ProcessCategory)
     private readonly processCategoryRepository: Repository<ProcessCategory>,
+    @InjectRepository(Project)
+    private readonly projectRepository: Repository<Project>,
   ) {}
   // 전체 조회
 
@@ -37,21 +40,28 @@ export class ProcessCategoryService {
     console.log(category);
     return category;
   }
+
   // 생성
   async create({ processName, projectId }) {
+    const project = await this.projectRepository.findOne({ projectId });
     const category = await this.processCategoryRepository.save({
       processName,
-      project: { projectId: projectId },
+      project,
     });
 
     return category;
   }
 
   // 수정
-  async update({ processName, projectId }) {
-    const category = await this.processCategoryRepository.findOne({
-      where: { project: projectId },
-    });
+  async update({ processName, processCategoryId }) {
+    const category = await this.processCategoryRepository
+      .createQueryBuilder('processCategory')
+      .where('processCategory.processCategoryId = :processCategoryId', {
+        processCategoryId,
+      })
+      .leftJoinAndSelect('processCategory.project', 'project')
+      .getOne();
+
     const newCategory = {
       ...category,
       processName,

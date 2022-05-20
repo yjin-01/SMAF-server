@@ -52,6 +52,18 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
+  async updateTicket({ email }) {
+    const user = await this.userRepository.findOne({ where: { email } });
+    const ticket = user.projectTicket - 1;
+    if (!user)
+      throw new BadRequestException('일치하는 이메일이 존재하지 않습니다.');
+    const newUser = {
+      ...user,
+      projectTicket: ticket,
+    };
+    return await this.userRepository.save(newUser);
+  }
+
   async delete({ email }) {
     const result = await this.userRepository.softDelete({ email });
     return result.affected ? true : false;
