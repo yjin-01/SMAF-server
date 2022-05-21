@@ -5,6 +5,9 @@ export class UpdateScheduleInput {
   @Field(() => String)
   scheduleName: string;
 
+  @Field(() => String)
+  scheduleContents: string;
+
   @Field(() => Date)
   scheduleDate: Date;
 

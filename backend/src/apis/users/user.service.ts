@@ -25,11 +25,20 @@ export class UserService {
     return user;
   }
 
+  async findEmail({ email }) {
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email: email })
+      .getOne();
+    return user;
+  }
+
   async findEmailAll({ email }) {
     const user = await this.userRepository
       .createQueryBuilder('user')
       .where('user.email = :email', { email: email })
       .getOne();
+
     if (!user) throw new BadRequestException('일치하는 이메일이 없습니다😢');
     return user;
   }

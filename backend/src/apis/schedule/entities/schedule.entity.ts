@@ -24,6 +24,10 @@ export class Schedule {
   scheduleName: string;
 
   @Column()
+  @Field(() => String)
+  scheduleContents: string;
+
+  @Column()
   @Field(() => Date)
   scheduleDate: Date;
 
