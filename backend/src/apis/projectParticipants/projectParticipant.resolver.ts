@@ -68,7 +68,6 @@ export class ProjectParticipantResolver {
     return await this.projectParticipantService.create({
       email,
       projectId,
-      position: '팀원',
     });
   }
 
