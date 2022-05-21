@@ -85,7 +85,7 @@ export class PaymentService {
     const result = await this.paymentRepository
       .createQueryBuilder('payment')
       .leftJoinAndSelect('payment.user', 'userId')
-      .where('payment.paymentId = :paymentId', { paymentId: paymentId })
+      .where('payment.paymentId = :paymentId', { paymentId })
       .getOne();
 
     return result;

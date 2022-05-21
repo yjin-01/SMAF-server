@@ -2,13 +2,13 @@ version: '3.7'
 
 services:
   team-backend:
-    # platform: linux/x86_64
-    # image: asia.gcr.io/ultra-current-349908/team-backend:10.0
+    platform: linux/x86_64
+    image: asia.gcr.io/ultra-current-349908/team-backend:11.0
     build:
       context: .
       dockerfile: Dockerfile
     env_file:
-      - ./.env
+      - ./.env.prod
     volumes:
       - ./src:/teamproject/src
     ports:

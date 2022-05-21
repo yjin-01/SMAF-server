@@ -32,4 +32,12 @@ export class FileResolver {
   ) {
     return this.fileService.projectFile({ file });
   }
+
+  //프로젝트 파일 삭제(구글 Storage에서)
+  @Mutation(() => Boolean)
+  deleteProjectFile(
+    @Args('URL') URL: string, //
+  ) {
+    return this.fileService.deleteFileWithGoogle({ URL });
+  }
 }
