@@ -12,6 +12,7 @@ export class AuthService {
 
   // refreshToken 생성 후 쿠키에 저장!!
   setRefreshToken({ user, res }) {
+    console.log(user);
     const refreshToken = this.jwtService.sign(
       { email: user.email, sub: user.userId }, //
       { secret: process.env.REFRESHKEY, expiresIn: '1w' },

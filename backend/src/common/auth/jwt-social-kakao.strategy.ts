@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Profile, Strategy } from 'passport-google-oauth20';
+import { Strategy } from 'passport-kakao';
 
 @Injectable()
-export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'kakao') {
+export class JwtKakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
   constructor() {
     super({
       clientID: process.env.KAKAO_CLIENT_ID,
@@ -12,14 +12,14 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'kakao') {
     });
   }
 
-  async vaildate(accessToken: string, refreshToken: string, profile: any) {
+  async validate(accessToken: string, refreshToken: string, profile: any) {
     console.log(accessToken);
     console.log(refreshToken);
     console.log(profile);
 
     return {
       email: profile._json.kakao_account.email,
-      password: '1234',
+      password: profile.id,
       userName: profile.username,
       phone: '12345',
       userImageURL: 'asfd',
