@@ -74,4 +74,13 @@ export class UserService {
     const result = await this.userRepository.restore({ userId });
     return result.affected ? true : false;
   }
+
+  //회원 중 관리자 인지 확인 : 기존 QuestionComment에서 이동
+  async checkadmin({ userId }) {
+    const user = await this.userRepository.findOne({
+      where: { userId: userId },
+    });
+
+    return user.admin ? true : new BadRequestException('권한이 없습니다.');
+  }
 }

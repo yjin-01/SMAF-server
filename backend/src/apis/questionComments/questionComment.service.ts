@@ -73,11 +73,11 @@ export class QuestionCommentService {
   }
 
   //QuestionComment 전에 관리자 확인
-  async checkadmin({ userId }) {
-    const user = await this.userRepository.findOne({
-      where: { userId: userId },
-    });
+  // async checkadmin({ userId }) {
+  //   const user = await this.userRepository.findOne({
+  //     where: { userId: userId },
+  //   });
 
-    return user.admin ? true : new BadRequestException('권한이 없습니다.');
-  }
+  //   return user.admin ? true : new BadRequestException('권한이 없습니다.');
+  // }
 }

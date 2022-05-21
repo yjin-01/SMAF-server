@@ -16,6 +16,7 @@ import { FileModule } from './apis/file/file.module';
 import { PaymentModule } from './apis/payment/payment.module';
 import { ScheduleModule } from './apis/schedule/schedule.module';
 import { ProjectParticipantModule } from './apis/projectParticipants/projectParticipant.module';
+import { ProjectFileModule } from './apis/projectFile/projectFile.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ProjectParticipantModule } from './apis/projectParticipants/projectPart
     PaymentModule,
     ProjectParticipantModule,
     ProcessCategoryModule,
+    ProjectFileModule,
     ProjectModule,
     QuestionBoardModule,
     QuestionCommentModule,
