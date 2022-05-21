@@ -28,7 +28,8 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
 
   // 2. 검증이 완료되면 실행
   async validate(req, payload) {
-    let refreshToken = req.headers.authorization;
+    console.log(req.headers);
+    let refreshToken = req.headers.cookie;
     console.log('adfsfdas');
     console.log(refreshToken);
     refreshToken = refreshToken.replace('refreshToken=', '');
