@@ -19,14 +19,14 @@ export class AuthService {
     );
 
     // 개발환경
-    res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
+    //res.setHeader('Set-Cookie', `refreshToken=${refreshToken}; path=/;`);
 
-    // 배포
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    // res.setHeader(
-    //   'Set-Cookie',
-    //   `refreshToken=${refreshToken}; path=/; domain=.gyeoriii.com; SameSite=None; Secure; httpOnly;`,
-    // );
+    //배포
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader(
+      'Set-Cookie',
+      `refreshToken=${refreshToken}; path=/; domain=.gyeoriii.com; SameSite=None; Secure; httpOnly;`,
+    );
   }
 
   // accessToken토큰을 생성해서 리턴!!

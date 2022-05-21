@@ -4,7 +4,10 @@ import { Repository } from 'typeorm';
 import { Project } from '../projects/entities/project.entity';
 import { User } from '../users/entities/users.entity';
 
-import { ProjectParticipant } from './entities/projectParticipant.entity';
+import {
+  PARTICIPANT_POSITION_ENUM,
+  ProjectParticipant,
+} from './entities/projectParticipant.entity';
 
 @Injectable()
 export class ProjectParticipantService {
@@ -76,7 +79,7 @@ export class ProjectParticipantService {
   }
 
   // 생성
-  async create({ position, email, projectId }) {
+  async create({ email, projectId }) {
     const user = await this.userRepository.findOne({
       where: { email: email },
     });
@@ -87,11 +90,13 @@ export class ProjectParticipantService {
       where: { projectId: projectId },
     });
 
+    console.log(project);
+
     if (!project)
       throw new BadRequestException('일치하는 프로젝트가 없습니다.');
 
     const participant = await this.projectParticipantRepository.save({
-      position,
+      position: PARTICIPANT_POSITION_ENUM.MEMBER,
       user: user,
       project: project,
     });

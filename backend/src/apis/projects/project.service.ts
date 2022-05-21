@@ -1,11 +1,13 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Connection } from 'typeorm';
 import { ProjectAddress } from '../projectAddress/entities/projectAddress.entity';
+import {
+  PARTICIPANT_POSITION_ENUM,
+  ProjectParticipant,
+} from '../projectParticipants/entities/projectParticipant.entity';
+import { ProjectParticipantService } from '../projectParticipants/projectParticipant.service';
+import { User } from '../users/entities/users.entity';
 import { UserService } from '../users/user.service';
 import { Project } from './entities/project.entity';
 
@@ -16,8 +18,11 @@ export class ProjectService {
     private readonly projectRepository: Repository<Project>,
     @InjectRepository(ProjectAddress)
     private readonly projectAddressRepository: Repository<ProjectAddress>,
-
-    private readonly userService: UserService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    @InjectRepository(ProjectParticipant)
+    private readonly participantRepository: Repository<ProjectParticipant>,
+    private readonly connection: Connection,
   ) {}
   //전체 목록 조회
   async findAll() {
@@ -85,22 +90,63 @@ export class ProjectService {
 
   // 생성
   async create({ createProjectInput, email }) {
-    try {
-      // 티켓 차감(Transaction 사용 예정)
-      const user = await this.userService.updateTicket({ email });
+    const queryRunner = this.connection.createQueryRunner();
 
+    await queryRunner.connect();
+
+    await queryRunner.startTransaction('SERIALIZABLE');
+
+    // 티켓 차감(Transaction 사용 예정)
+    try {
       const { projectAddress, ...rest } = createProjectInput;
-      const address = await this.projectAddressRepository.save({
+
+      const address = this.projectAddressRepository.create({
         ...projectAddress,
       });
+      await queryRunner.manager.save(address);
 
-      const project = await this.projectRepository.save({
+      const project = this.projectRepository.create({
         ...rest,
-        address: address,
+        email,
+        address,
       });
-      return project;
-    } catch {
-      throw new InternalServerErrorException('프로젝트 생성 실패');
+
+      const saveProject = await queryRunner.manager.save(project);
+
+      const user = await queryRunner.manager.findOne(
+        User,
+        { email },
+        { lock: { mode: 'pessimistic_write' } },
+      );
+
+      const createProject = this.userRepository.create({
+        ...user,
+        projectTicket: user.projectTicket - 1,
+      });
+
+      const newUser = await queryRunner.manager.save(createProject);
+
+      console.log('🍄🍄🍄🍄', saveProject[0]);
+
+      console.log('⭐️⭐️⭐️⭐️', newUser);
+
+      const projectParticipant = this.participantRepository.create({
+        position: PARTICIPANT_POSITION_ENUM.LEADER,
+        project: { ...saveProject, address: projectAddress },
+        user: newUser,
+      });
+      console.log('⭐️⭐️⭐️⭐️', projectParticipant);
+
+      await queryRunner.manager.save(projectParticipant);
+
+      await queryRunner.commitTransaction();
+
+      return saveProject;
+    } catch (error) {
+      console.log(error);
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
     }
   }
 
