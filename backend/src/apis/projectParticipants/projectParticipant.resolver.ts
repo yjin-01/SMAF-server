@@ -53,9 +53,11 @@ export class ProjectParticipantResolver {
   @Query(() => [ProjectParticipant])
   async fetchInactivatedProject(
     @CurrentUser() currentUser: ICurrentUser, //
+    @Args('standard') standard: string,
   ) {
     return await this.projectParticipantService.findInactivatedProject({
       userId: currentUser.id,
+      standard,
     });
   }
 

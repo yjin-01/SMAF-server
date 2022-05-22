@@ -64,15 +64,24 @@ export class ProjectParticipantService {
   }
 
   // userId로 조회(끝난 목록)
-  async findInactivatedProject({ userId }) {
-    const projects = await this.projectParticipantRepository
+  async findInactivatedProject({ userId, standard }) {
+    let projects;
+    projects = this.projectParticipantRepository
       .createQueryBuilder('projectParticipant')
       .leftJoinAndSelect('projectParticipant.project', 'project')
       .leftJoinAndSelect('projectParticipant.user', 'user')
       .where('projectParticipant.user = :user', { user: userId })
-      .andWhere('project.status = :status', { status: false })
-      .orderBy('projectParticipant.createdAt', 'DESC')
-      .getMany();
+      .andWhere('project.status = :status', { status: false });
+
+    if (standard === '최신순') {
+      projects = projects
+        .orderBy('projectParticipant.createdAt', 'DESC')
+        .getMany();
+    } else if (standard === '과거순') {
+      projects = projects
+        .orderBy('projectParticipant.createdAt', 'ASC')
+        .getMany();
+    }
 
     console.log(projects);
     return projects;
@@ -89,6 +98,16 @@ export class ProjectParticipantService {
     const project = await this.projectRepository.findOne({
       where: { projectId: projectId },
     });
+
+    const existingParticipant = await this.projectParticipantRepository.findOne(
+      {
+        where: { user: user.userId, project: project.projectId },
+        relations: ['project', 'user'],
+      },
+    );
+    console.log(existingParticipant);
+    if (existingParticipant)
+      throw new BadRequestException('이미 참여중인 회원입니다.');
 
     console.log(project);
 
