@@ -25,7 +25,7 @@ export class AuthService {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader(
       'Set-Cookie',
-      `refreshToken=${refreshToken}; path=/; domain=.gyeoriii.com; SameSite=None; Secure; httpOnly;`,
+      `refreshToken=${refreshToken}; path=/; domain=.backend.smaf.shop; SameSite=None; Secure; httpOnly;`,
     );
   }
 

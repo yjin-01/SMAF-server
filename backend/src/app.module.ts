@@ -53,7 +53,7 @@ import { ProjectFileModule } from './apis/projectFile/projectFile.module';
 
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      url: 'redis://team-redis:6379',
+      url: process.env.REDIS_URL,
       isGlobal: true,
     }),
   ],
