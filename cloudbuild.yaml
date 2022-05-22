@@ -2,13 +2,13 @@ steps:
   - name: docker/compose:1.29.0
     args:
       - -f
-      - f6b2-team5-server/backend/docker-compose.prod.yaml
+      - backend/docker-compose.prod.yaml
       - build
 
   - name: docker/compose:1.29.0
     args:
       - -f
-      - f6b2-team5-server/backend/docker-compose.prod.yaml
+      - backend/docker-compose.prod.yaml
       - push
 
   - name: gcr.io/cloud-builders/kubectl
