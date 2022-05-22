@@ -14,6 +14,6 @@ export class createUserInput {
   @Field(() => String)
   phone: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   userImageURL: string;
 }

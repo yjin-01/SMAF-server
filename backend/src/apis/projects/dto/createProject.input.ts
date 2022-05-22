@@ -12,7 +12,7 @@ export class CreateProjectInput {
   @Field(() => String)
   projectDetailIntro: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   projectImageURL: string;
 
   @Field(() => String)

@@ -30,7 +30,7 @@ export class Project {
   @Field(() => String)
   projectDetailIntro: string;
 
-  @Column()
+  @Column({ default: 'https://i.ibb.co/qM8kvDM/smaf.png' })
   @Field(() => String)
   projectImageURL: string;
 
