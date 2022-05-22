@@ -2,13 +2,13 @@ steps:
   - name: docker/compose:1.29.0
     args:
       - -f
-      - backend/docker-compose.prod.yaml
+      - f6b2-team5-server/backend/docker-compose.prod.yaml
       - build
 
   - name: docker/compose:1.29.0
     args:
       - -f
-      - main-project/backend/docker-compose.prod.yaml
+      - f6b2-team5-server/backend/docker-compose.prod.yaml
       - push
 
   - name: gcr.io/cloud-builders/kubectl
@@ -16,9 +16,9 @@ steps:
       [
         "set",
         "image",
-        "deployment/codecamp-backend-api-resource",
-        "my-backend-sha256-1=asia.gcr.io/backend01-342301/my_backend:11.0",
+        "deployment/teamproject05-api-resource",
+        "asia.gcr.io/ultra-current-349908/team-backend:13.0",
       ]
     env:
       - CLOUDSDK_COMPUTE_ZONE=asia-northeast3
-      - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1
+      - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-01-03
