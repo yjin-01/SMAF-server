@@ -35,14 +35,14 @@ export class ScheduleService {
   async findCategory({ processCategoryId }) {
     const schedules = await this.scheduleRepository
       .createQueryBuilder('schedule')
-      .orderBy('schedule.createAt', 'ASC')
+      .leftJoinAndSelect('schedule.processCategory', 'processCategory')
+      .leftJoinAndSelect('schedule.project', 'project')
+      .leftJoinAndSelect('schedule.user', 'user')
       .where(
         'schedule.processCategory.processCategoryId = :processCategoryId',
         { processCategoryId },
       )
-      .leftJoinAndSelect('schedule.processCategory', 'processCategory')
-      .leftJoinAndSelect('schedule.project', 'project')
-      .leftJoinAndSelect('schedule.user', 'user')
+      .orderBy('schedule.createAt', 'DESC')
       .getMany();
     return schedules;
   }
@@ -51,11 +51,11 @@ export class ScheduleService {
   async findProject({ projectId }) {
     const schedules = await this.scheduleRepository
       .createQueryBuilder('schedule')
-      .orderBy('schedule.createAt', 'ASC')
-      .where('schedule.project.projectId = :projectId', { projectId })
       .leftJoinAndSelect('schedule.processCategory', 'processCategory')
       .leftJoinAndSelect('schedule.project', 'project')
       .leftJoinAndSelect('schedule.user', 'user')
+      .orderBy('schedule.createAt', 'DESC')
+      .where('schedule.project.projectId = :projectId', { projectId })
       .getMany();
 
     return schedules;
