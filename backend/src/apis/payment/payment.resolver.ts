@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql-user.parm';
 import { IamportService } from '../iamport/iamport.service';
@@ -52,5 +52,14 @@ export class PaymentResolver {
     @Args('paymentId') paymentId: string, //
   ) {
     return this.paymentService.findOne({ paymentId });
+  }
+
+  // 결제 정보 개수 가져오기(회원으로 검색)
+  @UseGuards(GqlAuthAccessGuard)
+  @Query(() => Int)
+  fetchPaymentsCount(
+    @CurrentUser('currentUser') CurrentUser: ICurrentUser, //
+  ) {
+    return this.paymentService.count({ user: CurrentUser.id });
   }
 }

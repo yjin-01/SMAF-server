@@ -65,4 +65,16 @@ export class QuestionBoardService {
     });
     return result.affected ? true : false;
   }
+
+  //QuestionBoard 개수 조회
+  async count() {
+    const [results, count] = await this.questionBoardRepository
+      .createQueryBuilder('QuestionBoard')
+      .leftJoinAndSelect('QuestionBoard.user', 'userId')
+      .getManyAndCount();
+
+    console.log(results);
+
+    return count;
+  }
 }
