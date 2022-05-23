@@ -1,5 +1,5 @@
 import { BadRequestException, UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql-user.parm';
 import { CreateQuestionBoardInput } from './dto/createQuestionBoard.input';
@@ -65,5 +65,11 @@ export class QuestionBoardResolver {
   @Mutation(() => Boolean)
   deleteQuestionBoard(@Args('boardId') boardId: string) {
     return this.questionBoardService.delete({ boardId });
+  }
+
+  //QuestionBoard 게시물 개수
+  @Query(() => Int)
+  fetchQuestionBoardsCount() {
+    return this.questionBoardService.count();
   }
 }
