@@ -38,6 +38,7 @@ export class Payment {
   status: string;
 
   @CreateDateColumn()
+  @Field(() => Date)
   createAt: Date;
 
   @ManyToOne(() => User)
