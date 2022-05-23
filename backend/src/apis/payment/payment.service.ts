@@ -36,21 +36,13 @@ export class PaymentService {
     amount,
     currentUser,
     status = PAYMENT_TRANSACTION_STATUS_ENUM.PAYMENT,
+    product_name,
   }) {
     const queryRunner = this.connection.createQueryRunner();
 
     await queryRunner.connect();
     await queryRunner.startTransaction('SERIALIZABLE');
     try {
-      const result = this.paymentRepository.create({
-        impUid,
-        amount,
-        user: currentUser.id,
-        status,
-      });
-      console.log(result);
-      await queryRunner.manager.save(result);
-
       const user = await queryRunner.manager.findOne(
         User,
         { userId: currentUser.id },
@@ -60,6 +52,19 @@ export class PaymentService {
         ...user,
         projectTicket: user.projectTicket + 1,
       });
+
+      if (!user) throw new BadRequestException('회원이 일치 하지 않습니다.');
+
+      const result = this.paymentRepository.create({
+        impUid,
+        amount,
+        user: currentUser.id,
+        status,
+        product_name,
+      });
+
+      await queryRunner.manager.save(result);
+
       await queryRunner.manager.save(updateUser);
 
       await queryRunner.commitTransaction();
