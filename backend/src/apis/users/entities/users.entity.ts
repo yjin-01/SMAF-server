@@ -44,11 +44,14 @@ export class User {
   admin: boolean;
 
   @CreateDateColumn()
+  @Field(() => Date)
   createAt: Date;
 
   @UpdateDateColumn()
+  @Field(() => Date)
   updateAt: Date;
 
   @DeleteDateColumn()
+  @Field(() => Date)
   deletedAt: Date;
 }

@@ -39,6 +39,7 @@ import { ProjectFileModule } from './apis/projectFile/projectFile.module';
       database: 'teamdatabase',
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
+      timezone: '-09:00',
       logging: true,
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
