@@ -65,7 +65,7 @@ export class ProjectParticipantResolver {
   @Mutation(() => ProjectParticipant)
   async createParticipant(
     @Args('email') email: string, //
-    @Args('projecId') projectId: string,
+    @Args('projectId') projectId: string,
   ) {
     return await this.projectParticipantService.create({
       email,
