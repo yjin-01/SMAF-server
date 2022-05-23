@@ -5,6 +5,7 @@ import 'dotenv/config';
 import * as dotenv from 'dotenv';
 import { graphqlUploadExpress } from 'graphql-upload';
 process.env.IMPORTCORS;
+// import * as cors from 'cors';
 dotenv.config();
 
 async function bootstrap() {
@@ -12,6 +13,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(graphqlUploadExpress());
   process.env.USECORS;
+  // app.use(cors());
   app.enableCors({
     origin: 'http://localhost:3000', //
     credentials: true,
