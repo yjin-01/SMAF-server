@@ -35,7 +35,7 @@ export class Schedule {
   @Field(() => Boolean)
   status: boolean;
 
-  @ManyToOne(() => ProcessCategory)
+  @ManyToOne(() => ProcessCategory, { onDelete: 'CASCADE' })
   @Field(() => ProcessCategory)
   processCategory: ProcessCategory;
 
