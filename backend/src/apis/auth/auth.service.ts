@@ -99,13 +99,35 @@ export class AuthService {
     });
     console.log(receiveList);
 
+    const template = `
+    <html>
+      <head>
+        <title>INVITION</title>
+        <style>
+          .box {
+          width: 300px;
+          height: 300px;
+          border: 1px solid black;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="box">
+        <div>초대장</div>
+        <a href="https://www.naver.com/%22%3E">네이버</a>
+        <p>임시초대장</p>
+        </div>
+      </body>
+    </html>
+    `;
+
     const result = await axios.post(
       `https://api-mail.cloud.toast.com/email/v2.0/appKeys/${appkey}/sender/mail`,
       {
         // body
         senderAddress: sender,
         title: `프로젝트 초대 메일`,
-        body: 'test',
+        body: template,
         receiverList: receiveList,
       },
       {
