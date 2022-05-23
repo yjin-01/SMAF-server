@@ -33,6 +33,7 @@ export class PaymentResolver {
       impUid,
       amount,
       currentUser,
+      product_name: '1회권',
     });
   }
 

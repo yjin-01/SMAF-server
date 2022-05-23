@@ -33,11 +33,16 @@ export class Payment {
   @Field(() => Int)
   amount: number;
 
+  @Column()
+  @Field(() => String)
+  product_name: string;
+
   @Column({ type: 'enum', enum: PAYMENT_TRANSACTION_STATUS_ENUM })
   @Field(() => PAYMENT_TRANSACTION_STATUS_ENUM)
   status: string;
 
   @CreateDateColumn()
+  @Field(() => Date)
   createAt: Date;
 
   @ManyToOne(() => User)
