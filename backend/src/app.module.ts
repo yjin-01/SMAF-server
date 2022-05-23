@@ -17,6 +17,7 @@ import { PaymentModule } from './apis/payment/payment.module';
 import { ScheduleModule } from './apis/schedule/schedule.module';
 import { ProjectParticipantModule } from './apis/projectParticipants/projectParticipant.module';
 import { ProjectFileModule } from './apis/projectFile/projectFile.module';
+import { ChatGateway } from './chat.gateway';
 
 @Module({
   imports: [
@@ -59,6 +60,6 @@ import { ProjectFileModule } from './apis/projectFile/projectFile.module';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ChatGateway],
 })
 export class AppModule {}
