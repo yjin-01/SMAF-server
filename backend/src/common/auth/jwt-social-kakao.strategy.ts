@@ -7,7 +7,7 @@ export class JwtKakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
   constructor() {
     super({
       clientID: process.env.KAKAO_CLIENT_ID,
-      callbackURL: process.env.KAKAO_CALLBACKURL,
+      callbackURL: 'https://backend.smaf.shop/kakao',
       scope: ['account_email', 'profile_nickname'],
     });
   }

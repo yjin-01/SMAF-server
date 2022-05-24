@@ -9,7 +9,7 @@ export class JwtNaverStrategy extends PassportStrategy(Strategy, 'naver') {
     super({
       clientID: process.env.NAVER_CLIENT_ID,
       clientSecret: process.env.NAVER_CLIENT_SECRET,
-      callbackURL: process.env.NAVER_CALLBACKURL,
+      callbackURL: 'https://backend.smaf.shop/naver',
     });
   }
 
