@@ -17,7 +17,7 @@ import { PaymentModule } from './apis/payment/payment.module';
 import { ScheduleModule } from './apis/schedule/schedule.module';
 import { ProjectParticipantModule } from './apis/projectParticipants/projectParticipant.module';
 import { ProjectFileModule } from './apis/projectFile/projectFile.module';
-//import { ChatGateway } from './chat.gateway';
+// import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -58,6 +58,8 @@ import { ProjectFileModule } from './apis/projectFile/projectFile.module';
       url: process.env.REDIS_URL,
       isGlobal: true,
     }),
+
+    // ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
