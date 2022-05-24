@@ -48,7 +48,7 @@ import { ProjectFileModule } from './apis/projectFile/projectFile.module';
       autoSchemaFile: 'src/common/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: process.env.CORSADDRESS,
+        origin: ['http://localhost:3000', 'https://backend.smaf.shop'],
         credentials: true,
       },
     }),

@@ -18,7 +18,7 @@ async function bootstrap() {
   process.env.USECORS;
   //app.use(cors());
   app.enableCors({
-    origin: 'http://localhost:3000', //
+    origin: ['http://localhost:3000', 'https://backend.smaf.shop'], //
     credentials: true,
   });
   await app.listen(3000);
