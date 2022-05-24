@@ -77,11 +77,20 @@ export class PaymentService {
   }
 
   //결제 정보 조회 - create 에서 pessimistic_write lock이기 때문에 일반 조회
-  async findAll({ CurrentUser }) {
-    const result = await this.paymentRepository.find({
-      where: { user: CurrentUser.id },
-      relations: ['user'],
-    });
+  async findAll({ userId, page }) {
+    // const result = await this.paymentRepository.find({
+    //   where: { user: CurrentUser.id },
+    //   relations: ['user'],
+    // });
+
+    const result = await this.paymentRepository
+      .createQueryBuilder('payment')
+      .leftJoinAndSelect('payment.user', 'userId')
+      .where('payment.user = :userId', { userId })
+      .skip((page - 1) * 5)
+      .take(5)
+      .getMany();
+
     return result;
   }
 

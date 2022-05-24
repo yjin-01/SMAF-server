@@ -42,11 +42,13 @@ export class PaymentResolver {
   @Query(() => [Payment])
   fetchPayments(
     @CurrentUser('currentUser') CurrentUser: ICurrentUser, //
+    @Args({ name: 'page', type: () => Int })
+    page: number, //
   ) {
-    return this.paymentService.findAll({ CurrentUser });
+    return this.paymentService.findAll({ userId: CurrentUser.id, page });
   }
 
-  // 결제정보 한 개만 불러오기
+  // 결제정보 한 개만 불러오기(회원 아이디 포함, 페이징네이션)
   @Query(() => Payment)
   fetchPayment(
     @Args('paymentId') paymentId: string, //

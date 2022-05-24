@@ -36,12 +36,14 @@ export class QuestionCommentService {
 
   //QuestionComment 전체 조회
   async findcomments({ questionBoardId }) {
-    return await this.questionCommentRepository.find({
+    const result = await this.questionCommentRepository.find({
       where: {
         questionBoard: questionBoardId,
       },
       relations: ['questionBoard', 'user'],
     });
+
+    return result;
   }
 
   //QuestionComment 조회

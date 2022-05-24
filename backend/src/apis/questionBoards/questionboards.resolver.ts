@@ -1,4 +1,3 @@
-import { integer } from '@elastic/elasticsearch/lib/api/types';
 import { BadRequestException, UseGuards } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql-auth.guard';
@@ -37,7 +36,10 @@ export class QuestionBoardResolver {
 
   //QuestionBoards 전체조회 // 추후 페이징 추가 예정
   @Query(() => [QuestionBoard])
-  fetchQuestionBoards(@Args('page') page: number) {
+  fetchQuestionBoards(
+    @Args({ name: 'page', type: () => Int })
+    page: number,
+  ) {
     return this.questionBoardService.findAll({ page });
   }
 

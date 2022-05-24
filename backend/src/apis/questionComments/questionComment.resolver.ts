@@ -1,5 +1,5 @@
 import { BadRequestException, UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql-user.parm';
 import { UserService } from '../users/user.service';
@@ -36,7 +36,9 @@ export class QuestionCommentResolver {
   }
   //QuestionComment 전체 조회(QuestionBoardId로 검색)
   @Query(() => [QuestionComment])
-  fetchQuestionComments(@Args('questionBoardId') questionBoardId: string) {
+  fetchQuestionComments(
+    @Args('questionBoardId') questionBoardId: string, //
+  ) {
     return this.questionCommentService.findcomments({ questionBoardId });
   }
 
