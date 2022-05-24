@@ -82,16 +82,24 @@ export class PaymentService {
     //   where: { user: CurrentUser.id },
     //   relations: ['user'],
     // });
+    console.log(page);
+    if (!page) {
+      return await this.paymentRepository.find({
+        where: { user: userId },
+        relations: ['user'],
+      });
+    }
+    if (page) {
+      const result = await this.paymentRepository
+        .createQueryBuilder('payment')
+        .leftJoinAndSelect('payment.user', 'userId')
+        .where('payment.user = :userId', { userId })
+        .skip((page - 1) * 5)
+        .take(5)
+        .getMany();
 
-    const result = await this.paymentRepository
-      .createQueryBuilder('payment')
-      .leftJoinAndSelect('payment.user', 'userId')
-      .where('payment.user = :userId', { userId })
-      .skip((page - 1) * 5)
-      .take(5)
-      .getMany();
-
-    return result;
+      return result;
+    }
   }
 
   // 결제 1건만 찾기

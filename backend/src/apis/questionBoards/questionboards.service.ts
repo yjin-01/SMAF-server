@@ -44,15 +44,20 @@ export class QuestionBoardService {
 
   //QuestionBoard 전체 조회
   async findAll({ page }) {
-    const result = await this.questionBoardRepository
-      .createQueryBuilder('QuestionBoard')
-      .leftJoinAndSelect('QuestionBoard.user', 'userId')
-      .orderBy('QuestionBoard.createAt', 'DESC')
-      .skip((page - 1) * 5)
-      .take(5)
-      .getMany();
+    if (!page) {
+      return await this.questionBoardRepository.find({ relations: ['user'] });
+    }
+    if (page) {
+      const result = await this.questionBoardRepository
+        .createQueryBuilder('QuestionBoard')
+        .leftJoinAndSelect('QuestionBoard.user', 'userId')
+        .orderBy('QuestionBoard.createAt', 'DESC')
+        .skip((page - 1) * 5)
+        .take(5)
+        .getMany();
 
-    return result;
+      return result;
+    }
   }
 
   //QuestionBoard update
