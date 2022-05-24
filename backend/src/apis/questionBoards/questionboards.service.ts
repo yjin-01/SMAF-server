@@ -44,12 +44,9 @@ export class QuestionBoardService {
 
   //QuestionBoard 전체 조회
   async findAll() {
-    return await this.questionBoardRepository.find();
-    // return await this.questionBoardRepository
-    //   .createQueryBuilder('questionBoard')
-    //   .leftJoinAndSelect('questionBoard.user', 'userId')
-    //   .skip(page * 5)
-    //   .take(5);
+    return await this.questionBoardRepository.find({
+      relations: ['user'],
+    });
   }
 
   //QuestionBoard update
