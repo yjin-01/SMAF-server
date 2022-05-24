@@ -47,12 +47,11 @@ export class ProjectResolver {
   @Mutation(() => Project)
   updateProject(
     @Args('projectId') projectId: string,
-    @Args('projectAddressId') projectAddressId: string,
+    //@Args('projectAddressId') projectAddressId: string,
     @Args('updateProjectInput') updateProjectInput: UpdateProjectInput,
   ) {
     return this.projectService.update({
       projectId,
-      projectAddressId,
       updateProjectInput,
     });
   }

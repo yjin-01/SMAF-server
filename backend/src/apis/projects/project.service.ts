@@ -152,17 +152,17 @@ export class ProjectService {
 
   // 수정
 
-  async update({ projectId, updateProjectInput, projectAddressId }) {
-    const { projectAddress, ...rest } = updateProjectInput;
-    const oldAddress = this.projectAddressRepository.findOne({
-      where: { address: projectAddressId },
-    });
+  async update({ projectId, updateProjectInput }) {
+    // const { projectAddress, ...rest } = updateProjectInput;
+    // const oldAddress = this.projectAddressRepository.findOne({
+    //   where: { address: projectAddressId },
+    // });
 
-    const newAddress = {
-      ...oldAddress,
-      ...projectAddress,
-    };
-    const updateAddress = this.projectAddressRepository.save(newAddress);
+    // const newAddress = {
+    //   ...oldAddress,
+    //   ...projectAddress,
+    // };
+    // const updateAddress = this.projectAddressRepository.save(newAddress);
     const project = await this.projectRepository
       .createQueryBuilder('project')
       .where('project.projectId = :projectId', { projectId })
@@ -171,8 +171,7 @@ export class ProjectService {
 
     const newProject = {
       ...project,
-      ...rest,
-      address: updateAddress,
+      ...updateProjectInput,
     };
 
     return await this.projectRepository.save(newProject);
