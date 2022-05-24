@@ -92,4 +92,13 @@ export class UserService {
 
     return user.admin ? true : new BadRequestException('권한이 없습니다.');
   }
+
+  //user table에서 이름 or 이메일로 검색
+  async findAny({ userOremail }) {
+    const result = await this.userRepository.query(
+      `select * from user where (userName like '%${userOremail}%' or email like '%${userOremail}%')`,
+    );
+
+    return result;
+  }
 }
