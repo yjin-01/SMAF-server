@@ -31,7 +31,7 @@ export class User {
   @Field(() => String)
   phone: string;
 
-  @Column({ default: 'https://i.ibb.co/s1P207V/noprofile.png' })
+  @Column({ default: 'https://i.ibb.co/PYBhzR8/noprofile.jpg' })
   @Field(() => String)
   userImageURL: string;
 
