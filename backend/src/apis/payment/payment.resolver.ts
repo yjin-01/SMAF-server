@@ -42,7 +42,7 @@ export class PaymentResolver {
   @Query(() => [Payment])
   fetchPayments(
     @CurrentUser('currentUser') CurrentUser: ICurrentUser, //
-    @Args({ name: 'page', type: () => Int, nullable: true, defaultValue: 1 })
+    @Args({ name: 'page', type: () => Int, nullable: true })
     page: number, //
   ) {
     return this.paymentService.findAll({ userId: CurrentUser.id, page });
