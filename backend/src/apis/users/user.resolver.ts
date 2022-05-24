@@ -39,11 +39,13 @@ export class UserResolver {
 
   // 회원이메일로 찾기
   @UseGuards(GqlAuthAccessGuard)
-  @Query(() => User)
+  @Query(() => [User])
   fetchUserEmail(
-    @Args('email') email: string, //
+    // @Args('email') email: string,
+    @Args('useroreamil') userOremail: string,
   ) {
-    return this.userService.findEmailAll({ email });
+    // return this.userService.findEmailAll({ email });
+    return this.userService.findAny({ userOremail });
   }
 
   // 회원 가입
