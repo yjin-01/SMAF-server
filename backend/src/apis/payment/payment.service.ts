@@ -95,4 +95,16 @@ export class PaymentService {
 
     return result;
   }
+
+  //결제 수 찾기
+  async count({ user }) {
+    //querybuilder로 사용
+    const [results, count] = await this.paymentRepository
+      .createQueryBuilder('payment')
+      .leftJoinAndSelect('payment.user', 'userId')
+      .where('payment.user = :user', { user: user })
+      .getManyAndCount();
+    console.log(results);
+    return count;
+  }
 }
