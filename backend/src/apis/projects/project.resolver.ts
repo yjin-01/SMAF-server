@@ -52,9 +52,8 @@ export class ProjectResolver {
   ) {
     return this.projectService.update({
       projectId,
-      projectAddressId
+      projectAddressId,
       updateProjectInput,
-
     });
   }
 
