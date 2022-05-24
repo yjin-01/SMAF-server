@@ -151,15 +151,16 @@ export class ProjectService {
   }
 
   // 수정
-  async update({ projectId, updateProjectInput }) {
-    const { address, ...rest } = updateProjectInput;
+
+  async update({ projectId, updateProjectInput, projectAddressId }) {
+    const { projectAddress, ...rest } = updateProjectInput;
     const oldAddress = this.projectAddressRepository.findOne({
-      where: { address: address.projectAddressId },
+      where: { address: projectAddressId },
     });
 
     const newAddress = {
       ...oldAddress,
-      ...address,
+      ...projectAddress,
     };
     const updateAddress = this.projectAddressRepository.save(newAddress);
     const project = await this.projectRepository
