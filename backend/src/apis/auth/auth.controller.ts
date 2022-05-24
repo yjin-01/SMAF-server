@@ -34,7 +34,7 @@ export class AuthController {
     }
 
     this.authService.setRefreshToken({ user, res });
-    res.redirect('http://localhost:3000/graphql');
+    res.redirect('http://localhost:3000/main');
   }
 
   @Get('login/kakao')
@@ -54,7 +54,7 @@ export class AuthController {
     }
 
     this.authService.setRefreshToken({ user, res });
-    res.redirect('http://localhost:3000/graphql');
+    res.redirect('http://localhost:3000/main');
   }
 
   @Get('login/naver')
@@ -74,8 +74,6 @@ export class AuthController {
     }
 
     this.authService.setRefreshToken({ user, res });
-    res.redirect(
-      'http://localhost:5500/f6b2-team5-server/frontend/login/index.html',
-    );
+    res.redirect('http://localhost:3000/main');
   }
 }
