@@ -7,18 +7,18 @@ import { graphqlUploadExpress } from 'graphql-upload';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 process.env.IMPORTCORS;
-import * as cors from 'cors';
+//import * as cors from 'cors';
 dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(graphqlUploadExpress());
-  app.useStaticAssets(join(__dirname, '..', 'static'));
+  //app.useStaticAssets(join(__dirname, '..', 'static'));
   process.env.USECORS;
-  app.use(cors());
+  //app.use(cors());
   app.enableCors({
-    origin: 'http://localhost:5501', //
+    origin: 'http://localhost:3000', //
     credentials: true,
   });
   await app.listen(3000);
