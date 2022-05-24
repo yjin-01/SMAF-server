@@ -153,7 +153,7 @@ export class ProjectService {
   // 수정
 
   async update({ projectId, updateProjectInput }) {
-    // const { projectAddress, ...rest } = updateProjectInput;
+    const { projectAddress, ...rest } = updateProjectInput;
     // const oldAddress = this.projectAddressRepository.findOne({
     //   where: { address: projectAddressId },
     // });
@@ -168,10 +168,22 @@ export class ProjectService {
       .where('project.projectId = :projectId', { projectId })
       .leftJoinAndSelect('project.address', 'projectAddress')
       .getOne();
+    console.log(project.address.projectAddressId);
+    console.log(projectAddress);
+    const oldAddress = await this.projectAddressRepository.findOne({
+      where: { projectAddressId: project.address.projectAddressId },
+    });
+    console.log(oldAddress);
+    const newAddress = {
+      ...oldAddress,
+      ...projectAddress,
+    };
+
+    await this.projectAddressRepository.save(newAddress);
 
     const newProject = {
       ...project,
-      ...updateProjectInput,
+      ...rest,
     };
 
     return await this.projectRepository.save(newProject);
