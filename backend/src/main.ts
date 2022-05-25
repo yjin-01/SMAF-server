@@ -17,7 +17,14 @@ async function bootstrap() {
   //app.useStaticAssets(join(__dirname, '..', 'static'));
   process.env.USECORS;
   //app.use(cors());
-  app.enableCors();
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'https://backend.smaf.shop',
+      'http://localhost:5500',
+    ],
+    credentials: true,
+  });
   await app.listen(3000);
 }
 bootstrap();
