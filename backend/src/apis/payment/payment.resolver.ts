@@ -29,12 +29,15 @@ export class PaymentResolver {
     //3. 받은 토큰으로 iamport 결제 정보와 DB 결제 정보 대조
     await this.iamportService.checkPaid({ impUid, amount, accessToken });
 
-    return this.paymentService.create({
+    const result = await this.paymentService.create({
       impUid,
       amount,
       currentUser,
       product_name: '1회권',
     });
+    //결제 등록시 오류가 나면 캔슬 진행
+    if (!result)
+      return this.iamportService.cancel({ impUid, token: accessToken });
   }
 
   //결제 정보 불러오기(회원으로 검색)
@@ -65,7 +68,7 @@ export class PaymentResolver {
     return this.paymentService.count({ user: CurrentUser.id });
   }
 
-  //결제 취소 하기
+  //결제 취소 하기 : 서버 에러 발생시
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
   async cancelPayment(
@@ -83,10 +86,10 @@ export class PaymentResolver {
     const result = await this.iamportService.cancel({ impUid, token });
     //3-3. payment에 취소 등록
     console.log(result);
-    return this.paymentService.cancel({
-      impUid: result.imp_uid,
-      amount: result.amount,
-      currentUser,
-    });
+    // return this.paymentService.cancel({
+    //   impUid: result.imp_uid,
+    //   amount: result.amount,
+    //   currentUser,
+    // });
   }
 }

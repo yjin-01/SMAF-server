@@ -65,7 +65,7 @@ export class IamportService {
       if (getCancelData.data.message) {
         throw new BadRequestException(getCancelData.data.message);
       }
-      return getCancelData.data.response;
+      const canceldata = getCancelData.data.response;
     } catch (err) {
       throw err;
     }
