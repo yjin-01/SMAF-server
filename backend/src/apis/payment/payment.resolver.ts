@@ -29,15 +29,13 @@ export class PaymentResolver {
     //3. 받은 토큰으로 iamport 결제 정보와 DB 결제 정보 대조
     await this.iamportService.checkPaid({ impUid, amount, accessToken });
 
-    const result = await this.paymentService.create({
+    return await this.paymentService.create({
       impUid,
       amount,
       currentUser,
       product_name: '1회권',
+      accessToken,
     });
-    //결제 등록시 오류가 나면 캔슬 진행
-    if (!result)
-      return this.iamportService.cancel({ impUid, token: accessToken });
   }
 
   //결제 정보 불러오기(회원으로 검색)
@@ -68,7 +66,7 @@ export class PaymentResolver {
     return this.paymentService.count({ user: CurrentUser.id });
   }
 
-  //결제 취소 하기 : 서버 에러 발생시
+  //결제 취소 하기 : 현재에는 취소하고 차감할 포인트가 없어서 사용 X
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
   async cancelPayment(
@@ -76,8 +74,10 @@ export class PaymentResolver {
     @CurrentUser('currentUser') currentUser: ICurrentUser, //
   ) {
     //1. impUid로 조회하여 cancel 되었는지 확인
+    await this.paymentService.checkAlreadyCanceled({ impUid });
     //2. 취소가능한 포인트를 조회하는 것인데 - 현재 프로젝트와는 성격이 맞지 않는다.
-    //기존 무료 프로젝트 1회권을 2개 주기도 하고, 결제한 기록은 있으나, 물건을 구매한 기록은 없다.
+    //기존 무료 프로젝트 1회권을 2개 주기도 하고, 결제한 기록은 있으나,
+    //상품을 구매한 기록은 없다.
 
     //3. 아임포트 취소 요청 시작
     //3-1. 토큰 발생
@@ -85,11 +85,11 @@ export class PaymentResolver {
     //3-2. 결제 취소
     const result = await this.iamportService.cancel({ impUid, token });
     //3-3. payment에 취소 등록
-    console.log(result);
-    // return this.paymentService.cancel({
-    //   impUid: result.imp_uid,
-    //   amount: result.amount,
-    //   currentUser,
-    // });
+
+    return this.paymentService.cancel({
+      impUid: result.imp_uid,
+      amount: result.amount,
+      currentUser,
+    });
   }
 }
