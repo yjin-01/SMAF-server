@@ -47,4 +47,22 @@ export class IamportService {
       }
     }
   }
+
+  // 결제 환불
+  async cancel({ impUid, token }) {
+    console.log('aaa');
+    // try {
+    //   const getCancelData = await axios({
+    //     url: 'https://api.iamport.kr/payments/cancel',
+    //     method: 'post',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: `${token}`, // 아임포트 서버로부터 발급받은 엑세스 토큰
+    //     },
+    //     data: {
+    //       imp_uid: `${impUid}`,
+    //     },
+    //   });
+    // } catch (err) {}
+  }
 }
