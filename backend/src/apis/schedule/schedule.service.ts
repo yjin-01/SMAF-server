@@ -43,6 +43,7 @@ export class ScheduleService {
         { processCategoryId },
       )
       .orderBy('schedule.createAt', 'DESC')
+      .addOrderBy('schedule.status', 'DESC')
       .getMany();
     return schedules;
   }
@@ -55,6 +56,7 @@ export class ScheduleService {
       .leftJoinAndSelect('schedule.project', 'project')
       .leftJoinAndSelect('schedule.user', 'user')
       .orderBy('schedule.createAt', 'DESC')
+      .addOrderBy('schedule.status', 'DESC')
       .where('schedule.project.projectId = :projectId', { projectId })
       .getMany();
 
