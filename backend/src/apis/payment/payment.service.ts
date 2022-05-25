@@ -82,18 +82,21 @@ export class PaymentService {
     //   where: { user: CurrentUser.id },
     //   relations: ['user'],
     // });
-    console.log(page);
+
     if (!page) {
-      return await this.paymentRepository.find({
-        where: { user: userId },
-        relations: ['user'],
-      });
+      return await this.paymentRepository
+        .createQueryBuilder('payment')
+        .leftJoinAndSelect('payment.user', 'userId')
+        .where('payment.user = :userId', { userId })
+        .orderBy('payment.createAt', 'DESC')
+        .getMany();
     }
     if (page) {
       const result = await this.paymentRepository
         .createQueryBuilder('payment')
         .leftJoinAndSelect('payment.user', 'userId')
         .where('payment.user = :userId', { userId })
+        .orderBy('payment.createAt', 'DESC')
         .skip((page - 1) * 5)
         .take(5)
         .getMany();

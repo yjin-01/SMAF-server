@@ -64,4 +64,22 @@ export class PaymentResolver {
   ) {
     return this.paymentService.count({ user: CurrentUser.id });
   }
+
+  //결제 취소 하기
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => Boolean)
+  async cancelPayment(
+    @Args('impUid') impUid: string, //
+    @CurrentUser('currentUser') currentUser: ICurrentUser, //
+  ) {
+    //1. impUid로 조회하여 cancel 되었는지 확인
+    //2. 취소가능한 포인트를 조회하는 것인데 - 현재 프로젝트와는 성격이 맞지 않는다.
+    //기존 무료 프로젝트 1회권을 2개 주기도 하고, 결제한 기록은 있으나, 물건을 구매한 기록은 없다.
+
+    //3. 아임포트 취소 요청 시작
+    //3-1. 토큰 발생
+    const token = await this.iamportService.getToken();
+    console.log(token);
+    this.iamportService.cancel({ impUid, token });
+  }
 }

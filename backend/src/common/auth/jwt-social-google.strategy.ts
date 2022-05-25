@@ -21,7 +21,7 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'google') {
       password: profile.id,
       userName: profile.displayName,
       phone: '12345',
-      userImageURL: 'asfd',
+      userImageURL: 'https://i.ibb.co/PYBhzR8/noprofile.jpg',
     };
   }
 }

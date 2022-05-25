@@ -17,7 +17,6 @@
     <script>
       function mypayment() {
         const myAmount = Number(document.getElementById("amount").value);
-
         const IMP = window.IMP; // 생략 가능
         IMP.init("imp35583537"); // Example: imp00000000
         IMP.request_pay(
@@ -54,11 +53,10 @@
                 {
                   headers: {
                     authorization:
-                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJAYi5jb20iLCJzdWIiOiI4YWYwZDBiZC0zYTFmLTQwMzgtYWMxYS1lMWVkNGE5YzljNTkiLCJuYW1lIjoi6rSA66as7J6QIiwiaWF0IjoxNjUzMjc0MjA5LCJleHAiOjE2NTMzNjA2MDl9.W6sidqqTl9AzHmssNGcNUxLEynMqK6AKd3y5MIdvj2",
+                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJAYi5jb20iLCJzdWIiOiI4YWYwZDBiZC0zYTFmLTQwMzgtYWMxYS1lMWVkNGE5YzljNTkiLCJuYW1lIjoi6rSA66as7J6QIiwiaWF0IjoxNjUzNDQ2Mjg4LCJleHAiOjE2NTM0NTM0ODh9.XDp8uYGNvCAMT_eMRPqKqS3UGL9BOYc0PWi1G_AON_c",
                   },
                 }
               );
-
               console.log(data);
             } else {
               // 결제 실패시
