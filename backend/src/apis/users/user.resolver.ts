@@ -42,7 +42,7 @@ export class UserResolver {
   @Query(() => [User])
   fetchUserEmail(
     // @Args('email') email: string,
-    @Args('userormail') userOremail: string,
+    @Args('userOremail') userOremail: string,
   ) {
     // return this.userService.findEmailAll({ email });
     return this.userService.findAny({ userOremail });
