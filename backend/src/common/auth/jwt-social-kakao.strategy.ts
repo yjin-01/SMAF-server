@@ -22,7 +22,7 @@ export class JwtKakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
       password: profile.id,
       userName: profile.username,
       phone: '12345',
-      userImageURL: 'asfd',
+      userImageURL: 'https://i.ibb.co/PYBhzR8/noprofile.jpg',
     };
   }
 }

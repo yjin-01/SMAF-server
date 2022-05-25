@@ -24,7 +24,7 @@ export class JwtNaverStrategy extends PassportStrategy(Strategy, 'naver') {
       password: '1111',
       userName: profile.name,
       phone: profile.mobile,
-      userImageURL: 'asfd',
+      userImageURL: 'https://i.ibb.co/PYBhzR8/noprofile.jpg',
     };
   }
 }

@@ -55,8 +55,19 @@ export class QuestionCommentService {
   }
 
   //QuestionComment 업데이트
+  async update({ questionCommentId, updateQuestionCommentInput }) {
+    const IsquestionComment = await this.questionCommentRepository
+      .createQueryBuilder('questionComment')
+      .leftJoinAndSelect('questionComment.questionBoard', 'question')
+      .leftJoinAndSelect('questionComment.user', 'userId')
+      .where('questionComment.questionCommentId = :questionCommentId', {
+        questionCommentId,
+      })
+      .getOne();
 
-  async update({ IsquestionComment, updateQuestionCommentInput }) {
+    if (!IsquestionComment)
+      throw new BadRequestException('찾으시는 답변게시물이 없습니다.');
+
     const newquestionComment = {
       ...IsquestionComment,
       ...updateQuestionCommentInput,

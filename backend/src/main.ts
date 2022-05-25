@@ -17,10 +17,7 @@ async function bootstrap() {
   //app.useStaticAssets(join(__dirname, '..', 'static'));
   process.env.USECORS;
   //app.use(cors());
-  app.enableCors({
-    origin: 'http://localhost:3000', //
-    credentials: true,
-  });
+  app.enableCors();
   await app.listen(3000);
 }
 bootstrap();
