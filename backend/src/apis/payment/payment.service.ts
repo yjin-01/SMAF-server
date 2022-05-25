@@ -66,11 +66,11 @@ export class PaymentService {
       await queryRunner.manager.save(result);
 
       await queryRunner.manager.save(updateUser);
-
       await queryRunner.commitTransaction();
       return result;
     } catch (err) {
       await queryRunner.rollbackTransaction();
+      return false;
     } finally {
       await queryRunner.release();
     }
