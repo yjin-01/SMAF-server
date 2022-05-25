@@ -127,4 +127,27 @@ export class PaymentService {
     console.log(results);
     return count;
   }
+
+  //cancel 등록
+  async cancel({
+    impUid,
+    amount,
+    product_name = '1회권',
+    status = PAYMENT_TRANSACTION_STATUS_ENUM.CANCEL,
+    currentUser,
+  }) {
+    const user = await this.userRepository.findOne({
+      where: {
+        userId: currentUser.id,
+      },
+    });
+    const result = this.paymentRepository.create({
+      impUid,
+      amount: -amount,
+      product_name,
+      status,
+      user: user,
+    });
+    return await this.paymentRepository.save(result);
+  }
 }
