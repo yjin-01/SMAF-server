@@ -3,7 +3,7 @@ version: '3.7'
 services:
   team-backend:
     platform: linux/x86_64
-    image: asia.gcr.io/ultra-current-349908/team-backend:19.2
+    image: asia.gcr.io/ultra-current-349908/team-backend:19.3
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,6 +13,7 @@ services:
     #   - ./src:/teamproject/src
     ports:
       - 3000:3000
+      - 81:81
 
   # team-database:
   #   image: mysql:latest

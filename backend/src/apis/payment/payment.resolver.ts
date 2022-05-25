@@ -79,7 +79,14 @@ export class PaymentResolver {
     //3. 아임포트 취소 요청 시작
     //3-1. 토큰 발생
     const token = await this.iamportService.getToken();
-    console.log(token);
-    this.iamportService.cancel({ impUid, token });
+    //3-2. 결제 취소
+    const result = await this.iamportService.cancel({ impUid, token });
+    //3-3. payment에 취소 등록
+    console.log(result);
+    return this.paymentService.cancel({
+      impUid: result.imp_uid,
+      amount: result.amount,
+      currentUser,
+    });
   }
 }
