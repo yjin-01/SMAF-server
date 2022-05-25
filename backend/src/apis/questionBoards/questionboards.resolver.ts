@@ -21,7 +21,6 @@ export class QuestionBoardResolver {
     createQuestionBoardInput: CreateQuestionBoardInput, //
     @CurrentUser('currentUser') currentUser: ICurrentUser,
   ) {
-    console.log(currentUser);
     return this.questionBoardService.create({
       createQuestionBoardInput,
       currentUser,
@@ -34,7 +33,7 @@ export class QuestionBoardResolver {
     return this.questionBoardService.findOne({ questionBoardId });
   }
 
-  //QuestionBoards 전체조회 // 추후 페이징 추가 예정
+  //QuestionBoards 전체조회 // 페이징네이션
   @Query(() => [QuestionBoard])
   fetchQuestionBoards(
     @Args({ name: 'page', type: () => Int, nullable: true })
@@ -43,23 +42,15 @@ export class QuestionBoardResolver {
     return this.questionBoardService.findAll({ page });
   }
 
-  //QuestionBoard 업데이트
+  //QuestionBoard 업데이트 // 작성자 확인은 추후 예정
   @Mutation(() => QuestionBoard)
   async updateQuestionBoard(
     @Args('questionBoardID') questionBoardId: string,
     @Args('updatequestionBoardInput')
     updateQuestionBoardInput: UpdateQuestionBoardInput,
   ) {
-    const IsquestionBoard = await this.questionBoardService.findOne({
-      questionBoardId,
-    });
-
-    if (!IsquestionBoard) {
-      throw new BadRequestException('해당게시물이 존재하지 않습니다.');
-    }
-
     return this.questionBoardService.update({
-      IsquestionBoard,
+      questionBoardId,
       updateQuestionBoardInput,
     });
   }

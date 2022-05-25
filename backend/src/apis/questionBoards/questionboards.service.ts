@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/users.entity';
@@ -21,11 +21,7 @@ export class QuestionBoardService {
         userId: currentUser.id,
       },
     });
-    // const questionBoard = this.questionBoardRepository.create({
-    //   ...createQuestionBoardInput,
-    //   user: user.userId,
-    // });
-    // console.log(questionBoard);
+
     const result = await this.questionBoardRepository.save({
       ...createQuestionBoardInput,
       user: user,
@@ -45,7 +41,11 @@ export class QuestionBoardService {
   //QuestionBoard 전체 조회
   async findAll({ page }) {
     if (!page) {
-      return await this.questionBoardRepository.find({ relations: ['user'] });
+      return await this.questionBoardRepository
+        .createQueryBuilder('QuestionBoard')
+        .leftJoinAndSelect('QuestionBoard.user', 'userId')
+        .orderBy('QuestionBoard.createAt', 'DESC')
+        .getMany();
     }
     if (page) {
       const result = await this.questionBoardRepository
@@ -61,7 +61,19 @@ export class QuestionBoardService {
   }
 
   //QuestionBoard update
-  async update({ IsquestionBoard, updateQuestionBoardInput }) {
+  async update({ questionBoardId, updateQuestionBoardInput }) {
+    const IsquestionBoard = await this.questionBoardRepository
+      .createQueryBuilder('questionBoard')
+      .leftJoinAndSelect('questionBoard.user', 'userId')
+      .where('questionBoard.questionBoardId = :questionBoardId', {
+        questionBoardId,
+      })
+      .getOne();
+
+    if (!IsquestionBoard) {
+      throw new BadRequestException('해당게시물이 존재하지 않습니다.');
+    }
+
     const newquestionBoard = {
       ...IsquestionBoard,
       ...updateQuestionBoardInput,

@@ -56,15 +56,8 @@ export class QuestionCommentResolver {
       userId: currentUser.id,
     });
 
-    //수정할 답변이 있는지 조회
-    const IsquestionComment = await this.questionCommentService.findOne({
-      questionCommentId,
-    });
-    if (!IsquestionComment)
-      throw new BadRequestException('찾으시는 답변게시물이 없습니다.');
-
     return this.questionCommentService.update({
-      IsquestionComment,
+      questionCommentId,
       updateQuestionCommentInput,
     });
   }
