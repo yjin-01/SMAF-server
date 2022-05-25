@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
+import { IamportService } from '../iamport/iamport.service';
 import { User } from '../users/entities/users.entity';
 import {
   Payment,
@@ -15,6 +16,8 @@ export class PaymentService {
 
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    private readonly iamportService: IamportService, //
 
     private readonly connection: Connection,
   ) {}
@@ -37,6 +40,7 @@ export class PaymentService {
     currentUser,
     status = PAYMENT_TRANSACTION_STATUS_ENUM.PAYMENT,
     product_name,
+    accessToken,
   }) {
     const queryRunner = this.connection.createQueryRunner();
 
@@ -64,13 +68,23 @@ export class PaymentService {
       });
 
       await queryRunner.manager.save(result);
-
       await queryRunner.manager.save(updateUser);
       await queryRunner.commitTransaction();
       return result;
     } catch (err) {
+      // payment 생성 중 에러가 발생할 경우
+      //프론트에서 결제를 성공했다는 가정하에 결제 취소 시도
+      //결제 취소 없을 경우 에러로 마감
       await queryRunner.rollbackTransaction();
-      return false;
+      const result = await this.iamportService.cancel({
+        impUid,
+        token: accessToken,
+      });
+      return this.cancel({
+        impUid: result.imp_uid,
+        amount: result.amount,
+        currentUser,
+      });
     } finally {
       await queryRunner.release();
     }
@@ -149,5 +163,16 @@ export class PaymentService {
       user: user,
     });
     return await this.paymentRepository.save(result);
+  }
+
+  //이미 취소된 건인지 확인
+  async checkAlreadyCanceled({ impUid }) {
+    const result = await this.paymentRepository.findOne({
+      where: {
+        impUid: impUid,
+        status: PAYMENT_TRANSACTION_STATUS_ENUM.CANCEL,
+      },
+    });
+    if (result) throw new BadRequestException('이미 취소된 결제 입니다.');
   }
 }
