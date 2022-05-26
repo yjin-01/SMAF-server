@@ -50,11 +50,12 @@ export class ProjectParticipantService {
 
   // userId로 조회(참여중인 목록)
   async findActivatedProject({ userId }) {
+    console.log('In Service:', userId);
     const projects = await this.projectParticipantRepository
       .createQueryBuilder('projectParticipant')
       .leftJoinAndSelect('projectParticipant.project', 'project')
       .leftJoinAndSelect('projectParticipant.user', 'user')
-      .where('projectParticipant.user = :user', { user: userId })
+      .where('projectParticipant.userUserId = :userId', { userId: userId })
       .andWhere('project.status = :status', { status: true })
       .orderBy('projectParticipant.createdAt', 'DESC')
       .getMany();
