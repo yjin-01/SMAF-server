@@ -40,6 +40,7 @@ export class ProjectParticipantResolver {
   async fetchActivatedProject(
     @CurrentUser() currentUser: ICurrentUser, //
   ) {
+    console.log('In Resolver:', currentUser.id);
     const result = await this.projectParticipantService.findActivatedProject({
       userId: currentUser.id,
     });
