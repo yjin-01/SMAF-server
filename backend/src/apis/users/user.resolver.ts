@@ -14,38 +14,38 @@ export class UserResolver {
   // 전체 회원 목록 조회
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [User])
-  fetchUsers() {
-    return this.userService.findAll();
+  async fetchUsers() {
+    return await this.userService.findAll();
   }
 
   // 전체 회원 목록 조회
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => User)
-  fetchLoginUser(
+  async fetchLoginUser(
     @CurrentUser() currentUser: ICurrentUser, //
   ) {
     console.log(currentUser.email);
-    return this.userService.findEmailAll({ email: currentUser.email });
+    return await this.userService.findEmailAll({ email: currentUser.email });
   }
 
   // 회원아이디로 회원 찾기
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => User)
-  fetchUser(
+  async fetchUser(
     @Args('userId') userId: string, //
   ) {
-    return this.userService.findOne({ userId });
+    return await this.userService.findOne({ userId });
   }
 
   // 회원이메일로 찾기
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [User])
-  fetchUserEmail(
+  async fetchUserEmail(
     // @Args('email') email: string,
     @Args('userOremail') userOremail: string,
   ) {
     // return this.userService.findEmailAll({ email });
-    return this.userService.findAny({ userOremail });
+    return await this.userService.findAny({ userOremail });
   }
 
   // 회원 가입
@@ -77,9 +77,9 @@ export class UserResolver {
   // 회원 삭제
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
-  deleteUser(
+  async deleteUser(
     @Args('email') email: string, //
   ) {
-    return this.userService.delete({ email });
+    return await this.userService.delete({ email });
   }
 }

@@ -12,34 +12,37 @@
       crossorigin="anonymous"
     ></script>
     <!-- socket.io -->
-    <script src="http://localhost:81/socket.io/socket.io.js"></script>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script>
-      const socket = io('http://localhost:81/chat');
+      // 📌  서버랑연결하는 곳
+      const socket = io('http://localhost:3000/chattings');
       const nickname = prompt('닉네임을 알려주세요.');
       const room = prompt('입장할 방의 코드를 적어주세요.');
       if (!(nickname && room)) {
         alert('다시 입력해주세요.');
         window.location.reload();
       }
-      socket.emit('hihi', nickname, room);
+
+      // 📌
+      socket.emit('join', nickname, room);
 
       socket.on('connect', () => {
-        /* 누군가 채팅침 */
+        // 📌 누군가 채팅침
         socket.on(room, (data) => {
           $('#chatList').append(`<div>${data[0]} : ${data[1]}</div>`);
         });
-        /* 누군가 입장 */
+        // 📌 누군가 입장
         socket.on('comeOn' + room, (comeOn) => {
           $('#chatList').append(`<div style="color:blue;">${comeOn}</div>`);
         });
       });
 
-      function msg_send() {
-        /* 메시지 전송 */
+      // 📌 메세지 전송
+      function submit_chat() {
         let message = $('#msg').val();
-        socket.emit('send', room, nickname, message);
+        socket.emit('submit_chat', room, nickname, message);
         $('#msg').val('');
-        $('#chatList').append(`<div style="color:red;">나 : ${message}</div>`);
+        $('#chatList').append(`<div style="color:red;">나 : ${message}</div>`); // 중복
       }
 
       $(document).ready(() => {
@@ -48,17 +51,13 @@
     </script>
   </head>
   <body>
-    <h1>시크릿 채팅방 <span id="room" style="font-size: large"></span></h1>
+    <h1>까까오똑<span id="room" style="font-size: large"></span></h1>
 
     <div id="chatList"></div>
 
     <div id="sendMessage" style="position: fixed; bottom: 5%">
-      <input
-        type="text"
-        id="msg"
-        onKeyPress="if( event.keyCode==13 ){msg_send();}"
-      />
-      <button onclick="msg_send()">제출</button>
+      <input type="text" id="msg" />
+      <button onclick="submit_chat()">제출</button>
     </div>
   </body>
 </html>
