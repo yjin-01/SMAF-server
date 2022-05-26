@@ -14,7 +14,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(graphqlUploadExpress());
-  //app.useStaticAssets(join(__dirname, '..', 'static'));
+  app.useStaticAssets(join(__dirname, '..', 'static'));
   process.env.USECORS;
   //app.use(cors());
   app.enableCors({

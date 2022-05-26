@@ -74,11 +74,11 @@ export class ProjectParticipantService {
       .andWhere('project.status = :status', { status: false });
 
     if (standard === '최신순') {
-      projects = projects
+      projects = await projects
         .orderBy('projectParticipant.createdAt', 'DESC')
         .getMany();
     } else if (standard === '과거순') {
-      projects = projects
+      projects = await projects
         .orderBy('projectParticipant.createdAt', 'ASC')
         .getMany();
     }
