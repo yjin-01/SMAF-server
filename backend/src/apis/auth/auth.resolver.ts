@@ -130,7 +130,13 @@ export class AuthResolver {
     @CurrentUser() currentUser: ICurrentUser, //
   ) {
     console.log('⭐️', currentUser);
-    return this.authService.getAccessToken({ user: currentUser });
+    return this.authService.getAccessToken({
+      user: {
+        userId: currentUser.id,
+        email: currentUser.email,
+        name: currentUser.name,
+      },
+    });
   }
 
   // 인증번호 생성 후 전송
