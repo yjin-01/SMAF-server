@@ -28,7 +28,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
     const isAccessToken = await this.cacheManager.get(
       `accessToken:${accessToken}`,
     );
-    // console.log('!!', req);
+    console.log('In Access Strategy:', payload);
     if (isAccessToken) throw new BadRequestException('로그인 해주세요!!');
 
     return {
