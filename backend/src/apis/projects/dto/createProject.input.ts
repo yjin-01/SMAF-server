@@ -15,7 +15,7 @@ export class CreateProjectInput {
   @Field(() => String, { nullable: true })
   projectImageURL: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   projectColor: string;
 
   @Field(() => Date)
@@ -24,6 +24,6 @@ export class CreateProjectInput {
   @Field(() => Date)
   endDate: Date;
 
-  @Field(() => ProjectAddressInput)
+  @Field(() => ProjectAddressInput, { nullable: true })
   projectAddress: ProjectAddressInput;
 }
