@@ -154,15 +154,6 @@ export class ProjectService {
 
   async update({ projectId, updateProjectInput }) {
     const { projectAddress, ...rest } = updateProjectInput;
-    // const oldAddress = this.projectAddressRepository.findOne({
-    //   where: { address: projectAddressId },
-    // });
-
-    // const newAddress = {
-    //   ...oldAddress,
-    //   ...projectAddress,
-    // };
-    // const updateAddress = this.projectAddressRepository.save(newAddress);
     const project = await this.projectRepository
       .createQueryBuilder('project')
       .where('project.projectId = :projectId', { projectId })
@@ -178,13 +169,13 @@ export class ProjectService {
       ...oldAddress,
       ...projectAddress,
     };
-
-    await this.projectAddressRepository.save(newAddress);
+    console.log(newAddress);
+    const address = await this.projectAddressRepository.save(newAddress);
 
     const newProject = {
       ...project,
       ...rest,
-      address: newAddress,
+      address,
     };
 
     return await this.projectRepository.save(newProject);
