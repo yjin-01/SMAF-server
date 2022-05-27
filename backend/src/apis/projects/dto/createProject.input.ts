@@ -24,6 +24,6 @@ export class CreateProjectInput {
   @Field(() => Date)
   endDate: Date;
 
-  @Field(() => ProjectAddressInput, { nullable: true })
+  @Field(() => ProjectAddressInput)
   projectAddress: ProjectAddressInput;
 }
