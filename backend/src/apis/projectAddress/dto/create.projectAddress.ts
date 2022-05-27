@@ -1,9 +1,10 @@
-import { InputType, OmitType } from '@nestjs/graphql';
-import { ProjectAddress } from '../entities/projectAddress.entity';
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class ProjectAddressInput extends OmitType(
-  ProjectAddress,
-  ['projectAddressId'],
-  InputType,
-) {}
+export class ProjectAddressInput {
+  @Field(() => String, { nullable: true })
+  address: string;
+
+  @Field(() => String, { nullable: true })
+  detailAddress: string;
+}

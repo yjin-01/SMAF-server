@@ -9,10 +9,10 @@ export class ProjectAddress {
   projectAddressId: string;
 
   @Column({ default: '' })
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   address: string;
 
   @Column({ default: '' })
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   detailAddress: string;
 }
