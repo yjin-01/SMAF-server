@@ -184,6 +184,7 @@ export class ProjectService {
     const newProject = {
       ...project,
       ...rest,
+      address: newAddress,
     };
 
     return await this.projectRepository.save(newProject);
