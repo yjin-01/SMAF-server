@@ -8,11 +8,11 @@ export class ProjectAddress {
   @Field(() => String)
   projectAddressId: string;
 
-  @Column()
+  @Column({ default: '' })
   @Field(() => String)
   address: string;
 
-  @Column()
+  @Column({ default: '' })
   @Field(() => String)
   detailAddress: string;
 }

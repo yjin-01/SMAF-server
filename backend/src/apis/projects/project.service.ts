@@ -126,7 +126,7 @@ export class ProjectService {
 
       const newUser = await queryRunner.manager.save(createProject);
 
-      console.log('🍄🍄🍄🍄', saveProject[0]);
+      console.log('🍄🍄🍄🍄', saveProject);
 
       console.log('⭐️⭐️⭐️⭐️', newUser);
 
