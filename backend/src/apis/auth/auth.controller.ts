@@ -4,7 +4,6 @@ import { User } from '../users/entities/users.entity';
 import { UserService } from '../users/user.service';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
-import * as bcrypt from 'bcrypt';
 
 interface IOAuthUser {
   user: Pick<User, 'email' | 'password' | 'userName'>;
@@ -23,18 +22,7 @@ export class AuthController {
     @Req() req: Request & IOAuthUser, //
     @Res() res: Response,
   ) {
-    const user = await this.userService.findEmail({ email: req.user.email });
-
-    if (!user) {
-      const { password, ...rest } = req.user;
-      const hashedPassword = await bcrypt.hash(req.user.password, 10);
-      const createUserInput = { ...rest, password: hashedPassword };
-
-      const newUser = await this.userService.create({ createUserInput });
-    }
-
-    this.authService.setRefreshToken({ user, res });
-    res.redirect('http://localhost:3000/main');
+    return await this.authService.socialLogin({ res, req });
   }
 
   @Get('kakao')
@@ -43,18 +31,7 @@ export class AuthController {
     @Req() req: Request & IOAuthUser, //
     @Res() res: Response,
   ) {
-    const user = await this.userService.findEmail({ email: req.user.email });
-
-    if (!user) {
-      const { password, ...rest } = req.user;
-      const hashedPassword = await bcrypt.hash(req.user.password, 10);
-      const createUserInput = { ...rest, password: hashedPassword };
-
-      const newUser = await this.userService.create({ createUserInput });
-    }
-
-    this.authService.setRefreshToken({ user, res });
-    res.redirect('http://localhost:3000/main');
+    return await this.authService.socialLogin({ res, req });
   }
 
   @Get('naver')
@@ -63,17 +40,6 @@ export class AuthController {
     @Req() req: Request & IOAuthUser, //
     @Res() res: Response,
   ) {
-    const user = await this.userService.findEmail({ email: req.user.email });
-
-    if (!user) {
-      const { password, ...rest } = req.user;
-      const hashedPassword = await bcrypt.hash(req.user.password, 10);
-      const createUserInput = { ...rest, password: hashedPassword };
-
-      const newUser = await this.userService.create({ createUserInput });
-    }
-
-    this.authService.setRefreshToken({ user, res });
-    res.redirect('http://localhost:3000/main');
+    return await this.authService.socialLogin({ res, req });
   }
 }
