@@ -13,7 +13,6 @@ export class ScheduleResolver {
     private readonly scheduleService: ScheduleService, //
   ) {}
 
-  //세부일정 전체 조회
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [Schedule])
   async fetchSchedules() {

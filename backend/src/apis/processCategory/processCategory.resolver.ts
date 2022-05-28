@@ -9,16 +9,14 @@ export class ProcessCategoryResolver {
   constructor(
     private readonly processCategoryService: ProcessCategoryService,
   ) {}
-  // 카테고리 조회
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [ProcessCategory])
   async fetchProcessCategories(
     @Args('projectId') projectId: string, //
   ) {
-    return await this.processCategoryService.find({ projectId });
+    return await this.processCategoryService.findAll({ projectId });
   }
 
-  // 카테고리 조회(categoryId 사용)
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [ProcessCategory])
   async fetchprocessCategory(
@@ -27,7 +25,6 @@ export class ProcessCategoryResolver {
     return await this.processCategoryService.findOne({ processCategoryId });
   }
 
-  // 카테고리 생성
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => ProcessCategory)
   async createProcessCategory(
@@ -37,7 +34,6 @@ export class ProcessCategoryResolver {
     return await this.processCategoryService.create({ processName, projectId });
   }
 
-  // 카테고리 수정
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => ProcessCategory)
   async updateProcessCategory(
@@ -50,7 +46,6 @@ export class ProcessCategoryResolver {
     });
   }
 
-  // 카테고리 삭제
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
   async deleteProcessCategory(

@@ -18,7 +18,7 @@ export class ScheduleService {
     @InjectRepository(ProcessCategory)
     private readonly processCategoryRepository: Repository<ProcessCategory>,
   ) {}
-  // 전체조회
+
   async findAll() {
     const schedules = await this.scheduleRepository
       .createQueryBuilder('schedule')
@@ -26,7 +26,6 @@ export class ScheduleService {
       .leftJoinAndSelect('schedule.project', 'project')
       .leftJoinAndSelect('schedule.user', 'user')
       .getMany();
-    console.log(schedules);
 
     return schedules;
   }

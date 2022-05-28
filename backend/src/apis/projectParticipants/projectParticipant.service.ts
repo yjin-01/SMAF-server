@@ -20,7 +20,6 @@ export class ProjectParticipantService {
     private readonly projectRepository: Repository<Project>,
   ) {}
 
-  // projectId로 조회
   async findParticipatingUser({ projectId }) {
     const participants = await this.projectParticipantRepository
       .createQueryBuilder('projectParticipant')
@@ -34,7 +33,6 @@ export class ProjectParticipantService {
     return participants;
   }
 
-  // userId로 조회(전체 목록)
   async findParticipatingProject({ userId }) {
     const projects = await this.projectParticipantRepository
       .createQueryBuilder('projectParticipant')
@@ -44,11 +42,9 @@ export class ProjectParticipantService {
       .leftJoinAndSelect('projectParticipant.user', 'user')
       .getMany();
 
-    console.log(projects);
     return projects;
   }
 
-  // userId로 조회(참여중인 목록)
   async findActivatedProject({ userId }) {
     console.log('In Service:', userId);
     const projects = await this.projectParticipantRepository
@@ -60,13 +56,11 @@ export class ProjectParticipantService {
       .orderBy('projectParticipant.createdAt', 'DESC')
       .getMany();
 
-    console.log(projects);
     return projects;
   }
 
-  // userId로 조회(끝난 목록)
   async findInactivatedProject({ userId, standard }) {
-    let projects;
+    let projects: any;
     projects = this.projectParticipantRepository
       .createQueryBuilder('projectParticipant')
       .leftJoinAndSelect('projectParticipant.project', 'project')
@@ -84,11 +78,9 @@ export class ProjectParticipantService {
         .getMany();
     }
 
-    console.log(projects);
     return projects;
   }
 
-  // 생성
   async create({ email, projectId }) {
     const user = await this.userRepository.findOne({
       where: { email: email },
@@ -106,11 +98,9 @@ export class ProjectParticipantService {
         relations: ['project', 'user'],
       },
     );
-    console.log(existingParticipant);
+
     if (existingParticipant)
       throw new BadRequestException('이미 참여중인 회원입니다.');
-
-    console.log(project);
 
     if (!project)
       throw new BadRequestException('일치하는 프로젝트가 없습니다.');
@@ -124,7 +114,6 @@ export class ProjectParticipantService {
     return participant;
   }
 
-  // 수정
   async update({ isActivated, projectParticipantId }) {
     const participant = await this.projectParticipantRepository
       .createQueryBuilder('projectParticipant')

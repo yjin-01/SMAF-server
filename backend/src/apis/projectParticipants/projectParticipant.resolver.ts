@@ -12,7 +12,6 @@ export class ProjectParticipantResolver {
     private readonly projectParticipantService: ProjectParticipantService,
   ) {}
 
-  // 프로젝트별 조회
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [ProjectParticipant])
   async fetchParticipatingUser(
@@ -23,7 +22,6 @@ export class ProjectParticipantResolver {
     });
   }
 
-  // 회원별 조회(전체 출력)
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [ProjectParticipant])
   async fetchParticipatingProject(
@@ -34,21 +32,16 @@ export class ProjectParticipantResolver {
     });
   }
 
-  //회원의 진행중인 프로젝트 조회
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [ProjectParticipant])
   async fetchActivatedProject(
     @CurrentUser() currentUser: ICurrentUser, //
   ) {
-    console.log('In Resolver:', currentUser);
     const result = await this.projectParticipantService.findActivatedProject({
       userId: currentUser.id,
     });
-    console.log('🔴🔴🔴🔴', result);
     return result;
   }
-
-  // 회원의 끝난 프로젝트 조회
 
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [ProjectParticipant])
@@ -62,7 +55,6 @@ export class ProjectParticipantResolver {
     });
   }
 
-  // 참여회원 생성
   @Mutation(() => ProjectParticipant)
   async createParticipant(
     @Args('email') email: string, //
@@ -74,7 +66,6 @@ export class ProjectParticipantResolver {
     });
   }
 
-  // 참여회원 수정
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => ProjectParticipant)
   async updateParticipant(
@@ -87,7 +78,6 @@ export class ProjectParticipantResolver {
     });
   }
 
-  // 참여회원 삭제
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
   async deleteParticipant(

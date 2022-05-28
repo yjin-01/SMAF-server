@@ -2,9 +2,6 @@ import { Logger } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
-  OnGatewayConnection,
-  OnGatewayDisconnect,
-  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -22,28 +19,6 @@ export class ChatGateway {
   server: Server;
 
   wsClients = [];
-
-  // private logger = new Logger('chat');
-
-  // // 가장 먼저 실행 1
-  // constructor() {
-  //   this.logger.log('constructor');
-  // }
-
-  // // 연결이 되는 순간 실행 3
-  // handleConnection(@ConnectedSocket() socket: Socket) {
-  //   this.logger.log(`connect:  ${socket.id} ${socket.nsp.name}`);
-  // } // 커넥션 후 이벤트 발생
-
-  // // 초기화 후 바로 실행(constructor 후 바로 실행) 2
-  // // afterInit(server: any) {
-  // //   this.logger.log('init');
-  // // }
-
-  // // 연결이 중단되면 실행
-  // handleDisconnect(@ConnectedSocket() socket: Socket) {
-  //   this.logger.log(`disconnect:  ${socket.id} ${socket.nsp.name}`);
-  // }
 
   @SubscribeMessage('join')
   connectSomeone(@MessageBody() data: string, @ConnectedSocket() client) {
@@ -69,6 +44,5 @@ export class ChatGateway {
     console.log(message);
     // 브로드캐스팅을 이용해 연결된 모든 소켓에 전달
     this.broadcast(room, client, [nickname, message]);
-    // this.wsClients.push(client);
   }
 }

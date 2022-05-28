@@ -13,14 +13,12 @@ export class ProjectResolver {
     private readonly projectService: ProjectService, //
   ) {}
 
-  // 프로젝트 전체 목록 조회
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [Project])
   async fetchProjectsAll() {
     return await this.projectService.findAll();
   }
 
-  // 프로젝트 조회(projectId)
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => Project)
   async fetchProject(
@@ -29,7 +27,6 @@ export class ProjectResolver {
     return this.projectService.findOne({ projectId });
   }
 
-  // 프로젝트 생성
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Project)
   createProject(
@@ -42,12 +39,10 @@ export class ProjectResolver {
     });
   }
 
-  // 프로젝트 수정
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Project)
   updateProject(
     @Args('projectId') projectId: string,
-    //@Args('projectAddressId') projectAddressId: string,
     @Args('updateProjectInput') updateProjectInput: UpdateProjectInput,
   ) {
     return this.projectService.update({
@@ -55,8 +50,6 @@ export class ProjectResolver {
       updateProjectInput,
     });
   }
-
-  // 프로젝트 삭제
 
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)

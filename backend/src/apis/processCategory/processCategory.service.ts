@@ -12,22 +12,17 @@ export class ProcessCategoryService {
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
   ) {}
-  // 전체 조회
-
-  // 프로젝트ID로 조회
-  async find({ projectId }) {
+  async findAll({ projectId }) {
     const categoryies = await this.processCategoryRepository
       .createQueryBuilder('processCategory')
       .where('processCategory.project = :projectId', { projectId: projectId })
       .orderBy('processCategory.createAt', 'ASC')
       .leftJoinAndSelect('processCategory.project', 'project')
       .getMany();
-    console.log(categoryies);
 
     return categoryies;
   }
 
-  //카테고리ID로 조회
   async findOne({ processCategoryId }) {
     const category = await this.processCategoryRepository
       .createQueryBuilder('processCategory')
@@ -37,13 +32,13 @@ export class ProcessCategoryService {
       .orderBy('processCategory.createAt', 'ASC')
       .leftJoinAndSelect('processCategory.project', 'project')
       .getMany();
-    console.log(category);
+
     return category;
   }
 
-  // 생성
   async create({ processName, projectId }) {
     const project = await this.projectRepository.findOne({ projectId });
+
     const category = await this.processCategoryRepository.save({
       processName,
       project,
@@ -52,7 +47,6 @@ export class ProcessCategoryService {
     return category;
   }
 
-  // 수정
   async update({ processName, processCategoryId }) {
     const category = await this.processCategoryRepository
       .createQueryBuilder('processCategory')
@@ -69,8 +63,6 @@ export class ProcessCategoryService {
 
     return await this.processCategoryRepository.save(newCategory);
   }
-
-  // 삭제
 
   async delete({ processCategoryId }) {
     const result = await this.processCategoryRepository.delete({
