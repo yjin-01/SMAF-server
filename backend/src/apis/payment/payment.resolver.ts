@@ -10,6 +10,7 @@ import { PaymentService } from './payment.service';
 export class PaymentResolver {
   constructor(
     private readonly paymentService: PaymentService, //
+
     private readonly iamportService: IamportService, //
   ) {}
 
@@ -25,7 +26,6 @@ export class PaymentResolver {
     await this.paymentService.checkDuplicate({ impUid });
     //2. 아임포트에 결제 기록이 있는지 먼저 조회 하기 위해서는 토큰이 필요하다.
     const accessToken = await this.iamportService.getToken();
-
     //3. 받은 토큰으로 iamport 결제 정보와 DB 결제 정보 대조
     await this.iamportService.checkPaid({ impUid, amount, accessToken });
 
@@ -49,7 +49,7 @@ export class PaymentResolver {
     return this.paymentService.findAll({ userId: CurrentUser.id, page });
   }
 
-  // 결제정보 한 개만 불러오기(회원 아이디 포함, 페이징네이션)
+  // 결제정보 한 개만 불러오기(페이징네이션)
   @Query(() => Payment)
   fetchPayment(
     @Args('paymentId') paymentId: string, //
@@ -80,7 +80,7 @@ export class PaymentResolver {
     //상품을 구매한 기록은 없다.
 
     //3. 아임포트 취소 요청 시작
-    //3-1. 토큰 발생
+    //3-1. 토큰 발행
     const token = await this.iamportService.getToken();
     //3-2. 결제 취소
     const result = await this.iamportService.cancel({ impUid, token });

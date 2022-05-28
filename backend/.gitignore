@@ -38,3 +38,4 @@ lerna-debug.log*
 .env.dev
 gcp-upload-file.json
 .env.prod
+.env.newprod

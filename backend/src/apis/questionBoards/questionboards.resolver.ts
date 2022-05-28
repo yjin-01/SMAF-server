@@ -57,7 +57,9 @@ export class QuestionBoardResolver {
 
   //QuestionBoard 게시물 삭제
   @Mutation(() => Boolean)
-  deleteQuestionBoard(@Args('boardId') boardId: string) {
+  deleteQuestionBoard(
+    @Args('boardId') boardId: string, //
+  ) {
     return this.questionBoardService.delete({ boardId });
   }
 

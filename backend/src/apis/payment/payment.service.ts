@@ -92,11 +92,6 @@ export class PaymentService {
 
   //결제 정보 조회 - create 에서 pessimistic_write lock이기 때문에 일반 조회
   async findAll({ userId, page }) {
-    // const result = await this.paymentRepository.find({
-    //   where: { user: CurrentUser.id },
-    //   relations: ['user'],
-    // });
-
     if (!page) {
       return await this.paymentRepository
         .createQueryBuilder('payment')
@@ -132,13 +127,12 @@ export class PaymentService {
 
   //결제 수 찾기
   async count({ user }) {
-    //querybuilder로 사용
     const [results, count] = await this.paymentRepository
       .createQueryBuilder('payment')
       .leftJoinAndSelect('payment.user', 'userId')
       .where('payment.user = :user', { user: user })
       .getManyAndCount();
-    console.log(results);
+
     return count;
   }
 

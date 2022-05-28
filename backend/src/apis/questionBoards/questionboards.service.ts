@@ -96,8 +96,6 @@ export class QuestionBoardService {
       .leftJoinAndSelect('QuestionBoard.user', 'userId')
       .getManyAndCount();
 
-    console.log(results);
-
     return count;
   }
 }

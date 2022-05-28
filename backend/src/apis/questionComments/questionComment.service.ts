@@ -9,9 +9,11 @@ import { QuestionComment } from './entities/questionComment.entity';
 export class QuestionCommentService {
   constructor(
     @InjectRepository(QuestionComment)
-    private readonly questionCommentRepository: Repository<QuestionComment>,
+    private readonly questionCommentRepository: Repository<QuestionComment>, //
+
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: Repository<User>, //
+
     @InjectRepository(QuestionBoard)
     private readonly questionBoard: Repository<QuestionBoard>,
   ) {}
@@ -84,13 +86,4 @@ export class QuestionCommentService {
 
     return result.affected ? true : false;
   }
-
-  //QuestionComment 전에 관리자 확인
-  // async checkadmin({ userId }) {
-  //   const user = await this.userRepository.findOne({
-  //     where: { userId: userId },
-  //   });
-
-  //   return user.admin ? true : new BadRequestException('권한이 없습니다.');
-  // }
 }

@@ -1,5 +1,5 @@
-import { BadRequestException, UseGuards } from '@nestjs/common';
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/common/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/common/auth/gql-user.parm';
 import { UserService } from '../users/user.service';
@@ -13,6 +13,7 @@ export class QuestionCommentResolver {
     private readonly questionCommentService: QuestionCommentService, //
     private readonly userService: UserService, //
   ) {}
+
   //QuestionComment 생성
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => QuestionComment)
