@@ -15,7 +15,7 @@ export class CreateProjectInput {
   @Field(() => String, { nullable: true })
   projectImageURL: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   projectColor: string;
 
   @Field(() => Date)

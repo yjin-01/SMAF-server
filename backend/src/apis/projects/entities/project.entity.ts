@@ -46,7 +46,7 @@ export class Project {
   @Field(() => Boolean)
   status: boolean;
 
-  @Column()
+  @Column({ default: '#FF8B8B' })
   @Field(() => String)
   projectColor: string;
 

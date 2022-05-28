@@ -5,7 +5,4 @@ import { CreateProjectInput } from './createProject.input';
 export class UpdateProjectInput extends PartialType(CreateProjectInput) {
   @Field(() => Boolean, { nullable: true })
   status: boolean;
-
-  @Field(() => String, { nullable: true })
-  projectColor: string;
 }
