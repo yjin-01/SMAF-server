@@ -16,9 +16,9 @@ steps:
       [
         "set",
         "image",
-        "deployment/teamproject05-api-resource",
-        "team-backend-sha256-1=asia.gcr.io/ultra-current-349908/team-backend:20.2",
+        "deployment/teamproject05-backend-api-resource",
+        "team-backend-sha256-1=asia.gcr.io/teamproject05/team-backend:1.1",
       ]
     env:
       - CLOUDSDK_COMPUTE_ZONE=asia-northeast3
-      - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-01-03
+      - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1
