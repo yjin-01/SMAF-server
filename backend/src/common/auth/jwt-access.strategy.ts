@@ -15,7 +15,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
     private readonly cacheManager: Cache,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), //jwt 추출(bearertoken만 추출)
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.ACCESSKEY,
       passReqToCallback: true,
     });
@@ -28,11 +28,10 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
     const isAccessToken = await this.cacheManager.get(
       `accessToken:${accessToken}`,
     );
-    console.log('In Access Strategy:', payload);
+
     if (isAccessToken) throw new BadRequestException('로그인 해주세요!!');
 
     return {
-      // return 값은 context안의 request안 user로 들어감
       name: payload.name,
       id: payload.sub,
       email: payload.email,

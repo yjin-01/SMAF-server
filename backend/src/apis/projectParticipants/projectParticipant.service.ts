@@ -46,7 +46,6 @@ export class ProjectParticipantService {
   }
 
   async findActivatedProject({ userId }) {
-    console.log('In Service:', userId);
     const projects = await this.projectParticipantRepository
       .createQueryBuilder('projectParticipant')
       .leftJoinAndSelect('projectParticipant.project', 'project')

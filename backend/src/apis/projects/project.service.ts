@@ -97,7 +97,6 @@ export class ProjectService {
 
       return saveProject;
     } catch (error) {
-      console.log(error);
       await queryRunner.rollbackTransaction();
     } finally {
       await queryRunner.release();
@@ -111,17 +110,16 @@ export class ProjectService {
       .where('project.projectId = :projectId', { projectId })
       .leftJoinAndSelect('project.address', 'projectAddress')
       .getOne();
-    console.log(project.address.projectAddressId);
-    console.log(projectAddress);
+
     const oldAddress = await this.projectAddressRepository.findOne({
       where: { projectAddressId: project.address.projectAddressId },
     });
-    console.log(oldAddress);
+
     const newAddress = {
       ...oldAddress,
       ...projectAddress,
     };
-    console.log(newAddress);
+
     const address = await this.projectAddressRepository.save(newAddress);
 
     const newProject = {
