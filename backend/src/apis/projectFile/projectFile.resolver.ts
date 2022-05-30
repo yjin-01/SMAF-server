@@ -22,7 +22,7 @@ export class ProjectFileResolver {
   createProjectFile(
     @Args('filename') filename: string, //
     @Args('fileURL') fileURL: string, //
-    @CurrentUser() currentUser: ICurrentUser, //
+    @CurrentUser('currentUser') currentUser: ICurrentUser, //
     @Args('projectId') projectId: string, //
   ) {
     return this.projectFileService.create({
@@ -49,21 +49,14 @@ export class ProjectFileResolver {
     return this.projectFileService.findOne({ projectFileId });
   }
 
-  //Projectfile삭제
+  //Projectfile DB에서 기록 soft삭제
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
   async deleteProjectFile(
     @Args('projectFileId') projectFileId: string, //
     @CurrentUser('currentUser') currentUser: ICurrentUser, //
   ) {
-    // 파일 및 이미지를 어떻게 정리할지 정하고 추후 수정
-    // const projectFile = await this.projectFileService.findOne({
-    //   projectFileId,
-    // });
-
-    // if (!projectFile) throw new BadRequestException('요청한파일이 없습니다.');
-    // this.fileService.deleteFileWithGoogle({ URL: projectFile.fileURL });
-
+    //파일 및 이미지를 어떻게 정리할지 정하고 추후 GCP 연계하여 삭제
     //Project가 있는지 조회
     const projectFile = await this.projectFileService.findOne({
       projectFileId,
