@@ -13,10 +13,6 @@ export class JwtKakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
   }
 
   async validate(accessToken: string, refreshToken: string, profile: any) {
-    console.log(accessToken);
-    console.log(refreshToken);
-    console.log(profile);
-
     return {
       email: profile._json.kakao_account.email,
       password: profile.id,

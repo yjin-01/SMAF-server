@@ -40,7 +40,6 @@ export class AuthResolver {
       throw new UnprocessableEntityException('존재하지 않는 이메일입니다!!');
 
     const isAuth = await bcrypt.compare(password, user.password);
-    console.log(isAuth);
 
     if (!isAuth) throw new UnprocessableEntityException('비밀번호 불일치!!');
 
@@ -67,10 +66,8 @@ export class AuthResolver {
       process.env.ACCESSKEY,
       (err: any, decoded: any) => {
         if (err) {
-          console.log(err);
           throw new BadRequestException('access 인증 오류');
         } else {
-          console.log('⭐️', decoded);
           return decoded;
         }
       },

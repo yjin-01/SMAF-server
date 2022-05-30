@@ -11,24 +11,20 @@ import { CurrentUser, ICurrentUser } from 'src/common/auth/gql-user.parm';
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  // 전체 회원 목록 조회
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [User])
   async fetchUsers() {
     return await this.userService.findAll();
   }
 
-  // 전체 회원 목록 조회
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => User)
   async fetchLoginUser(
     @CurrentUser() currentUser: ICurrentUser, //
   ) {
-    console.log(currentUser.email);
     return await this.userService.findEmailAll({ email: currentUser.email });
   }
 
-  // 회원아이디로 회원 찾기
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => User)
   async fetchUser(
@@ -37,14 +33,9 @@ export class UserResolver {
     return await this.userService.findOne({ userId });
   }
 
-  // 회원이메일로 찾기
   @UseGuards(GqlAuthAccessGuard)
   @Query(() => [User])
-  async fetchUserEmail(
-    // @Args('email') email: string,
-    @Args('userOremail') userOremail: string,
-  ) {
-    // return this.userService.findEmailAll({ email });
+  async fetchUserEmail(@Args('userOremail') userOremail: string) {
     return await this.userService.findAny({ userOremail });
   }
 
@@ -56,11 +47,9 @@ export class UserResolver {
   ) {
     const hashedPassword = await bcrypt.hash(createUserInput.password, 10);
     createUserInput.password = hashedPassword;
-    console.log(hashedPassword);
     return this.userService.create({ createUserInput });
   }
 
-  // 회원 비밀번호 변경
   @Mutation(() => String)
   async updatePassword(
     @Args('email') email: string,
@@ -74,7 +63,6 @@ export class UserResolver {
     return '비밀번호 변경 완료';
   }
 
-  // 회원 삭제
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
   async deleteUser(

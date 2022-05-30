@@ -14,8 +14,6 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'google') {
   }
 
   async validate(accessToken: string, refreshToken: string, profile: Profile) {
-    console.log('⭐️⭐️⭐️⭐️', profile);
-    console.log(profile.emails[0]);
     return {
       email: profile.emails[0].value,
       password: profile.id,

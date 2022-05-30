@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import axios from 'axios';
 import { UserService } from '../users/user.service';
@@ -12,7 +12,6 @@ export class AuthService {
   ) {}
 
   setRefreshToken({ user, res }) {
-    console.log(user);
     const refreshToken = this.jwtService.sign(
       { email: user.email, sub: user.userId }, //
       { secret: process.env.REFRESHKEY, expiresIn: '24h' },
@@ -82,9 +81,8 @@ export class AuthService {
       };
       return receiver;
     });
-    console.log(receiveList);
 
-    const template = `
+    const template = ` 
     <html>
     <head>
       <meta charset="UTF-8" />
@@ -174,7 +172,7 @@ export class AuthService {
       </div>
     </body>
   </html>
-    `;
+  `;
 
     const result = await axios.post(
       `https://api-mail.cloud.toast.com/email/v2.0/appKeys/${appkey}/sender/mail`,
@@ -205,6 +203,6 @@ export class AuthService {
     }
 
     this.setRefreshToken({ user, res });
-    res.redirect('http://localhost:3000');
+    res.redirect('http://localhost:3000/main');
   }
 }
