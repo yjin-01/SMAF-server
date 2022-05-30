@@ -36,7 +36,7 @@ export class ProjectFile {
   @Field(() => User)
   user: User;
 
-  @ManyToOne(() => Project)
+  @ManyToOne(() => Project, { onDelete: 'CASCADE' })
   @Field(() => Project)
   project: Project;
 }
