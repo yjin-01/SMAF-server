@@ -203,6 +203,6 @@ export class AuthService {
     }
 
     this.setRefreshToken({ user, res });
-    res.redirect('http://localhost:3000/main');
+    res.redirect('http://localhost:3000');
   }
 }

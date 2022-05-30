@@ -34,7 +34,7 @@ export class AuthController {
     }
 
     this.authService.setRefreshToken({ user, res });
-    res.redirect('http://localhost:3000/main');
+    res.redirect('http://localhost:3000');
     // return await this.authService.socialLogin({ res, req });
   }
 
