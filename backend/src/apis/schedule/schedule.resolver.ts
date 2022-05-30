@@ -46,13 +46,6 @@ export class ScheduleResolver {
     return await this.scheduleService.find({ scheduleId });
   }
 
-  //세부일정 조회(유저ID 이용)
-  @UseGuards(GqlAuthAccessGuard)
-  @Query(() => [Schedule])
-  fetchUserSchedules(@CurrentUser('currentUser') currentUser: ICurrentUser) {
-    this.scheduleService.findAllWithUser({ UserId: currentUser.id });
-  }
-
   //세부일정 생성
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Schedule)
