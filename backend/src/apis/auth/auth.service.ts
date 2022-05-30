@@ -92,107 +92,88 @@ export class AuthService {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <!-- <link rel="stylesheet" href="style.css" /> -->
       <title>Document</title>
-      <style>
-        html,
-        body,
-        div,
-        span,
-        h1,
-        p,
-        a {
-          margin: 0;
-          padding: 0;
-          border: 0;
-          font-size: 100%;
-          font-family: "Noto Sans KR";
-          font-style: normal;
-          vertical-align: baseline;
-        }
-        #wrapper {
+      <style></style>
+    </head>
+    <body>
+      <div
+        id="wrapper"
+        style="
           display: flex;
           flex-direction: column;
           width: 400px;
-          height: 500px;
-          /* background-color: green; */
+          height: 450px;
           border: 1px solid #505050;
-        }
-        #titlewrapper {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          height: 50px;
-          background: #333333;
-        }
-  
-        #logo {
-          width: 30px;
-          height: 30px;
-          margin-right: 10px;
-        }
-  
-        #title {
-          margin-top: 5px;
-          font-family: "Noto Sans KR";
-          font-style: normal;
-          font-weight: 700;
-          font-size: 32px;
-          line-height: 36px;
-          letter-spacing: 0.04em;
-          color: #ffffff;
-        }
-  
-        .txt {
-          text-align: center;
-          margin-top: 40px;
-        }
-  
-        #linkbox {
-          display: block;
-          width: 300px;
-          height: 50px;
-          margin-top: 40px;
-          margin-left: 50px;
-          background-color: #ededed;
-          text-align: center;
-          font-size: 10px;
-          line-height: 50px;
-        }
-  
-        #bottomtxt {
-          width: 240px;
-          height: 30px;
-          margin-top: 70px;
-          margin-left: 80px;
-          font-size: 10px;
-          text-align: center;
-          /* border: 1px solid red; */
-          color: #999999;
-        }
-      </style>
-    </head>
-    <body>
-      <div id="wrapper">
-        <div id="titlewrapper">
-          <img src="https://storage.googleapis.com/teamproject_storage/mainClick.png" id="logo" /><img />
-          <h1 id="title">SMAF</h1>
+        "
+      >
+        <div
+          id="titlewrapper"
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            background: #333333;
+          "
+        >
+          <img
+            src="https://storage.googleapis.com/teamproject_storage/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202022-05-28%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%202.06.41.png"
+            id="logo"
+            style="width: 100px; height: 35px; margin-right: 10px"
+          /><img />
         </div>
   
-        <p class="txt">안녕하세요 ❗️</p>
-        <p class="txt">SMAF 팀프로젝트에 초대되었습니다.</p>
-        <p class="txt">아래 링크를 클릭해 로그인해 주세요.</p>
-        <p class="txt">👇🏼👇🏼👇🏼</p>
-        <a href="" id="linkbox"></a>
+        <p class="txt" style="text-align: center; margin-top: 40px">
+          안녕하세요 ❗️
+        </p>
+        <p class="txt" style="text-align: center; margin-top: 40px">
+          SMAF 팀프로젝트에 초대되었습니다.
+        </p>
+        <p class="txt" style="text-align: center; margin-top: 40px">
+          아래 링크를 클릭해 로그인해 주세요.
+        </p>
+        <p class="txt" style="text-align: center; margin-top: 20px">👇🏼👇🏼👇🏼</p>
+        <div style="display: flex; justify-content: center">
+          <a
+            href="http://localhost:3000"
+            id="linkbox"
+            style="
+              display: block;
+              width: 200px;
+              margin-top: 10px;
+              background-color: #ededed;
+              text-align: center;
+              line-height: 50px;
+              padding: 0;
+              border: 0;
+              font-size: 20px;
+              font-family: 'Noto Sans KR';
+              font-style: normal;
+              vertical-align: baseline;
+            "
+            >SMAF</a
+          >
+        </div>
   
-        <p id="bottomtxt">
+        <p
+          id="bottomtxt"
+          style="
+            width: 240px;
+            height: 30px;
+            margin-top: 40px;
+            margin-left: 80px;
+            font-size: 10px;
+            text-align: center;
+            color: #999999;
+          "
+        >
           스마프는 SMAF는 Schedule Management Assist Friend 의 약자로 일정 관리를
           도와주는 Flatform 입니다.
         </p>
       </div>
     </body>
   </html>
-  
     `;
 
     const result = await axios.post(

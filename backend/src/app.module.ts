@@ -17,14 +17,13 @@ import { PaymentModule } from './apis/payment/payment.module';
 import { ScheduleModule } from './apis/schedule/schedule.module';
 import { ProjectParticipantModule } from './apis/projectParticipants/projectParticipant.module';
 import { ProjectFileModule } from './apis/projectFile/projectFile.module';
-import { ChatGateway } from './chat/chat.gateway';
-import { ChatModule } from './chat/chat.module';
+// import { ChatGateway } from './chat/chat.gateway';
+// import { ChatModule } from './chat/chat.module';
 // import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
     AuthModule,
-    ChatModule,
     FileModule,
     PaymentModule,
     ProjectParticipantModule,
