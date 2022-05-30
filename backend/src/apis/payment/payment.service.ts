@@ -17,7 +17,7 @@ export class PaymentService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
 
-    private readonly iamportService: IamportService, //
+    private readonly iamportService: IamportService,
 
     private readonly connection: Connection,
   ) {}

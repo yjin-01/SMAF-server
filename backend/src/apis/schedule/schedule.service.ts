@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProcessCategory } from '../processCategory/entities/processCategory.entity';
+import { ProjectParticipant } from '../projectParticipants/entities/projectParticipant.entity';
 import { Project } from '../projects/entities/project.entity';
 import { User } from '../users/entities/users.entity';
 import { Schedule } from './entities/schedule.entity';
@@ -17,6 +18,9 @@ export class ScheduleService {
     private readonly projectRepository: Repository<Project>,
     @InjectRepository(ProcessCategory)
     private readonly processCategoryRepository: Repository<ProcessCategory>,
+
+    @InjectRepository(ProjectParticipant)
+    private readonly projectParticipantRepository: Repository<ProjectParticipant>,
   ) {}
 
   async findAll() {
@@ -80,7 +84,7 @@ export class ScheduleService {
     const { processCategoryId, projectId, ...rest } = createScheduleInput;
 
     const user = await this.UserRepository.findOne({ where: { userId } });
-    console.log('⭐️⭐️⭐️⭐️', user);
+
     const processCategory = await this.processCategoryRepository.findOne({
       where: { processCategoryId },
     });
@@ -93,7 +97,6 @@ export class ScheduleService {
       user: user,
       project: project,
     });
-    console.log(schedule);
 
     return schedule;
   }
@@ -115,7 +118,6 @@ export class ScheduleService {
       processCategory: processCategory,
     };
     const result = await this.scheduleRepository.save(newSchedule);
-    console.log(result);
 
     return result;
   }
