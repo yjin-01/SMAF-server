@@ -1,7 +1,21 @@
-#  Graphql API Guidelines
+# Graphql API Guidelines
 
 ### Table of contents
 
+Common
+== Common
+
+Auth API
+File API
+Payment API
+Project API
+ProcessCategory API
+ProjectFile API
+ProjectParticipant API
+QuestionBoard API
+QuestionComment API
+Schedule API
+User API
 
 ```
 f6b2-team5-server
