@@ -22,7 +22,7 @@ export class PaymentService {
     private readonly connection: Connection,
   ) {}
 
-  //결제 정보 중복 확인
+  //결제정보 중복 확인
   async checkDuplicate({ impUid }) {
     const result = await this.paymentRepository.findOne({
       where: {
@@ -42,27 +42,30 @@ export class PaymentService {
     product_name,
     accessToken,
   }) {
+    //트랜잭션 준비
     const queryRunner = this.connection.createQueryRunner();
-
     await queryRunner.connect();
     await queryRunner.startTransaction('SERIALIZABLE');
+
     try {
+      //유저정보 업데이트
       const user = await queryRunner.manager.findOne(
         User,
         { userId: currentUser.id },
         { lock: { mode: 'pessimistic_write' } },
       );
+
+      if (!user) throw new BadRequestException('회원이 일치 하지 않습니다.');
+
       const updateUser = this.userRepository.create({
         ...user,
         projectTicket: user.projectTicket + 1,
       });
 
-      if (!user) throw new BadRequestException('회원이 일치 하지 않습니다.');
-
       const result = this.paymentRepository.create({
         impUid,
         amount,
-        user: currentUser.id,
+        user: user,
         status,
         product_name,
       });
@@ -72,14 +75,15 @@ export class PaymentService {
       await queryRunner.commitTransaction();
       return result;
     } catch (err) {
-      // payment 생성 중 에러가 발생할 경우
+      //결제정보 생성 중 에러가 발생할 경우
       //프론트에서 결제를 성공했다는 가정하에 결제 취소 시도
-      //결제 취소 없을 경우 에러로 마감
+      //결제 취소 없을 경우 아임포트 에러로 마감
       await queryRunner.rollbackTransaction();
       const result = await this.iamportService.cancel({
         impUid,
         token: accessToken,
       });
+      //결제정보에 캔슬로 기록
       return this.cancel({
         impUid: result.imp_uid,
         amount: result.amount,
