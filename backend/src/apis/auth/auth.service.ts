@@ -174,7 +174,7 @@ export class AuthService {
   </html>
   `;
 
-    const result = await axios.post(
+    await axios.post(
       `https://api-mail.cloud.toast.com/email/v2.0/appKeys/${appkey}/sender/mail`,
       {
         senderAddress: sender,

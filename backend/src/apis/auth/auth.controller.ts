@@ -1,7 +1,6 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '../users/entities/users.entity';
-import { UserService } from '../users/user.service';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
 
@@ -12,8 +11,7 @@ interface IOAuthUser {
 @Controller('/')
 export class AuthController {
   constructor(
-    private readonly userService: UserService,
-    private readonly authService: AuthService,
+    private readonly authService: AuthService, //
   ) {}
 
   @Get('google')
