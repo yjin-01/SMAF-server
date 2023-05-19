@@ -17,7 +17,6 @@
     <script>
       function mypayment() {
         const myAmount = Number(document.getElementById("amount").value);
-
         const IMP = window.IMP; // 생략 가능
         IMP.init("imp35583537"); // Example: imp00000000
         IMP.request_pay(
@@ -36,18 +35,17 @@
               "http://127.0.0.1:5500/main-project/frontend/payment.html", // 모바일 결제후 리다이렉트될 주소!!
           },
           async (rsp) => {
-            // callback
             if (rsp.success) {
               // 결제 성공시
               console.log(rsp);
 
               const data = await axios.post(
-                "http://localhost:2000/graphql",
+                "http://localhost:3000/graphql",
                 {
                   query: `
                       mutation {
-                        createPointTransaction(impUid: "${rsp.imp_uid}", amount: ${rsp.paid_amount}) {
-                          id
+                        createPayment(impUid: "${rsp.imp_uid}", amount: ${rsp.paid_amount}) {
+                          paymentId
                         }
                       }
                     `,
@@ -55,11 +53,10 @@
                 {
                   headers: {
                     authorization:
-                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJzdWIiOiI1ZmY4YmEzNC02MzIyLTQ5ZjQtYTAzNy00NDgzM2M5YjU0YWUiLCJpYXQiOjE2NTA0NDQ0MjEsImV4cCI6MTY1MDQ0ODAyMX0.9M-AItfayaUdVVRqZ8cNPvf30-VgIQKVluJG4BoT4_w",
+                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJAYi5jb20iLCJzdWIiOiI4YWYwZDBiZC0zYTFmLTQwMzgtYWMxYS1lMWVkNGE5YzljNTkiLCJuYW1lIjoi6rSA66as7J6QIiwiaWF0IjoxNjUzODg3ODgxLCJleHAiOjE2NTM4OTUwODF9.xyS5AKLU6esUMo4ClTt_b_d79aaDNtqGj2zi41GhGz8",
                   },
                 }
               );
-
               console.log(data);
             } else {
               // 결제 실패시
